@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/19 12:08:41 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:22:58 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ typedef struct s_minirt
 	t_ambiant	*ambiant;
 }				t_minirt;
 
-# define XMAX 900		/* horizonal window size		*/
-# define YMAX 900 		/* vertical window size		*/
+# define WIDTH 800		/* horizonal window size		*/
+# define HEIGHT 600 		/* vertical window size		*/
 
 # define FALSE 1
 # define TRUE 0
@@ -200,5 +200,7 @@ void	ft_free_array(char **tab);
 
 /*		TO BE REMOVED		*/
 void	ft_print_ray(t_minirt ray);
+
+void	new_draw_window(t_minirt minirt);
 
 #endif

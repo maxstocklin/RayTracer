@@ -32,8 +32,8 @@ CC = GCC $(FLAG)
 # $(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c
 # 	$(CC) $(CFLAGS) -c $< -o $@
 
-${NAME} : ${OBJS}
-	$(CC)   $(OBJS) -o ${NAME}
+# ${NAME} : ${OBJS}
+# 	$(CC)   $(OBJS) -o ${NAME}
 
 ${NAME} : ${OBJS}
 	ar rcs $(NAME) $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 13:04:22 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/18 20:53:59 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:13:47 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,6 @@ t_point	point_offset_1(t_point point, t_vect vect)
 	return (offset_point);
 }
 
-t_point	screen_to_world(t_point origin, t_vect direct, \
-	double angle, t_screen_size scr)
-{
-	double	world_width;
-	double	world_height;
-	t_point	center;
 
-	(void)scr;
-	center = point_offset_1(origin, direct);
-	world_width = 2.0 * tan(deg_to_rad(angle / 2));
-	printf("angle %f, angle rad %f \n", angle / 2, deg_to_rad(angle / 2));
-	printf("World width %.15f\n", world_width);
-	world_height = world_width * scr.height / scr.width;
-	printf("World height %f\n", world_height);
-	return (center);
-}
+
+

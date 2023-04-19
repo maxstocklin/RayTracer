@@ -20,7 +20,8 @@ SRCS	=	${DIR_SRC}/main.c \
 			${DIR_SRC}/get_next_line_utils.c \
 			${DIR_SRC}/free.c \
 			${DIR_SRC}/printed.c \
-			${DIR_SRC}/hooks.c
+			${DIR_SRC}/hooks.c \
+			${DIR_SRC}/make_rays.c
 
 DIR_OBJ=./objs
 OBJS=${addprefix ${DIR_OBJ}/, ${notdir ${SRCS:.c=.o}}}
