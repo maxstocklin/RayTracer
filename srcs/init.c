@@ -57,7 +57,7 @@ t_vect 	ft_get_direction(char *str)
 	return (xyz);
 }
 
-void	ft_set_null(t_ray *ray)
+void	ft_set_null(t_minirt *ray)
 {
 	ray->ambiant = NULL;
 	ray->camera = NULL;

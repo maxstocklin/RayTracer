@@ -1,7 +1,7 @@
 #include "minirt.h"
 #include "mlx.h"
 
-int	display_mlx_win(t_ray *ray)
+int	display_mlx_win(t_minirt *ray)
 {
 	ray->vars.mlx = mlx_init();
 	if (ray->vars.mlx != NULL)
@@ -29,14 +29,14 @@ int	display_mlx_win(t_ray *ray)
 
 char	**ft_parse_spaces(char *str)
 {
-	int		i;
+	// int		i;
 	char	**dest;
 
 	dest = ft_split_spaces(str);
 	return (dest);
 }
 
-int	ft_checkinit(t_ray *ray, char *str)
+int	ft_checkinit(t_minirt *ray, char *str)
 {
 	char	**tab;
 	char	*line;
@@ -50,7 +50,7 @@ int	ft_checkinit(t_ray *ray, char *str)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (ft_is_all_whitespace(line) == TRUE)
+		if (ft_is_all_whitespace(line) == FALSE)
 		{
 			tab = ft_parse_spaces(line);
 			ft_assignment(ray, tab);
@@ -65,7 +65,7 @@ int	ft_checkinit(t_ray *ray, char *str)
 
 int	main(int ac, char **av)
 {
-	t_ray	ray;
+	t_minirt	ray;
 
 	if (ac != 2)
 	{
@@ -77,6 +77,21 @@ int	main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	ft_print_ray(ray);
-	//display_mlx_win(&ray);
+	// display_mlx_win(&ray);
+		t_vect			vect1;
+	t_vect			vect2;
+	t_vect			cross;
+	t_point			point;
+	t_screen_size	screen;
+
+	point = make_point(5, 12, 1);
+	vect1 = make_vect(2, -4, 4);
+	vect2 = make_vect(4, 0, 3);
+	cross = vect_cross(vect1, vect2);
+	screen.width = 800;
+	screen.height = 600;
+	screen_to_world(point, vect1, 150.0, screen);
+	printf("cross x y z  %f %f %f\n", cross.x, cross.y, cross.z);
+
 	return (0);
 }

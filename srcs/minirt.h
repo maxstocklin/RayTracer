@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2022/12/08 21:01:22 by mstockli         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:08:41 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include "mlx.h"
+# include "../rt_helpers/helpers.h"
 # include <sys/uio.h>
 
 typedef struct s_rgb
@@ -31,19 +32,19 @@ typedef struct s_rgb
 	int	blue;
 }				t_rgb;
 
-typedef struct s_vect
-{
-	double	x;
-	double	y;
-	double	z;
-}				t_vect;
+// typedef struct s_vect
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }				t_vect;
 
-typedef struct s_point
-{
-	double	x;
-	double	y;
-	double	z;
-}				t_point;
+// typedef struct s_point
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }				t_point;
 
 typedef struct s_ambiant
 {
@@ -107,7 +108,7 @@ typedef struct s_vars
 	int		endian;
 }				t_vars;
 
-typedef struct s_ray
+typedef struct s_minirt
 {
 	t_vars		vars;
 	t_cylinder	*cylinders;
@@ -116,7 +117,7 @@ typedef struct s_ray
 	t_cam		*camera;
 	t_light		*lights;
 	t_ambiant	*ambiant;
-}				t_ray;
+}				t_minirt;
 
 # define XMAX 900		/* horizonal window size		*/
 # define YMAX 900 		/* vertical window size		*/
@@ -154,13 +155,13 @@ typedef struct s_ray
 # define SCROLLDOWN_KEY 5
 
 /*		HOOKS		*/
-void	add_mlx_hook(t_ray *ray);
+void	add_mlx_hook(t_minirt *ray);
 
 /*		ERRORS		*/
 int		ft_error(int index);
 
 /*		INIT		*/
-void	ft_set_null(t_ray *ray);
+void	ft_set_null(t_minirt *ray);
 t_rgb	ft_get_rgb(char *str);
 t_point	ft_get_xyz(char *str);
 t_vect	ft_get_direction(char *str);
@@ -184,7 +185,7 @@ int		ft_strcmp(char *input, char *str);
 double	ft_atod(char *str);
 
 /*		ASSIGMENT		*/
-void	ft_assignment(t_ray *ray, char **tab);
+void	ft_assignment(t_minirt *ray, char **tab);
 
 /*		GNL		*/
 char	*get_next_line(int fd);
@@ -198,6 +199,6 @@ void	ft_free_array(char **tab);
 
 
 /*		TO BE REMOVED		*/
-void	ft_print_ray(t_ray ray);
+void	ft_print_ray(t_minirt ray);
 
 #endif

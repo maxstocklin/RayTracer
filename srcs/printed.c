@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-void    ft_print_ray(t_ray ray)
+void    ft_print_ray(t_minirt ray)
 {
 	if (ray.ambiant)
 

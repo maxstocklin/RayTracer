@@ -1,4 +1,4 @@
-NAME = helpers
+NAME = libhelpers.a
 
 SRCS_PATH = ./src
 
@@ -28,16 +28,15 @@ CC = GCC $(FLAG)
 
 %.o:%.c
 	$(CC) -o $@ -c $<
-#OBJS    := $(patsubst $(SRCS_PATH)/%.c,$(OBJS_PATH)/%.o,$(SRCS_NAME))
 
-$(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+# $(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c
+# 	$(CC) $(CFLAGS) -c $< -o $@
 
 ${NAME} : ${OBJS}
 	$(CC)   $(OBJS) -o ${NAME}
 
-#${NAME} : ${OBJS}
-#	ar rcs $(NAME) $(OBJS)
+${NAME} : ${OBJS}
+	ar rcs $(NAME) $(OBJS)
 
 all : ${NAME}
 
