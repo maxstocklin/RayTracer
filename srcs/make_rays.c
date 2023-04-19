@@ -11,6 +11,16 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mlx.h"
+
+void	put_pixel(t_minirt minirt, int x, int y, int color)
+{
+	int		*img;
+
+	img = (int *)minirt.vars.addr;
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+		img[x + WIDTH * y] = color;
+}
 
 t_point	screen_to_world(t_cam *camera, int i, int j)
 {
@@ -36,8 +46,10 @@ void	new_draw_window(t_minirt minirt)
 	t_ray			ray;
 	int				i;
 	int				j;
+	int				color;
 
 	i = 0;
+	mlx_clear_window(minirt.vars.mlx, minirt.vars.win);
 	while (i < WIDTH)
 	{
 		j = 0;
@@ -48,10 +60,14 @@ void	new_draw_window(t_minirt minirt)
 				minirt.camera->origin.y, minirt.camera->origin.z);
 			ray.direct = make_vect(vp_pt.x - minirt.camera->origin.x, vp_pt.y - \
 				minirt.camera->origin.y, vp_pt.z - minirt.camera->origin.z);
-			// color = apply_ray(minirt, ray);
+			color = 0; // todo:  apply_ray(minirt, ray);
+			put_pixel(minirt, i, j, color);
+
 			printf("x : %f, y : %f z : %f\n", vp_pt.x, vp_pt.y, vp_pt.z);
 			j++;
 		}
 		i++;
 	}
+	mlx_put_image_to_window(minirt.vars.mlx, \
+	minirt.vars.win, minirt.vars.img, 0, 0);
 }
