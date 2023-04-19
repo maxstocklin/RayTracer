@@ -6,12 +6,35 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/19 15:47:07 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:32:55 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
+
+int color_sphere(t_minirt minirt, t_ray ray) {
+	t_vect	oc = point_subtract(ray.origin,	minirt.spheres->origin);
+
+	double a = vect_dot(ray.direct, ray.direct);
+    double b = 2.0 * vect_dot(oc, ray.direct);
+    double c = vect_dot(oc, oc) - \
+		(minirt.spheres->diameter/2   * minirt.spheres->diameter/2);
+    double discriminant = b*b - 4*a*c;
+	if (discriminant > 0 && discriminant < 20)
+			return (0 << 24 | 0 << 16 | 255 << 8 | 0);
+
+	else if (discriminant > 0)
+	{	printf("discreminant = %f \n", discriminant);
+		return (0 << 24 | (int)(minirt.spheres->rgb.red) << 16 | \
+		(int)(minirt.spheres->rgb.green) << 8 | \
+		(int)(minirt.spheres->rgb.blue));
+	}
+	else
+		return (0 << 24 | (int)(minirt.ambiant->intensity * minirt.ambiant->rgb.red) << 16 | \
+		(int)(minirt.ambiant->intensity * minirt.ambiant->rgb.green) << 8 | (\
+		int)(minirt.ambiant->intensity * minirt.ambiant->rgb.blue));
+}
 
 void	put_pixel(t_minirt minirt, int x, int y, int color)
 {
@@ -60,10 +83,8 @@ void	new_draw_window(t_minirt minirt)
 				minirt.camera->origin.y, minirt.camera->origin.z);
 			ray.direct = make_vect(vp_pt.x - minirt.camera->origin.x, vp_pt.y - \
 				minirt.camera->origin.y, vp_pt.z - minirt.camera->origin.z);
-			color = 0; // todo:  apply_ray(minirt, ray);
+			color = color_sphere(minirt, ray); // todo:  apply_ray(minirt, ray);
 			put_pixel(minirt, i, j, color);
-
-			printf("x : %f, y : %f z : %f\n", vp_pt.x, vp_pt.y, vp_pt.z);
 			j++;
 		}
 		i++;
