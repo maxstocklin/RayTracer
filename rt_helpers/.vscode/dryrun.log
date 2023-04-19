@@ -1,0 +1,40 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/srapopor/libft/libft'
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_isalpha.o -c sources_part1/ft_isalpha.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_isdigit.o -c sources_part1/ft_isdigit.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_isalnum.o -c sources_part1/ft_isalnum.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_isascii.o -c sources_part1/ft_isascii.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_isprint.o -c sources_part1/ft_isprint.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strlen.o -c sources_part1/ft_strlen.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_toupper.o -c sources_part1/ft_toupper.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_tolower.o -c sources_part1/ft_tolower.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strchr.o -c sources_part1/ft_strchr.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strrchr.o -c sources_part1/ft_strrchr.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strncmp.o -c sources_part1/ft_strncmp.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strnstr.o -c sources_part1/ft_strnstr.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strlcpy.o -c sources_part1/ft_strlcpy.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strlcat.o -c sources_part1/ft_strlcat.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memset.o -c sources_part1/ft_memset.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memcpy.o -c sources_part1/ft_memcpy.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memccpy.o -c sources_part1/ft_memccpy.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_bzero.o -c sources_part1/ft_bzero.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memmove.o -c sources_part1/ft_memmove.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memchr.o -c sources_part1/ft_memchr.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_memcmp.o -c sources_part1/ft_memcmp.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_atoi.o -c sources_part1/ft_atoi.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_strdup.o -c sources_part1/ft_strdup.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part1/ft_calloc.o -c sources_part1/ft_calloc.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_substr.o -c sources_part2/ft_substr.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_strjoin.o -c sources_part2/ft_strjoin.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_strtrim.o -c sources_part2/ft_strtrim.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_split.o -c sources_part2/ft_split.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_itoa.o -c sources_part2/ft_itoa.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_strmapi.o -c sources_part2/ft_strmapi.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_striteri.o -c sources_part2/ft_striteri.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_putchar_fd.o -c sources_part2/ft_putchar_fd.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_putstr_fd.o -c sources_part2/ft_putstr_fd.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_putendl_fd.o -c sources_part2/ft_putendl_fd.c
+GCC -Wall -Wextra -Werror -I./ -o sources_part2/ft_putnbr_fd.o -c sources_part2/ft_putnbr_fd.c
+ar rcs libft.a ./sources_part1/ft_isalpha.o ./sources_part1/ft_isdigit.o ./sources_part1/ft_isalnum.o ./sources_part1/ft_isascii.o ./sources_part1/ft_isprint.o ./sources_part1/ft_strlen.o ./sources_part1/ft_toupper.o ./sources_part1/ft_tolower.o ./sources_part1/ft_strchr.o ./sources_part1/ft_strrchr.o ./sources_part1/ft_strncmp.o ./sources_part1/ft_strnstr.o ./sources_part1/ft_strlcpy.o ./sources_part1/ft_strlcat.o ./sources_part1/ft_memset.o ./sources_part1/ft_memcpy.o ./sources_part1/ft_memccpy.o ./sources_part1/ft_bzero.o ./sources_part1/ft_memmove.o ./sources_part1/ft_memchr.o ./sources_part1/ft_memcmp.o ./sources_part1/ft_atoi.o ./sources_part1/ft_strdup.o ./sources_part1/ft_calloc.o ./sources_part2/ft_substr.o ./sources_part2/ft_strjoin.o ./sources_part2/ft_strtrim.o ./sources_part2/ft_split.o ./sources_part2/ft_itoa.o ./sources_part2/ft_strmapi.o ./sources_part2/ft_striteri.o ./sources_part2/ft_putchar_fd.o ./sources_part2/ft_putstr_fd.o ./sources_part2/ft_putendl_fd.o ./sources_part2/ft_putnbr_fd.o
+make: Leaving directory `/Users/srapopor/libft/libft'
+ 
