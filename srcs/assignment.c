@@ -51,7 +51,7 @@ double	ft_assign_angle(char *str)
 	return (res);
 }
 
-void	assign_ambiant(t_ray *ray, char **tab)
+void	assign_ambiant(t_minirt *ray, char **tab)
 {
 	t_ambiant	*ambiant;
 
@@ -70,7 +70,7 @@ void	assign_ambiant(t_ray *ray, char **tab)
 	ray->ambiant = ambiant;
 }
 
-void	assign_camera(t_ray *ray, char **tab)
+void	assign_camera(t_minirt *ray, char **tab)
 {
 	t_cam	*camera;
 
@@ -90,7 +90,7 @@ void	assign_camera(t_ray *ray, char **tab)
 	ray->camera = camera;
 }
 
-void	assign_spotlight(t_ray *ray, char **tab)
+void	assign_spotlight(t_minirt *ray, char **tab)
 {
 	t_light	*current;
 	t_light	*light;
@@ -117,7 +117,7 @@ void	assign_spotlight(t_ray *ray, char **tab)
 	}
 }
 
-void	assign_sphere(t_ray *ray, char **tab)
+void	assign_sphere(t_minirt *ray, char **tab)
 {
 	t_sphere	*sphere;
 	t_sphere	*current;
@@ -142,7 +142,7 @@ void	assign_sphere(t_ray *ray, char **tab)
 	}
 }
 
-void	assign_plane(t_ray *ray, char **tab)
+void	assign_plane(t_minirt *ray, char **tab)
 {
 	t_plane	*plane;
 	t_plane	*current;
@@ -167,7 +167,7 @@ void	assign_plane(t_ray *ray, char **tab)
 	}
 }
 
-void	assign_cylinder(t_ray *ray, char **tab)
+void	assign_cylinder(t_minirt *ray, char **tab)
 {
 	t_cylinder	*cylinder;
 	t_cylinder	*current;
@@ -194,7 +194,7 @@ void	assign_cylinder(t_ray *ray, char **tab)
 	}
 }
 
-void	ft_assignment(t_ray *ray, char **tab)
+void	ft_assignment(t_minirt *ray, char **tab)
 {
 	if (ft_strcmp(tab[0], "A") == TRUE)
 		assign_ambiant(ray, tab);

@@ -1,25 +1,26 @@
 #include "minirt.h"
 #include "mlx.h"
 
-int	display_mlx_win(t_ray *ray)
+int	display_mlx_win(t_minirt *minirt)
 {
-	ray->vars.mlx = mlx_init();
-	if (ray->vars.mlx != NULL)
+	minirt->vars.mlx = mlx_init();
+	if (minirt->vars.mlx != NULL)
 	{
-		ray->vars.win = mlx_new_window(ray->vars.mlx, \
-		XMAX, YMAX, "MINI RT");
-		if (ray->vars.win != NULL)
+		minirt->vars.win = mlx_new_window(minirt->vars.mlx, \
+		WIDTH, HEIGHT, "MINI RT");
+		if (minirt->vars.win != NULL)
 		{
-			ray->vars.img = mlx_new_image(ray->vars.mlx, XMAX, YMAX);
-			if (ray->vars.img != NULL)
+			minirt->vars.img = mlx_new_image(minirt->vars.mlx, WIDTH, HEIGHT);
+			if (minirt->vars.img != NULL)
 			{
-				ray->vars.addr = mlx_get_data_addr(ray->vars.img, \
-				&ray->vars.bits_per_pixel, &ray->vars.line_length, \
-				&ray->vars.endian);
-				mlx_put_image_to_window(ray->vars.mlx, ray->vars.win, \
-				ray->vars.img, 0, 0);
-				add_mlx_hook(ray);
-				mlx_loop(ray->vars.mlx);
+				minirt->vars.addr = mlx_get_data_addr(minirt->vars.img, \
+				&minirt->vars.bits_per_pixel, &minirt->vars.line_length, \
+				&minirt->vars.endian);
+				mlx_put_image_to_window(minirt->vars.mlx, minirt->vars.win, \
+				minirt->vars.img, 0, 0);
+				add_mlx_hook(minirt);
+				new_draw_window(*minirt);
+				mlx_loop(minirt->vars.mlx);
 				return (0);
 			}
 		}
@@ -29,14 +30,14 @@ int	display_mlx_win(t_ray *ray)
 
 char	**ft_parse_spaces(char *str)
 {
-	int		i;
+	// int		i;
 	char	**dest;
 
 	dest = ft_split_spaces(str);
 	return (dest);
 }
 
-int	ft_checkinit(t_ray *ray, char *str)
+int	ft_checkinit(t_minirt *minirt, char *str)
 {
 	char	**tab;
 	char	*line;
@@ -50,33 +51,35 @@ int	ft_checkinit(t_ray *ray, char *str)
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		if (ft_is_all_whitespace(line) == TRUE)
+		if (ft_is_all_whitespace(line) == FALSE)
 		{
 			tab = ft_parse_spaces(line);
-			ft_assignment(ray, tab);
+			ft_assignment(minirt, tab);
 			ft_free_array(tab);
 		}
 		free(line);
 	}
-	if (!ray->ambiant || !ray->camera)
+	if (!minirt->ambiant || !minirt->camera)
 		ft_error(9);
 	return (TRUE);
 }
 
 int	main(int ac, char **av)
 {
-	t_ray	ray;
+	t_minirt	minirt;
 
 	if (ac != 2)
 	{
 		ft_error(1);
 	}
-	ft_set_null(&ray);
-	if (ft_checkinit(&ray, av[1]) == FALSE)
+	ft_set_null(&minirt);
+	if (ft_checkinit(&minirt, av[1]) == FALSE)
 	{
 		exit(EXIT_FAILURE);
 	}
-	ft_print_ray(ray);
-	//display_mlx_win(&ray);
+	ft_print_ray(minirt);
+	display_mlx_win(&minirt);
+
+
 	return (0);
 }

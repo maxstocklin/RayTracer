@@ -5,7 +5,7 @@ int	ray_exit(void)
 	exit(0);
 }
 
-int	key_hook(int keycode, t_ray *ray)
+int	key_hook(int keycode, t_minirt *ray)
 {
 	(void)ray;
 	if (keycode == KEY_ESC)
@@ -13,8 +13,8 @@ int	key_hook(int keycode, t_ray *ray)
 	return (0);
 }
 
-void	add_mlx_hook(t_ray *ray)
-{	
+void	add_mlx_hook(t_minirt *ray)
+{
 	mlx_hook(ray->vars.win, KEYPRESS, 0, key_hook, ray);
 	mlx_hook(ray->vars.win, DESTROYNOTIFY, 0, ray_exit, ray);
 }
