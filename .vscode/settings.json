@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.ejs": "plaintext",
-    "helpers.h": "c"
+    "helpers.h": "c",
+    "iterator": "c"
   }
 }

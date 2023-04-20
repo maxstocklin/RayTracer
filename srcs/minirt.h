@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/19 15:22:58 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:22:56 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,18 @@ typedef struct s_minirt
 	t_ambiant	*ambiant;
 }				t_minirt;
 
-# define WIDTH 800		/* horizonal window size		*/
-# define HEIGHT 600 		/* vertical window size		*/
+typedef struct s_intersection
+{
+	int		color;
+	t_rgb 	rgb;
+	t_rgb 	object_color;
+	double distance;
+	t_point	point;
+	t_vect	normal;
+}	t_intersection;
+
+# define WIDTH 1400		/* horizonal window size		*/
+# define HEIGHT 900 		/* vertical window size		*/
 
 # define FALSE 1
 # define TRUE 0
@@ -155,7 +165,8 @@ typedef struct s_minirt
 # define SCROLLDOWN_KEY 5
 
 /*		HOOKS		*/
-void	add_mlx_hook(t_minirt *ray);
+void
+add_mlx_hook(t_minirt *ray);
 
 /*		ERRORS		*/
 int		ft_error(int index);
