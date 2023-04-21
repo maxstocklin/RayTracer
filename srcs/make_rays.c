@@ -104,6 +104,33 @@ double	intersect_scene(t_minirt minirt, t_ray lray, double t_min_dist, double t_
 
 
 
+int	closest_object(t_minirt minirt, t_ray lray)
+{
+	double			closest;
+	double			test;
+	int 			index = -1;
+
+	closest = -1;
+	while (minirt.spheres)
+	{
+		test = ray_sphere_distance(minirt.spheres, lray);
+
+		if (test == -1 || (test > closest && closest > -1))
+		{
+			minirt.spheres = minirt.spheres->next;
+			continue;
+		}
+		//printf("HERE TEST = %f and closest = %f\n");
+		if (closest == -1 || test < closest)
+		{
+			index = minirt.spheres->index;
+			closest = test;
+		}
+		minirt.spheres = minirt.spheres->next;
+	}
+	return (index);
+}
+
 int	apply_light(t_minirt minirt, t_intersection intersect)
 {
 	t_ray	lray;
@@ -119,6 +146,13 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 		lray.origin = minirt.lights->origin;
 		lray.direct = point_subtract(intersect.point, lray.origin);
 		v_length = vect_length(lray.direct);
+		int closest_index = closest_object(minirt, lray);
+		if (closest_index != intersect.index)
+		{
+			minirt.lights = minirt.lights->next;
+			continue;
+		}
+
 		angle = vect_angle(intersect.normal, lray.direct);
 		if (angle > 90)
 		{
@@ -131,7 +165,6 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 		adjustment += (factor * minirt.lights->intensity);
 		if (adjustment >= 1)
 		{
-			printf("hello");
 			adjustment = 1;
 			break ;
 		}
@@ -215,14 +248,16 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 int	get_color(t_minirt minirt, t_ray ray)
 {
 	t_intersection	intersection;
+	t_minirt		temp;
 
+	temp = minirt;
 	intersection.distance = -1;
 	intersection.color = 0;
-	while(minirt.spheres)
+	while(temp.spheres)
 	{
-		intersection.index = minirt.spheres->index;
-		intersection = color_sphere(minirt, minirt.spheres, ray, intersection);
-		minirt.spheres = minirt.spheres->next;
+		intersection.index = temp.spheres->index;
+		intersection = color_sphere(minirt, temp.spheres, ray, intersection);
+		temp.spheres = temp.spheres->next;
 	}
 	return (intersection.color);
 }
