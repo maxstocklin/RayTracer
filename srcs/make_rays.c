@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/21 00:42:04 by max              ###   ########.fr       */
+/*   Updated: 2023/04/21 14:38:50 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,45 +117,12 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 	while (minirt.lights)
 	{
 		lray.origin = minirt.lights->origin;
-		lray.direct = point_subtract(intersect.point, lray.origin); // light - sphere point vector
-
+		lray.direct = point_subtract(intersect.point, lray.origin);
 		v_length = vect_length(lray.direct);
-		if (v_length > 21)
-		{
-			printf("length = %f		ray index %d \n", v_length, intersect.index);
-			printf("point x %f y %f z %f\n", intersect.point.x, intersect.point.y, intersect.point.z);
-			//printf("x = %f y = %f z = %f\n", lray.direct.x, lray.direct.y, lray.direct.z );
-		}
-
-
-		
-		// is closest
-		// if (point_is_closest(intersect, minirt, lray ) == TRUE)
-/*
-
-        double distance = vect_length(lray.direct);
-
-        double distance2 = intersect_scene(minirt, lray, 0.001, distance);
-        if (distance2 > 0 && distance2 < distance)
-        {
-			//printf("test.distance %f < intersect.distance %f\n", distance2, distance);
-            minirt.lights = minirt.lights->next;
-            continue;
-        }
-		printf("HEELLO\n");
-
-*/
-
-
 		angle = vect_angle(intersect.normal, lray.direct);
-//		if (angle > 0 && angle < 10)
-//		{
-//			printf("point x %f y %f z %f\n", intersect.point.x, intersect.point.y, intersect.point.z);
-//			printf("angle  %f\n", angle);
-//		}
-		if (angle < 90)
+		if (angle > 90)
 		{
-			factor = cos(deg_to_rad(angle));
+			factor = fabs(cos(deg_to_rad(angle)));
 		}
 		else
 		{
