@@ -57,12 +57,14 @@ t_vect 	ft_get_direction(char *str)
 	return (xyz);
 }
 
-void	ft_set_null(t_minirt *ray)
+void	ft_set_null(t_minirt *minirt)
 {
-	ray->ambiant = NULL;
-	ray->camera = NULL;
-	ray->spheres = NULL;
-	ray->lights = NULL;
-	ray->cylinders = NULL;
-	ray->planes = NULL;
+	minirt->ambiant = NULL;
+	minirt->camera = NULL;
+	minirt->spheres = NULL;
+	minirt->lights = NULL;
+	minirt->cylinders = NULL;
+	minirt->planes = NULL;
+	minirt->num_objects = 0;
+	minirt->num_spotlights = 0;
 }

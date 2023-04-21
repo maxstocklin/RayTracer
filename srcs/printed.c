@@ -28,6 +28,7 @@ void    ft_print_ray(t_minirt ray)
 	{
 		printf("\nSPHERE:\n");
 		printf("coordinates x = %f y = %f z %f\n", ray.spheres->origin.x, ray.spheres->origin.y, ray.spheres->origin.z);
+		printf("index = %d\n", ray.spheres->index);
 		printf("diameter: %f\n", ray.spheres->diameter);
 		printf("R = %d G = %d B = %d\n", ray.spheres->rgb.red, ray.spheres->rgb.green, ray.spheres->rgb.blue);
 	}

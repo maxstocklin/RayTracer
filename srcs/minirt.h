@@ -53,14 +53,6 @@ typedef struct s_ambiant
 
 }				t_ambiant;
 
-typedef struct s_light
-{
-	double			intensity;
-	t_point			origin;
-	t_rgb			rgb;
-	struct s_light	*next;
-}				t_light;
-
 typedef struct s_cam
 {
 	t_point	origin;
@@ -68,11 +60,21 @@ typedef struct s_cam
 	double	angle;
 }				t_cam;
 
+typedef struct s_light
+{
+	double			intensity;
+	t_point			origin;
+	t_rgb			rgb;
+	int 			index;
+	struct s_light	*next;
+}				t_light;
+
 typedef struct s_sphere
 {
 	double			diameter;
 	t_point			origin;
 	t_rgb			rgb;
+	int 			index;
 	struct s_sphere	*next;
 }				t_sphere;
 
@@ -81,6 +83,7 @@ typedef struct s_plane
 	t_vect			normal;
 	t_point			point;
 	t_rgb			rgb;
+	int 			index;
 	struct s_plane	*next;
 
 }				t_plane;
@@ -92,6 +95,7 @@ typedef struct s_cylinder
 	t_rgb				rgb;
 	double				diameter;
 	double				height;
+	int 				index;
 	struct s_cylinder	*next;
 
 }				t_cylinder;
@@ -117,6 +121,8 @@ typedef struct s_minirt
 	t_cam		*camera;
 	t_light		*lights;
 	t_ambiant	*ambiant;
+	int 		num_objects;
+	int 		num_spotlights;
 }				t_minirt;
 
 typedef struct s_intersection
@@ -127,6 +133,7 @@ typedef struct s_intersection
 	double distance;
 	t_point	point;
 	t_vect	normal;
+	int 	index;
 }	t_intersection;
 
 # define WIDTH 1400		/* horizonal window size		*/
