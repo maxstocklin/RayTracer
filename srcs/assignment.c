@@ -51,11 +51,11 @@ double	ft_assign_angle(char *str)
 	return (res);
 }
 
-void	assign_ambiant(t_minirt *ray, char **tab)
+void	assign_ambiant(t_minirt *minirt, char **tab)
 {
 	t_ambiant	*ambiant;
 
-	if (ray->ambiant)
+	if (minirt->ambiant)
 	{
 		printf("Error: ambiant light can't be initialized twice\n");
 		exit(EXIT_FAILURE);
@@ -67,14 +67,14 @@ void	assign_ambiant(t_minirt *ray, char **tab)
 		ft_error(7);
 	ambiant->intensity = ft_assign_range(tab[1]);
 	ambiant->rgb = ft_get_rgb(tab[2]);
-	ray->ambiant = ambiant;
+	minirt->ambiant = ambiant;
 }
 
-void	assign_camera(t_minirt *ray, char **tab)
+void	assign_camera(t_minirt *minirt, char **tab)
 {
 	t_cam	*camera;
 
-	if (ray->camera)
+	if (minirt->camera)
 	{
 		printf("Error: camera light can't be initialized twice\n");
 		exit(EXIT_FAILURE);
@@ -87,10 +87,10 @@ void	assign_camera(t_minirt *ray, char **tab)
 	camera->origin = ft_get_xyz(tab[1]);
 	camera->direction = ft_get_direction(tab[2]);
 	camera->angle = ft_assign_angle(tab[3]);
-	ray->camera = camera;
+	minirt->camera = camera;
 }
 
-void	assign_spotlight(t_minirt *ray, char **tab)
+void	assign_spotlight(t_minirt *minirt, char **tab)
 {
 	t_light	*current;
 	t_light	*light;
@@ -100,24 +100,25 @@ void	assign_spotlight(t_minirt *ray, char **tab)
 	light = malloc(sizeof(t_light));
 	if (!light)
 		ft_error(7);
-	printf("bef\n");
 	light->origin = ft_get_xyz(tab[1]);
-	printf("aft\n");
 	light->intensity = ft_assign_range(tab[2]);
 	light->rgb = ft_get_rgb(tab[3]);
 	light->next = NULL;
-	current = ray->lights;
+	current = minirt->lights;
 	if (!current)
-		ray->lights = light;
+		minirt->lights = light;
 	else
 	{
 		while (current->next)
+		{
 			current = current->next;
-			current->next = light;
+		}
+		light->index = ++minirt->num_spotlights;
+		current->next = light;
 	}
 }
 
-void	assign_sphere(t_minirt *ray, char **tab)
+void	assign_sphere(t_minirt *minirt, char **tab)
 {
 	t_sphere	*sphere;
 	t_sphere	*current;
@@ -131,9 +132,10 @@ void	assign_sphere(t_minirt *ray, char **tab)
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
 	sphere->next = NULL;
-	current = ray->spheres;
+	current = minirt->spheres;
+	sphere->index = ++minirt->num_objects;
 	if (!current)
-		ray->spheres = sphere;
+		minirt->spheres = sphere;
 	else
 	{
 		while (current->next)
@@ -142,7 +144,7 @@ void	assign_sphere(t_minirt *ray, char **tab)
 	}
 }
 
-void	assign_plane(t_minirt *ray, char **tab)
+void	assign_plane(t_minirt *minirt, char **tab)
 {
 	t_plane	*plane;
 	t_plane	*current;
@@ -156,18 +158,19 @@ void	assign_plane(t_minirt *ray, char **tab)
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
 	plane->next = NULL;
-	current = ray->planes;
+	current = minirt->planes;
 	if (!current)
-		ray->planes = plane;
+		minirt->planes = plane;
 	else
 	{
 		while (current->next)
 			current = current->next;
+		plane->index = ++minirt->num_objects;
 		current->next = plane;
 	}
 }
 
-void	assign_cylinder(t_minirt *ray, char **tab)
+void	assign_cylinder(t_minirt *minirt, char **tab)
 {
 	t_cylinder	*cylinder;
 	t_cylinder	*current;
@@ -183,31 +186,32 @@ void	assign_cylinder(t_minirt *ray, char **tab)
 	cylinder->height = ft_assign_diameter(tab[4]);
 	cylinder->rgb = ft_get_rgb(tab[5]);
 	cylinder->next = NULL;
-	current = ray->cylinders;
+	current = minirt->cylinders;
 	if (!current)
-		ray->cylinders = cylinder;
+		minirt->cylinders = cylinder;
 	else
 	{
 		while (current->next)
 			current = current->next;
+		cylinder->index = ++minirt->num_objects;
 		current->next = cylinder;
 	}
 }
 
-void	ft_assignment(t_minirt *ray, char **tab)
+void	ft_assignment(t_minirt *minirt, char **tab)
 {
 	if (ft_strcmp(tab[0], "A") == TRUE)
-		assign_ambiant(ray, tab);
+		assign_ambiant(minirt, tab);
 	else if (ft_strcmp(tab[0], "C") == TRUE)
-		assign_camera(ray, tab);
+		assign_camera(minirt, tab);
 	else if (ft_strcmp(tab[0], "L") == TRUE)
-		assign_spotlight(ray, tab);
+		assign_spotlight(minirt, tab);
 	else if (ft_strcmp(tab[0], "sp") == TRUE)
-		assign_sphere(ray, tab);
+		assign_sphere(minirt, tab);
 	else if (ft_strcmp(tab[0], "pl") == TRUE)
-		assign_plane(ray, tab);
+		assign_plane(minirt, tab);
 	else if (ft_strcmp(tab[0], "cy") == TRUE)
-		assign_cylinder(ray, tab);
+		assign_cylinder(minirt, tab);
 	else
 		ft_error(4);
 }

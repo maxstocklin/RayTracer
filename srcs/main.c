@@ -77,9 +77,8 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
+
 	ft_print_ray(minirt);
 	display_mlx_win(&minirt);
-
-
 	return (0);
 }

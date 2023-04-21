@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/19 16:10:48 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/20 23:54:15 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HELPERS_H
 # define HELPERS_H
-# include	<math.h>
+# include <math.h>
 # include <string.h>
 # include <stdio.h>
 # include <assert.h>
@@ -52,8 +52,8 @@ double	vect_angle(t_vect vect1, t_vect vect2);
 double	rad_to_deg(double rad);
 double	deg_to_rad(double deg);
 t_vect	vect_add(t_vect vect1, t_vect vect2);
-t_vect point_subtract(t_point p1, t_point p2);
-t_vect vect_scale(t_vect vect, double scale);
+t_vect	point_subtract(t_point p1, t_point p2);
+t_vect	vect_scale(t_vect vect, double scale);
 t_point	point_offset_1(t_point point, t_vect vect);
 t_vect	vect_cross(t_vect v1, t_vect v2);
 t_point	make_point(double x, double y, double z);
