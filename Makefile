@@ -8,7 +8,7 @@ CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
 RT_HELPERS = ./rt_helpers
 
 #Sources
-DIR_SRC=./srcs
+DIR_SRC	=	./srcs
 SRCS	=	${DIR_SRC}/main.c \
 			${DIR_SRC}/init.c \
 			${DIR_SRC}/check.c \
@@ -20,6 +20,7 @@ SRCS	=	${DIR_SRC}/main.c \
 			${DIR_SRC}/get_next_line_utils.c \
 			${DIR_SRC}/free.c \
 			${DIR_SRC}/printed.c \
+			${DIR_SRC}/planes_rays.c \
 			${DIR_SRC}/hooks.c \
 			${DIR_SRC}/make_rays.c
 

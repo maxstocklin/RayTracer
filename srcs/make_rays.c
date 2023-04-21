@@ -76,34 +76,6 @@ t_rgb sum_light(t_rgb color1, t_rgb color2)
 	return (sum);
 }
 
-double	intersect_scene(t_minirt minirt, t_ray lray, double t_min_dist, double t_max_dist)
-{
-    double			closest;
-    double			test;
-
-	closest = -1;
-    while (minirt.spheres)
-    {
-		test = ray_sphere_distance(minirt.spheres, lray);
-
-
-		if (test == -1 || (test > closest && closest > -1))
-		{
-			minirt.spheres = minirt.spheres->next;
-			continue;
-		}
-        if (test >= t_min_dist && test <= t_max_dist)
-        {
-            if (closest == -1 || test < closest)
-                closest = test;
-        }
-        minirt.spheres = minirt.spheres->next;
-    }
-    return (closest);
-}
-
-
-
 int	closest_object(t_minirt minirt, t_ray lray)
 {
 	double			closest;
@@ -120,7 +92,6 @@ int	closest_object(t_minirt minirt, t_ray lray)
 			minirt.spheres = minirt.spheres->next;
 			continue;
 		}
-		//printf("HERE TEST = %f and closest = %f\n");
 		if (closest == -1 || test < closest)
 		{
 			index = minirt.spheres->index;
@@ -138,30 +109,23 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 	double	factor;
 	double	adjustment;
 	t_rgb total_spotlight;
-	double v_length;
 
 	adjustment = 0;
 	while (minirt.lights)
 	{
 		lray.origin = minirt.lights->origin;
 		lray.direct = point_subtract(intersect.point, lray.origin);
-		v_length = vect_length(lray.direct);
 		int closest_index = closest_object(minirt, lray);
 		if (closest_index != intersect.index)
 		{
 			minirt.lights = minirt.lights->next;
 			continue;
 		}
-
 		angle = vect_angle(intersect.normal, lray.direct);
 		if (angle > 90)
-		{
 			factor = fabs(cos(deg_to_rad(angle)));
-		}
 		else
-		{
 			factor = 0;
-		}
 		adjustment += (factor * minirt.lights->intensity);
 		if (adjustment >= 1)
 		{
@@ -173,9 +137,6 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 	total_spotlight = add_intensity(intersect.object_color, adjustment);
 	intersect.rgb = sum_light(intersect.rgb, total_spotlight);
 	int color;
-	// if (intersect.rgb.green != 76)
-	// 	printf(" R %d G %d B %d && length = %f		||",intersect.rgb.red, intersect.rgb.green, intersect.rgb.blue, v_length);
-
 	color = 0 << 24 | intersect.rgb.red << 16 | intersect.rgb.green << 8 | intersect.rgb.blue;
 	return (color);
 }
@@ -187,13 +148,8 @@ t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity)
 	res.red = (color1.red * color2.red * intensity / 255);
 	res.green = (color1.green * color2.green * intensity / 255);
 	res.blue = (color1.blue * color2.blue * intensity / 255);
-	// printf("END color R %d G %d B %d\n color1 R %d G %d B %d\n color2 R %d G %d B %d\n", \
-	// res.red, res.green, res.blue, color1.red, color1.green, color1.blue, color2.red, color2.green, color2.blue);
-
 	return (res);
-
 }
-
 
 t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersection old_intersect)
@@ -213,8 +169,6 @@ t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	intersect.object_color.blue = sphere->rgb.blue;
 	intersect.rgb = add_light(sphere->rgb, minirt.ambiant->rgb, minirt.ambiant->intensity);
 	intersect.color = apply_light(minirt, intersect);
-
-	// intersect.color = 0 << 24 | intersect.rgb.red << 16 | intersect.rgb.green << 8 | intersect.rgb.blue;
 	return (intersect);
 }
 
@@ -258,6 +212,12 @@ int	get_color(t_minirt minirt, t_ray ray)
 		intersection.index = temp.spheres->index;
 		intersection = color_sphere(minirt, temp.spheres, ray, intersection);
 		temp.spheres = temp.spheres->next;
+	}
+	while(temp.planes)
+	{
+		intersection.index = temp.planes->index;
+		intersection = color_planes(minirt, temp.planes, ray, intersection);
+		temp.planes = temp.planes->next;
 	}
 	return (intersection.color);
 }

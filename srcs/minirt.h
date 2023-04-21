@@ -221,4 +221,9 @@ void	ft_print_ray(t_minirt ray);
 
 void	new_draw_window(t_minirt minirt);
 
+t_intersection	color_planes(t_minirt minirt, t_plane *plane, t_ray ray, t_intersection old_intersect);
+t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity);
+t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
+	t_ray ray, t_intersection old_intersect);
+
 #endif
