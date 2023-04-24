@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/24 11:08:30 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include "mlx.h"
 
@@ -30,7 +42,6 @@ int	display_mlx_win(t_minirt *minirt)
 
 char	**ft_parse_spaces(char *str)
 {
-	// int		i;
 	char	**dest;
 
 	dest = ft_split_spaces(str);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/22 16:53:28 by max              ###   ########.fr       */
+/*   Updated: 2023/04/24 11:09:47 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_point	get_intersect(t_ray ray, double distance)
 {
 	return (make_point(ray.origin.x + ray.direct.x * distance, \
-		ray.origin.y  + ray.direct.y * distance, ray.origin.z + \
+		ray.origin.y + ray.direct.y * distance, ray.origin.z + \
 		ray.direct.z * distance));
 }
 
@@ -37,7 +37,8 @@ double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 	discriminant = (b * b) - (4 * a * c);
 	if (discriminant < 0)
 		return (-1);
-	distance = fmin((-b + sqrt(discriminant)) / (2 * a), (-b - sqrt(discriminant)) / (2 * a));
+	distance = fmin((-b + sqrt(discriminant)) / (2 * a), \
+		(-b - sqrt(discriminant)) / (2 * a));
 
 	if (distance > 0)
 		return (distance);
@@ -124,7 +125,7 @@ int	apply_light(t_minirt minirt, t_intersection intersect)
 	double	angle;
 	double	factor;
 	double	adjustment;
-	t_rgb total_spotlight;
+	t_rgb	total_spotlight;
 
 	adjustment = 0;
 	while (minirt.lights)
@@ -175,11 +176,9 @@ t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	(void)minirt;
 	intersect.index = sphere->index;
 	intersect.distance = ray_sphere_distance(sphere, ray);
-	//printf("new dist = %f and old %f\n", intersect.distance, old_intersect.distance);
 	if (intersect.distance == -1 || (intersect.distance > \
 		old_intersect.distance && old_intersect.distance > -1))
 		return (old_intersect);
-	//printf("hello");
 	intersect.point = get_intersect(ray, intersect.distance);
 	intersect.normal = point_subtract(intersect.point, sphere->origin);
 	intersect.object_color.red = sphere->rgb.red;
