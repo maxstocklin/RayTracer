@@ -1,6 +1,8 @@
 {
-	"files.associations": {
-		"chrono": "c",
-		"variant": "c"
-	}
+  "files.associations": {
+    "*.ejs": "plaintext",
+    "chrono": "c",
+    "variant": "c",
+    "complex": "c"
+  }
 }

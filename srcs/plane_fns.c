@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 18:09:17 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:47:42 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,18 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	t_vect		v_cam_pln;
 
 	intersection.index = plane->index;
+	v_cam_pln = vector_normalize(point_subtract(plane->point, \
+			minirt.camera->origin));
+	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)
+	{
+		plane->normal.x = -plane->normal.x;
+		plane->normal.y = -plane->normal.y;
+		plane->normal.z = -plane->normal.z;
+	}
 	intersection.distance = ray_plane_distance(plane, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = plane->rgb;
-	if (intersection.distance != -1)
-	{
-		v_cam_pln = vector_normalize(point_subtract(plane->point, \
-			minirt.camera->origin));
-		if (acos(fabs(vect_dot(v_cam_pln, plane->normal))) > M_PI / 2)
-		{
-			printf("reversing\n");
-			intersection.normal.x = -plane->normal.x;
-			intersection.normal.y = -plane->normal.y;
-			intersection.normal.z = -plane->normal.z;
-		}
-	}
-	else
-		intersection.normal = plane->normal;
+	intersection.normal = plane->normal;
 	return (intersection);
 }
 
