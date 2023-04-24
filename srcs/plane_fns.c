@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 16:43:26 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:09:17 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,30 @@ double	ray_plane_distance(t_plane *plane, t_ray ray)
 	return (distance);
 }
 
-static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray)
+static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
+	t_minirt minirt)
 {
 	t_intersect	intersection;
+	t_vect		v_cam_pln;
 
 	intersection.index = plane->index;
 	intersection.distance = ray_plane_distance(plane, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = plane->rgb;
-	intersection.normal = plane->normal;
+	if (intersection.distance != -1)
+	{
+		v_cam_pln = vector_normalize(point_subtract(plane->point, \
+			minirt.camera->origin));
+		if (acos(fabs(vect_dot(v_cam_pln, plane->normal))) > M_PI / 2)
+		{
+			printf("reversing\n");
+			intersection.normal.x = -plane->normal.x;
+			intersection.normal.y = -plane->normal.y;
+			intersection.normal.z = -plane->normal.z;
+		}
+	}
+	else
+		intersection.normal = plane->normal;
 	return (intersection);
 }
 
@@ -47,7 +62,7 @@ t_intersect	color_plane(t_minirt minirt, t_plane *plane, \
 {
 	t_intersect	intersect;
 
-	intersect = ray_plane_intersect(plane, ray);
+	intersect = ray_plane_intersect(plane, ray, minirt);
 	intersect = apply_intersect(intersect, old_intersect, minirt);
 	return (intersect);
 }
