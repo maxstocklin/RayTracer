@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/20 17:22:56 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/22 16:54:49 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct s_intersection
 	int		color;
 	t_rgb 	rgb;
 	t_rgb 	object_color;
-	double distance;
+	double	distance;
 	t_point	point;
 	t_vect	normal;
 	int 	index;
@@ -222,8 +222,14 @@ void	ft_print_ray(t_minirt ray);
 void	new_draw_window(t_minirt minirt);
 
 t_intersection	color_planes(t_minirt minirt, t_plane *plane, t_ray ray, t_intersection old_intersect);
-t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity);
+t_rgb			add_light(t_rgb color1, t_rgb color2, double intensity);
 t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
-	t_ray ray, t_intersection old_intersect);
+t_ray ray, t_intersection old_intersect);
+int				closest_object(t_minirt minirt, t_ray lray);
+t_rgb			sum_light(t_rgb color1, t_rgb color2);
+t_rgb			add_intensity(t_rgb	rgb, double intensity);
+double			ray_sphere_distance(t_sphere *sphere, t_ray ray);
+t_point			get_intersect(t_ray ray, double distance);
+double			ray_plane_distance(t_plane *plane, t_ray ray);
 
 #endif

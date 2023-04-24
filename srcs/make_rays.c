@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/21 14:38:50 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/22 16:53:28 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,22 @@ int	closest_object(t_minirt minirt, t_ray lray)
 		}
 		minirt.spheres = minirt.spheres->next;
 	}
+	while (minirt.planes)
+	{
+		test = ray_plane_distance(minirt.planes, lray);
+
+		if (test == -1 || (test > closest && closest > -1))
+		{
+			minirt.planes = minirt.planes->next;
+			continue;
+		}
+		if (closest == -1 || test < closest)
+		{
+			index = minirt.planes->index;
+			closest = test;
+		}
+		minirt.planes = minirt.planes->next;
+	}
 	return (index);
 }
 
@@ -159,9 +175,11 @@ t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	(void)minirt;
 	intersect.index = sphere->index;
 	intersect.distance = ray_sphere_distance(sphere, ray);
+	//printf("new dist = %f and old %f\n", intersect.distance, old_intersect.distance);
 	if (intersect.distance == -1 || (intersect.distance > \
 		old_intersect.distance && old_intersect.distance > -1))
 		return (old_intersect);
+	//printf("hello");
 	intersect.point = get_intersect(ray, intersect.distance);
 	intersect.normal = point_subtract(intersect.point, sphere->origin);
 	intersect.object_color.red = sphere->rgb.red;
@@ -207,17 +225,17 @@ int	get_color(t_minirt minirt, t_ray ray)
 	temp = minirt;
 	intersection.distance = -1;
 	intersection.color = 0;
-	while(temp.spheres)
-	{
-		intersection.index = temp.spheres->index;
-		intersection = color_sphere(minirt, temp.spheres, ray, intersection);
-		temp.spheres = temp.spheres->next;
-	}
 	while(temp.planes)
 	{
 		intersection.index = temp.planes->index;
 		intersection = color_planes(minirt, temp.planes, ray, intersection);
 		temp.planes = temp.planes->next;
+	}
+	while(temp.spheres)
+	{
+		intersection.index = temp.spheres->index;
+		intersection = color_sphere(minirt, temp.spheres, ray, intersection);
+		temp.spheres = temp.spheres->next;
 	}
 	return (intersection.color);
 }
