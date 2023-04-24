@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:08:30 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:23:18 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
-
 	ft_print_ray(minirt);
+	tests();
 	display_mlx_win(&minirt);
 	return (0);
 }
