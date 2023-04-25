@@ -20,8 +20,8 @@ int	closest_object(t_minirt minirt, t_ray lray)
 
 	index = -1;
 	closest = -1;
-	closest_sphere(lray, minirt.spheres, &closest, &index);
 	closest_plane(lray, minirt.planes, &closest, &index);
+	closest_sphere(lray, minirt.spheres, &closest, &index);
 	closest_cylinder(lray, minirt.cylinders, &closest, &index);
 	return (index);
 }
@@ -122,11 +122,6 @@ int	get_color(t_minirt minirt, t_ray ray)
 	tmp_minirt = minirt;
 	intersect.distance = -1;
 	intersect.color = 0;
-	while (tmp_minirt.planes)
-	{
-		intersect = color_plane(minirt, tmp_minirt.planes, ray, intersect);
-		tmp_minirt.planes = tmp_minirt.planes->next;
-	}
 	while (tmp_minirt.spheres)
 	{
 		intersect = color_sphere(minirt, tmp_minirt.spheres, ray, intersect);
@@ -136,6 +131,11 @@ int	get_color(t_minirt minirt, t_ray ray)
 	{
 		intersect = color_cylinder(minirt, tmp_minirt.cylinders, ray, intersect);
 		tmp_minirt.cylinders = tmp_minirt.cylinders->next;
+	}
+	while (tmp_minirt.planes)
+	{
+		intersect = color_plane(minirt, tmp_minirt.planes, ray, intersect);
+		tmp_minirt.planes = tmp_minirt.planes->next;
 	}
 	return (intersect.color);
 }

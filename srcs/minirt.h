@@ -68,7 +68,7 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	t_vect				normal;
+	t_vect				axis;
 	t_point				origin;
 	t_rgb				rgb;
 	double				diameter;
