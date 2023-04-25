@@ -37,9 +37,9 @@ t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity)
 {
 	t_rgb	res;
 
-	res.red = (color1.red * color2.red * intensity / 255);
-	res.green = (color1.green * color2.green * intensity / 255);
-	res.blue = (color1.blue * color2.blue * intensity / 255);
+	res.red = (int)(((double)color1.red * ((double)color2.red) * intensity) / (double)255);
+	res.green = (int)(((double)color1.green * ((double)color2.green) * intensity) / (double)255);
+	res.blue = (int)(((double)color1.blue * ((double)color2.blue) * intensity) / (double)255);
 	return (res);
 }
 

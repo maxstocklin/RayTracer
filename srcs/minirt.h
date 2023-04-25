@@ -101,6 +101,7 @@ typedef struct s_minirt
 	t_ambiant	*ambiant;
 	int			num_objects;
 	int			num_spotlights;
+	int 		recalc;
 }				t_minirt;
 
 typedef struct s_intersection
@@ -210,5 +211,12 @@ t_intersect		apply_intersect(t_intersect new, t_intersect old,\
 	t_minirt minirt);
 
 void			tests(void);
+
+
+t_intersect	color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
+	t_ray ray, t_intersect old_intersect);
+
+void	closest_cylinder(t_ray lray, t_cylinder *cylinder, double *closest, int *index);
+
 
 #endif

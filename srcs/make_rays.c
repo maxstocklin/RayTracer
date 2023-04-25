@@ -22,6 +22,7 @@ int	closest_object(t_minirt minirt, t_ray lray)
 	closest = -1;
 	closest_sphere(lray, minirt.spheres, &closest, &index);
 	closest_plane(lray, minirt.planes, &closest, &index);
+	closest_cylinder(lray, minirt.cylinders, &closest, &index);
 	return (index);
 }
 
@@ -47,9 +48,9 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 		if (angle > 90)
 			factor = fabs(cos(deg_to_rad(angle)));
 		else
-			factor = 0;
+			factor = 0.0;
 		adjustment += (factor * minirt.lights->intensity);
-		if (adjustment >= 1)
+		if (adjustment >= 1.0)
 		{
 			adjustment = 1;
 			break ;
@@ -94,11 +95,11 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 	t_vect xIncVector;
 	t_vect yIncVector;
 
-	// vup = make_vect(0, 1, 0);
-	vup = make_vect(1, 0, 0);
-	u = vect_cross(camera->direction, vup);
-	v = vect_cross(u, camera->direction);
-	center = point_offset_1(camera->origin, camera->direction);
+	vup = make_vect(0, 1, 0);
+	//vup = make_vect(1, 0, 0);
+	u = vect_cross(vector_normalize(camera->direction), vup);
+	v = vect_cross(u, vector_normalize(camera->direction));
+	center = point_offset_1(camera->origin, vector_normalize(camera->direction));
 	world_width = 2.0 * tan(deg_to_rad(camera->angle / 2));
 	px_size = world_width / (double)WIDTH;
 	xIncVector = vect_scale(u, px_size);
@@ -131,8 +132,15 @@ int	get_color(t_minirt minirt, t_ray ray)
 		intersect = color_sphere(minirt, tmp_minirt.spheres, ray, intersect);
 		tmp_minirt.spheres = tmp_minirt.spheres->next;
 	}
+	while (tmp_minirt.cylinders)
+	{
+		intersect = color_cylinder(minirt, tmp_minirt.cylinders, ray, intersect);
+		tmp_minirt.cylinders = tmp_minirt.cylinders->next;
+	}
 	return (intersect.color);
 }
+
+
 
 void	new_draw_window(t_minirt minirt)
 {
@@ -154,6 +162,8 @@ void	new_draw_window(t_minirt minirt)
 				minirt.camera->origin.y, minirt.camera->origin.z);
 			ray.direct = make_vect(vp_pt.x - minirt.camera->origin.x, vp_pt.y - \
 				minirt.camera->origin.y, vp_pt.z - minirt.camera->origin.z);
+
+			//mlx_loop_hook(minirt.vars.mlx, loop_hook, fractol);
 			color = get_color(minirt, ray);
 			put_pixel(minirt, i, j, color);
 			j++;

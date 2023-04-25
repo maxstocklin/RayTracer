@@ -79,4 +79,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->planes = NULL;
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;
+	minirt->recalc = 0;
 }

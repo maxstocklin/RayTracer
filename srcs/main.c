@@ -13,6 +13,17 @@
 #include "minirt.h"
 #include "mlx.h"
 
+
+int	loop_hook(t_minirt *minirt)
+{
+	if (minirt->recalc == 0)
+	{
+		new_draw_window(*minirt);
+		minirt->recalc = 1;
+	}
+	return (0);
+}
+
 int	display_mlx_win(t_minirt *minirt)
 {
 	minirt->vars.mlx = mlx_init();
@@ -31,7 +42,7 @@ int	display_mlx_win(t_minirt *minirt)
 				mlx_put_image_to_window(minirt->vars.mlx, minirt->vars.win, \
 				minirt->vars.img, 0, 0);
 				add_mlx_hook(minirt);
-				new_draw_window(*minirt);
+				mlx_loop_hook(minirt->vars.mlx, loop_hook, minirt);
 				mlx_loop(minirt->vars.mlx);
 				return (0);
 			}
