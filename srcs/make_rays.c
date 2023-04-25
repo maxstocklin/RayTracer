@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 15:32:23 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:55:13 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,28 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 	t_point	px_position;
 	t_point	top_left;
 	t_point	center;
+	t_vect	vup;
+	t_vect	u;
+	t_vect	v;
+	t_vect xIncVector;
+	t_vect yIncVector;
 
+	// vup = make_vect(0, 1, 0);
+	vup = make_vect(1, 0, 0);
+	u = vect_cross(camera->direction, vup);
+	v = vect_cross(u, camera->direction);
 	center = point_offset_1(camera->origin, camera->direction);
 	world_width = 2.0 * tan(deg_to_rad(camera->angle / 2));
 	px_size = world_width / (double)WIDTH;
-	top_left = make_point(center.x - world_width / 2, center.y + \
-		(world_width * HEIGHT / WIDTH) / 2, center.z);
-	px_position = make_point(top_left.x + (double)i * px_size, \
-		top_left.y - (double)j * px_size, top_left.z);
+	xIncVector = vect_scale(u, px_size);
+	yIncVector = vect_scale(v, px_size);
+	top_left = point_apply_2vect(center, vect_scale(u, -world_width / 2), \
+		vect_scale(v, (world_width * HEIGHT / WIDTH) / 2));
+	px_position = point_apply_2vect(top_left, vect_scale(xIncVector, i), \
+		vect_scale(yIncVector, -j));
+	// printf("top left x y z %f %f %f\n", top_left.x, top_left.y, top_left.z);
+	// printf("xInc %f %f %f\n", xIncVector.x, xIncVector.y, xIncVector.z);
+	// printf("yInc %f %f %f\n", yIncVector.x, yIncVector.y, yIncVector.z);
 	return (px_position);
 }
 

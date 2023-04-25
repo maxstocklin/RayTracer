@@ -12,6 +12,7 @@ SRCS_NAME = main.c \
 			screen_world.c \
 			vect_cross.c \
 			vect_util.c \
+			point_util.c \
 			color_fns.c
 
 

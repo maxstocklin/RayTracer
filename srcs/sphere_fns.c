@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 15:08:18 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:47:53 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 	discriminant = (b * b) - (4 * a * c);
 	if (discriminant < 0)
 		return (-1);
-	if ((-b - sqrt(discriminant)) / (2 * a))
+	if ((-b - sqrt(discriminant)) / (2 * a) > 0)
 		return ((-b - sqrt(discriminant)) / (2 * a));
 	else
 		return (-1);

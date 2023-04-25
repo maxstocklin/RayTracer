@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 17:27:47 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:09:17 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity);
 t_rgb	add_intensity(t_rgb rgb, double intensity);
 t_point	get_intersect(t_ray ray, double distance);
 t_vect	vector_normalize(t_vect old);
+t_point	point_add(t_point p1, t_point p2);
+t_point	vect_to_point(t_vect v);
+t_point	point_apply_2vect(t_point origin, t_vect u, t_vect v);
 
 #endif
