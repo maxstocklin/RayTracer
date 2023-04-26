@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:08:07 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:27:08 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;
 	minirt->recalc = 0;
+	minirt->show_texture = 0;
 }

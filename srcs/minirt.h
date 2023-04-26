@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/26 14:16:59 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:26:51 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ typedef struct s_minirt
 	t_ambiant	*ambiant;
 	int			num_objects;
 	int			num_spotlights;
-	int 		recalc;
-}				t_minirt;
+	int			recalc;
+	int			show_texture;
+
+}	t_minirt;
 
 typedef struct s_intersection
 {

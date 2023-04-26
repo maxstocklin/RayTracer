@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 18:20:57 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:29:27 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt mi
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = sphere->rgb;
 	intersection.normal = point_subtract(intersection.point, sphere->origin);
-	if (intersection.distance != -1)
+	if (intersection.distance != -1 && minirt.show_texture)
 	{
 		lng = atan2(intersection.normal.y, intersection.normal.x);
 		lat = acos(intersection.normal.z / vect_length(intersection.normal));
