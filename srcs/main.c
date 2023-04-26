@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 16:23:18 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:10:55 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,25 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 
 int	main(int ac, char **av)
 {
-	t_minirt	minirt;
+	(void)ac;
+	(void)(av);
+	// t_minirt	minirt;
 
-	if (ac != 2)
-	{
-		ft_error(1);
-	}
-	ft_set_null(&minirt);
-	if (ft_checkinit(&minirt, av[1]) == FALSE)
-	{
-		exit(EXIT_FAILURE);
-	}
-	ft_print_ray(minirt);
+	// if (ac != 2)
+	// {
+	// 	ft_error(1);
+	// }
+	// ft_set_null(&minirt);
+	// if (ft_checkinit(&minirt, av[1]) == FALSE)
+	// {
+	// 	exit(EXIT_FAILURE);
+	// }
+	// ft_print_ray(minirt);
 	tests();
-	display_mlx_win(&minirt);
+	while (1)
+	{
+
+	}
+	// display_mlx_win(&minirt);
 	return (0);
 }
