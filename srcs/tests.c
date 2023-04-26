@@ -6,13 +6,18 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:15:19 by srapopor          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/26 15:05:42 by srapopor         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/24 16:51:52 by srapopor         ###   ########.fr       */
+>>>>>>> cylinder ok, shadow on cylinder debuged
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 
+<<<<<<< HEAD
 
 
 void	tests(void)
@@ -48,4 +53,24 @@ void	tests(void)
 	}
 	mlx_put_image_to_window(minirt.vars.mlx, minirt.vars.win, minirt.vars.img, 0, 0);
 	mlx_loop(minirt.vars.mlx);
+=======
+void	tests(void)
+{
+	double	distance;
+	t_plane	*plane;
+	t_ray	ray;
+	t_cam	cam;
+
+	plane = malloc(sizeof(t_plane));
+	plane->point = make_point(0, 0, -99);
+	plane->normal = make_vect(0, 0, 1);
+	ray.origin = make_point(0, 0, 0);
+	ray.direct = make_vect(0, 0, -1);
+	cam.origin = make_point(-50, 0, 0);
+	cam.direction = point_subtract(cam.origin, plane->point);
+	distance = ray_plane_distance(plane, ray);
+	printf("distance btwn r & plane %f\n", distance);
+	printf("cam direction dot normal %f\n", \
+		vect_dot(cam.direction, plane->normal));
+>>>>>>> cylinder ok, shadow on cylinder debuged
 }

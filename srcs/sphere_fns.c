@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 18:29:27 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:33:55 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void closest_sphere(t_ray lray, t_sphere *spheres, double *closest, int *index)
 		spheres = spheres->next;
 	}
 }
-
 
 t_intersect	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersect old_intersect)

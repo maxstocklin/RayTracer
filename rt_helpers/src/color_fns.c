@@ -6,7 +6,11 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:04 by srapopor          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/26 15:26:26 by srapopor         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/24 11:47:00 by srapopor         ###   ########.fr       */
+>>>>>>> cylinder ok, shadow on cylinder debuged
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +44,15 @@ t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity)
 	res.red = (int)(((double)color1.red * ((double)color2.red) * intensity) / (double)255);
 	res.green = (int)(((double)color1.green * ((double)color2.green) * intensity) / (double)255);
 	res.blue = (int)(((double)color1.blue * ((double)color2.blue) * intensity) / (double)255);
+<<<<<<< HEAD
+=======
+	if (res.red >= 255)
+		res.red = 255;
+	if (res.green >= 255)
+		res.green = 255;
+	if (res.blue >= 255)
+		res.blue = 255;
+>>>>>>> cylinder ok, shadow on cylinder debuged
 	return (res);
 }
 
@@ -57,6 +70,7 @@ t_rgb	add_intensity(t_rgb	rgb, double intensity)
 	rgb.blue = (int)blue;
 	return (rgb);
 }
+<<<<<<< HEAD
 
 t_rgb	int_to_rgb(unsigned int x)
 {
@@ -68,3 +82,5 @@ t_rgb	int_to_rgb(unsigned int x)
 
 	return (new);
 }
+=======
+>>>>>>> cylinder ok, shadow on cylinder debuged

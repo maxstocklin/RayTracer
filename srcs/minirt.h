@@ -6,7 +6,11 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/27 11:14:49 by srapopor         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/24 16:22:16 by srapopor         ###   ########.fr       */
+>>>>>>> cylinder ok, shadow on cylinder debuged
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +113,26 @@ typedef struct s_minirt
 	t_ambiant	*ambiant;
 	int			num_objects;
 	int			num_spotlights;
+<<<<<<< HEAD
 	int			recalc;
 	int			show_texture;
 
 }	t_minirt;
+=======
+	int 		recalc;
+}				t_minirt;
+>>>>>>> cylinder ok, shadow on cylinder debuged
 
 typedef struct s_intersection
 {
 	int		color;
 	t_rgb	rgb;
+<<<<<<< HEAD
 	t_rgb	ambiant;
 	t_rgb	diffuse;
 	t_rgb	specular;
+=======
+>>>>>>> cylinder ok, shadow on cylinder debuged
 	t_rgb	object_color;
 	double	distance;
 	t_point	point;
@@ -225,10 +237,20 @@ t_intersect		apply_intersect(t_intersect new, t_intersect old,\
 
 void			tests(void);
 
+<<<<<<< HEAD
 t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
 	t_ray ray, t_intersect old_intersect);
 
 void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
+=======
+
+t_intersect	color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
+	t_ray ray, t_intersect old_intersect);
+
+void	closest_cylinder(t_ray lray, t_cylinder *cylinder, double *closest, int *index);
+t_vect	normalize(t_vect v);
+
+>>>>>>> cylinder ok, shadow on cylinder debuged
 
 #endif
