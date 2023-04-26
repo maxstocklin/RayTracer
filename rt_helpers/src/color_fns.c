@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:04 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:47:00 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:26:26 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,15 @@ t_rgb	add_intensity(t_rgb	rgb, double intensity)
 	rgb.green = (int)green;
 	rgb.blue = (int)blue;
 	return (rgb);
+}
+
+t_rgb	int_to_rgb(unsigned int x)
+{
+	t_rgb	new;
+
+	new.red = (x & 0x00ff0000) >> 16;
+	new.green = (x & 0x0000ff00) >> 8;
+	new.blue = (x & 0x000000ff);
+
+	return (new);
 }

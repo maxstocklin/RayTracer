@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 10:53:34 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:25:23 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 	t_vect yIncVector;
 
 	vup = make_vect(0, 1, 0);
-	//vup = make_vect(1, 0, 0);
+	if (vect_angle(camera->direction, make_vect(1,0,0)) == 0)
+		vup = make_vect(0, 0, 1);
 	u = vect_cross(vector_normalize(camera->direction), vup);
 	v = vect_cross(u, vector_normalize(camera->direction));
 	center = point_offset_1(camera->origin, vector_normalize(camera->direction));
@@ -108,9 +109,6 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 		vect_scale(v, (world_width * HEIGHT / WIDTH) / 2));
 	px_position = point_apply_2vect(top_left, vect_scale(xIncVector, i), \
 		vect_scale(yIncVector, -j));
-	// printf("top left x y z %f %f %f\n", top_left.x, top_left.y, top_left.z);
-	// printf("xInc %f %f %f\n", xIncVector.x, xIncVector.y, xIncVector.z);
-	// printf("yInc %f %f %f\n", yIncVector.x, yIncVector.y, yIncVector.z);
 	return (px_position);
 }
 

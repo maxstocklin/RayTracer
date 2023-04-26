@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/24 16:22:16 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:16:59 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,17 @@ typedef struct s_vars
 	int		endian;
 }				t_vars;
 
+
+typedef struct s_map{
+	t_vars		texture;
+	int			width;
+	int			height;
+
+}	t_map;
 typedef struct s_minirt
 {
 	t_vars		vars;
+	t_map		map;
 	t_cylinder	*cylinders;
 	t_plane		*planes;
 	t_sphere	*spheres;

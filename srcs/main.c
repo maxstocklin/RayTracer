@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 11:10:55 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 17:57:24 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,40 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 	return (TRUE);
 }
 
+void	ft_set_map(t_minirt *minirt)
+{
+	char	*relative_path = "./pngegg.xpm";
+	// char	*relative_path = "./8081_earthmap2k1682441384.xpm";
+
+	minirt->map.texture.mlx = mlx_init();
+	minirt->map.texture.img = mlx_xpm_file_to_image(minirt->map.texture.mlx, \
+		relative_path, &minirt->map.width, &minirt->map.height);
+	printf("map width height %d %d\n", minirt->map.width, minirt->map.height);
+	if (!minirt->map.texture.img)
+		printf("problem with image reading\n");
+	minirt->map.texture.addr = mlx_get_data_addr(minirt->map.texture.img, \
+		&minirt->map.texture.bits_per_pixel, &minirt->map.texture.line_length, \
+				&minirt->map.texture.endian);
+}
+
 int	main(int ac, char **av)
 {
-	(void)ac;
-	(void)(av);
-	// t_minirt	minirt;
+	t_minirt	minirt;
 
-	// if (ac != 2)
-	// {
-	// 	ft_error(1);
-	// }
-	// ft_set_null(&minirt);
-	// if (ft_checkinit(&minirt, av[1]) == FALSE)
-	// {
-	// 	exit(EXIT_FAILURE);
-	// }
-	// ft_print_ray(minirt);
-	tests();
-	while (1)
+	if (ac != 2)
 	{
-
+		ft_error(1);
 	}
-	// display_mlx_win(&minirt);
+	ft_set_null(&minirt);
+	if (ft_checkinit(&minirt, av[1]) == FALSE)
+	{
+		exit(EXIT_FAILURE);
+	}
+	printf("before map set\n");
+	ft_set_map(&minirt);
+	printf("after map set\n");
+	ft_print_ray(minirt);
+	// tests();
+	display_mlx_win(&minirt);
 	return (0);
 }

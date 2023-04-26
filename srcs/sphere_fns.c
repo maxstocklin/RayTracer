@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/25 14:47:53 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:20:57 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,46 @@ static double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 		return (-1);
 }
 
-static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray)
+void	adjustcolor(double lat, double lng, t_intersect *intersect, t_minirt minirt)
+{
+	int	x;
+	int	y;
+
+	// printf("lng lat %f %f\n", lng, lat);
+	lat = rad_to_deg(lat + M_PI/2);
+	lng = rad_to_deg(lng + M_PI/2) ;
+	(void)intersect;
+	(void)minirt;
+
+	x = (int)((lng / 180.0) * (double)minirt.map.width/ 2.0 + (double)minirt.map.width / 2.0);
+	y = (int)((lat / 90.0) * (double)minirt.map.height / 2.0 + (double)minirt.map.height / 2.0);
+	// printf("x y %d %d\n", x, y);
+	x = x % minirt.map.width;
+	y = y % minirt.map.height;
+
+	intersect->object_color = int_to_rgb(mlx_get_color_value(minirt.map.texture.img, \
+		*(int *)(minirt.map.texture.addr + x * (minirt.map.texture.bits_per_pixel / 8) + y * minirt.map.texture.line_length)));
+	// printf("%x r g b %d, %d, %d \n", *(minirt.map.texture.addr + x + y * minirt.map.width), intersect->object_color.red, intersect->object_color.green, intersect->object_color.blue);
+}
+
+static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt minirt)
 {
 	t_intersect	intersection;
+	double		lat;
+	double		lng;
 
+	(void)minirt;
 	intersection.index = sphere->index;
 	intersection.distance = ray_sphere_distance(sphere, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = sphere->rgb;
 	intersection.normal = point_subtract(intersection.point, sphere->origin);
+	if (intersection.distance != -1)
+	{
+		lng = atan2(intersection.normal.y, intersection.normal.x);
+		lat = acos(intersection.normal.z / vect_length(intersection.normal));
+		adjustcolor(lat, lng, &intersection, minirt);
+	}
 	return (intersection);
 }
 
@@ -70,12 +101,13 @@ void closest_sphere(t_ray lray, t_sphere *spheres, double *closest, int *index)
 	}
 }
 
+
 t_intersect	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersect old_intersect)
 {
 	t_intersect	intersect;
 
-	intersect = ray_sphere_intersect(sphere, ray);
+	intersect = ray_sphere_intersect(sphere, ray, minirt);
 	intersect = apply_intersect(intersect, old_intersect, minirt);
 	return (intersect);
 }

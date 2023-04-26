@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:13:58 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:13:59 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:01:57 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	key_hook(int keycode, t_minirt *minirt)
 		minirt->camera->direction.x -= 0.2;
 	if (keycode == 7)
 		minirt->camera->direction.x += 0.2;
+
+	printf("origin direction %f %f %f direction %f %f %f\n", minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
 
 	return (0);
 }
