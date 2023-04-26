@@ -11,7 +11,9 @@ SRCS_NAME = main.c \
 			vect_scale.c \
 			screen_world.c \
 			vect_cross.c \
-			vect_util.c
+			vect_util.c \
+			point_util.c \
+			color_fns.c
 
 
 SRCS = $(addprefix $(SRCS_PATH)/,$(SRCS_NAME))

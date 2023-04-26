@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:05:46 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/24 11:06:31 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 int	ft_check_rgb(char *str)
@@ -65,11 +77,11 @@ int	ft_check_xyz_int(t_point xyz)
 
 int	ft_check_direction_int(t_vect xyz)
 {
-    if (xyz.x < -1 || xyz.x > 1)
-        return (FALSE);
-    else if (xyz.y < -1 || xyz.y > 1)
-        return (FALSE);
-    else if (xyz.z < -1 || xyz.z > 1)
-        return (FALSE);
-    return (TRUE);
+	if (xyz.x < -1 || xyz.x > 1)
+		return (FALSE);
+	else if (xyz.y < -1 || xyz.y > 1)
+		return (FALSE);
+	else if (xyz.z < -1 || xyz.z > 1)
+		return (FALSE);
+	return (TRUE);
 }

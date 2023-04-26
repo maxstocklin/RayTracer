@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/24 11:08:07 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_rgb	ft_get_rgb(char *str)
@@ -38,7 +50,7 @@ t_point	ft_get_xyz(char *str)
 	return (xyz);
 }
 
-t_vect 	ft_get_direction(char *str)
+t_vect	ft_get_direction(char *str)
 {
 	t_vect	xyz;
 	char	**dest;
@@ -67,4 +79,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->planes = NULL;
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;
+	minirt->recalc = 0;
 }

@@ -1,5 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/24 16:23:18 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include "mlx.h"
+
+
+int	loop_hook(t_minirt *minirt)
+{
+	if (minirt->recalc == 0)
+	{
+		new_draw_window(*minirt);
+		minirt->recalc = 1;
+	}
+	return (0);
+}
 
 int	display_mlx_win(t_minirt *minirt)
 {
@@ -19,7 +42,7 @@ int	display_mlx_win(t_minirt *minirt)
 				mlx_put_image_to_window(minirt->vars.mlx, minirt->vars.win, \
 				minirt->vars.img, 0, 0);
 				add_mlx_hook(minirt);
-				new_draw_window(*minirt);
+				mlx_loop_hook(minirt->vars.mlx, loop_hook, minirt);
 				mlx_loop(minirt->vars.mlx);
 				return (0);
 			}
@@ -30,7 +53,6 @@ int	display_mlx_win(t_minirt *minirt)
 
 char	**ft_parse_spaces(char *str)
 {
-	// int		i;
 	char	**dest;
 
 	dest = ft_split_spaces(str);
@@ -77,8 +99,8 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
-
 	ft_print_ray(minirt);
+	tests();
 	display_mlx_win(&minirt);
 	return (0);
 }

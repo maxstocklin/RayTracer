@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/20 23:54:15 by max              ###   ########.fr       */
+/*   Updated: 2023/04/25 14:09:17 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include <string.h>
 # include <stdio.h>
 # include <assert.h>
+
+typedef struct s_rgb
+{
+	int	red;
+	int	green;
+	int	blue;
+}				t_rgb;
 
 typedef struct s_point
 {
@@ -59,5 +66,14 @@ t_vect	vect_cross(t_vect v1, t_vect v2);
 t_point	make_point(double x, double y, double z);
 t_vect	make_vect(double x, double y, double z);
 void	make_rays(t_ray camera, t_screen_size screen);
+int		rgb_to_int(t_rgb rgb);
+t_rgb	sum_light(t_rgb color1, t_rgb color2);
+t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity);
+t_rgb	add_intensity(t_rgb rgb, double intensity);
+t_point	get_intersect(t_ray ray, double distance);
+t_vect	vector_normalize(t_vect old);
+t_point	point_add(t_point p1, t_point p2);
+t_point	vect_to_point(t_vect v);
+t_point	point_apply_2vect(t_point origin, t_vect u, t_vect v);
 
 #endif
