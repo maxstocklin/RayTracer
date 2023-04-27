@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:05:19 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:06:57 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,34 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	}
 }
 
+void	assign_cone(t_minirt *minirt, char **tab)
+{
+	t_cone	*cone;
+	t_cone	*current;
+
+	printf("In cone assingment");
+	if (check_array_size(tab, 5) == FALSE)
+		ft_error(6);
+	cone = malloc(sizeof(t_cone));
+	if (!cone)
+		ft_error(7);
+	cone->origin = ft_get_xyz(tab[1]);
+	cone->axis = ft_get_direction(tab[2]);
+	cone->angle = ft_assign_angle(tab[3]);
+	cone->rgb = ft_get_rgb(tab[4]);
+	cone->next = NULL;
+	cone->index = ++minirt->num_objects;
+	current = minirt->cones;
+	if (!current)
+		minirt->cones = cone;
+	else
+	{
+		while (current->next)
+			current = current->next;
+		current->next = cone;
+	}
+}
+
 void	ft_assignment(t_minirt *minirt, char **tab)
 {
 	if (ft_strcmp(tab[0], "A") == TRUE)
@@ -224,6 +252,8 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 		assign_plane(minirt, tab);
 	else if (ft_strcmp(tab[0], "cy") == TRUE)
 		assign_cylinder(minirt, tab);
+	else if (ft_strcmp(tab[0], "cn") == TRUE)
+		assign_cone(minirt, tab);
 	else
 		ft_error(4);
 }

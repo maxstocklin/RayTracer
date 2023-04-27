@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 18:27:08 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 15:56:49 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->spheres = NULL;
 	minirt->lights = NULL;
 	minirt->cylinders = NULL;
+	minirt->cones = NULL;
 	minirt->planes = NULL;
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;

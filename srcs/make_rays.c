@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 18:25:23 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:45:26 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	closest_object(t_minirt minirt, t_ray lray)
 	closest_plane(lray, minirt.planes, &closest, &index);
 	closest_sphere(lray, minirt.spheres, &closest, &index);
 	closest_cylinder(lray, minirt.cylinders, &closest, &index);
+	closest_cone(lray, minirt.cones, &closest, &index);
 	return (index);
 }
 
@@ -227,6 +228,11 @@ int	get_color(t_minirt minirt, t_ray ray)
 	{
 		intersect = color_plane(minirt, tmp_minirt.planes, ray, intersect);
 		tmp_minirt.planes = tmp_minirt.planes->next;
+	}
+	while (tmp_minirt.cones)
+	{
+		intersect = color_cone(minirt, tmp_minirt.cones, ray, intersect);
+		tmp_minirt.cones = tmp_minirt.cones->next;
 	}
 	return (intersect.color);
 }

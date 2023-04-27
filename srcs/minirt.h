@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/27 11:14:49 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 16:44:59 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ typedef struct s_cylinder
 
 }				t_cylinder;
 
+typedef struct s_cone {
+	t_point			origin;
+	t_vect			axis;
+	t_rgb			rgb;
+	double			angle;
+	int				index;
+	struct s_cone	*next;
+
+}	t_cone;
+
 typedef struct s_vars
 {
 	void	*mlx;
@@ -104,6 +114,7 @@ typedef struct s_minirt
 	t_cylinder	*cylinders;
 	t_plane		*planes;
 	t_sphere	*spheres;
+	t_cone		*cones;
 	t_cam		*camera;
 	t_light		*lights;
 	t_ambiant	*ambiant;
@@ -231,8 +242,12 @@ t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
 void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
 
+void			closest_cone(t_ray lray, t_cone *cone, double *closest, \
+	int *index);
 
+t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
+			t_ray ray, t_intersect old_intersect);
 
-t_vect	normalize(t_vect v);
+t_vect			normalize(t_vect v);
 
 #endif

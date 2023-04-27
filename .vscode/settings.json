@@ -3,6 +3,7 @@
     "*.ejs": "plaintext",
     "chrono": "c",
     "variant": "c",
-    "complex": "c"
+    "complex": "c",
+    "algorithm": "c"
   }
 }

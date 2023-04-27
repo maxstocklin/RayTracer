@@ -25,6 +25,7 @@ SRCS_NAME	=	main.c \
 				make_rays.c \
 				sphere_fns.c \
 				cylinder_fns.c \
+				cone_fns.c \
 				tests.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))
