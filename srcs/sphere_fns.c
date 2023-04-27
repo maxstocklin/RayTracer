@@ -59,7 +59,7 @@ void	adjustcolor(double lat, double lng, t_intersect *intersect, t_minirt minirt
 	// printf("%x r g b %d, %d, %d \n", *(minirt.map.texture.addr + x + y * minirt.map.width), intersect->object_color.red, intersect->object_color.green, intersect->object_color.blue);
 }
 
-t_rgb 	get_checkboard(double phi, double theta, t_intersect inter, t_minirt minirt)
+t_rgb 	get_checkboard(double phi, double theta, t_intersect inter)
 {
 	double	u = theta / (2 * M_PI);
 	double	v = phi / M_PI;
@@ -80,8 +80,6 @@ t_rgb 	get_checkboard(double phi, double theta, t_intersect inter, t_minirt mini
 		inter.object_color.green = 0;
 		inter.object_color.blue = 0;
 	}
-
-	(void)minirt;
 	return (inter.object_color);
 }
 
@@ -106,7 +104,7 @@ static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt mi
 	{
 		lng = atan2(intersection.normal.z, intersection.normal.x);
 		lat = acos(intersection.normal.y / vect_length(intersection.normal));
-		intersection.object_color = get_checkboard(lat, lng, intersection, minirt);
+		intersection.object_color = get_checkboard(lat, lng, intersection);
 	}
 	return (intersection);
 }
