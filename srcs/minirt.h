@@ -127,12 +127,9 @@ typedef struct s_intersection
 {
 	int		color;
 	t_rgb	rgb;
-<<<<<<< HEAD
 	t_rgb	ambiant;
 	t_rgb	diffuse;
 	t_rgb	specular;
-=======
->>>>>>> cylinder ok, shadow on cylinder debuged
 	t_rgb	object_color;
 	double	distance;
 	t_point	point;

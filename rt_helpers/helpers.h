@@ -71,10 +71,7 @@ t_point	make_point(double x, double y, double z);
 t_vect	make_vect(double x, double y, double z);
 void	make_rays(t_ray camera, t_screen_size screen);
 int		rgb_to_int(t_rgb rgb);
-<<<<<<< HEAD
 t_rgb	int_to_rgb(unsigned int x);
-=======
->>>>>>> cylinder ok, shadow on cylinder debuged
 t_rgb	sum_light(t_rgb color1, t_rgb color2);
 t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity);
 t_rgb	add_intensity(t_rgb rgb, double intensity);

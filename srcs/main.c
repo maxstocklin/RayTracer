@@ -6,11 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/26 17:57:24 by srapopor         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/24 16:23:18 by srapopor         ###   ########.fr       */
->>>>>>> cylinder ok, shadow on cylinder debuged
+/*   Updated: 2023/04/27 11:34:52 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +115,11 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
-<<<<<<< HEAD
 	printf("before map set\n");
 	ft_set_map(&minirt);
 	printf("after map set\n");
 	ft_print_ray(minirt);
 	// tests();
-=======
-	ft_print_ray(minirt);
-	tests();
->>>>>>> cylinder ok, shadow on cylinder debuged
 	display_mlx_win(&minirt);
 	return (0);
 }

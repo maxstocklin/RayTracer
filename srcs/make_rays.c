@@ -161,13 +161,6 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 		phong_light = sum_light(tmp_phong, phong_light);
 		minirt.lights = minirt.lights->next;
 	}
-<<<<<<< HEAD
-	total_spotlight = add_intensity(inter.object_color, adjustment);
-	inter.rgb = sum_light(inter.rgb, total_spotlight);
-	return (rgb_to_int(inter.rgb));
-}
-
-=======
 	inter.rgb = sum_light(inter.rgb, total_spotlight);
 	inter.rgb = sum_light(inter.rgb, phong_light);
 	return (rgb_to_int(phong_light));
@@ -247,7 +240,6 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 
 
 
->>>>>>> cylinder ok, shadow on cylinder debuged
 t_intersect	apply_intersect(t_intersect new, t_intersect old, t_minirt minirt)
 {
 	if (new.distance == -1 || (new.distance > \
