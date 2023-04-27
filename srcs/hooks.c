@@ -52,6 +52,8 @@ int	key_hook(int keycode, t_minirt *minirt)
 		minirt->camera->direction.x += 0.2;
 	if (keycode == 17)
 		minirt->show_texture = !minirt->show_texture;
+	if (keycode == 49)
+		minirt->show_checkboard = !minirt->show_checkboard;
 
 	printf("origin direction %f %f %f direction %f %f %f\n", minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
 

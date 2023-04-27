@@ -122,6 +122,7 @@ typedef struct s_minirt
 	int			num_spotlights;
 	int			recalc;
 	int			show_texture;
+	int			show_checkboard;
 
 }	t_minirt;
 

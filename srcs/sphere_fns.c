@@ -59,13 +59,38 @@ void	adjustcolor(double lat, double lng, t_intersect *intersect, t_minirt minirt
 	// printf("%x r g b %d, %d, %d \n", *(minirt.map.texture.addr + x + y * minirt.map.width), intersect->object_color.red, intersect->object_color.green, intersect->object_color.blue);
 }
 
+t_rgb 	get_checkboard(double phi, double theta, t_intersect inter, t_minirt minirt)
+{
+	double	u = theta / (2 * M_PI);
+	double	v = phi / M_PI;
+	int u_scale = 20;  // Scale factor for U coordinates
+	int v_scale = 20;  // Scale factor for V coordinates
+	int u_square = (int)(u * u_scale);
+	int v_square = (int)(v * v_scale);
+	if ((u_square + v_square) % 2 == 0) {
+		// Point is in a white square
+		inter.object_color.red = 255;
+		inter.object_color.green = 255;
+		inter.object_color.blue = 255;
+	}
+	else
+	{
+		// Point is in a black square
+		inter.object_color.red = 0;
+		inter.object_color.green = 0;
+		inter.object_color.blue = 0;
+	}
+
+	(void)minirt;
+	return (inter.object_color);
+}
+
 static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt minirt)
 {
 	t_intersect	intersection;
 	double		lat;
 	double		lng;
 
-	(void)minirt;
 	intersection.index = sphere->index;
 	intersection.distance = ray_sphere_distance(sphere, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
@@ -73,12 +98,19 @@ static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt mi
 	intersection.normal = point_subtract(intersection.point, sphere->origin);
 	if (intersection.distance != -1 && minirt.show_texture)
 	{
-		lng = atan2(intersection.normal.y, intersection.normal.x);
-		lat = acos(intersection.normal.z / vect_length(intersection.normal));
+		lng = atan2(-intersection.normal.z, intersection.normal.x);
+		lat = acos(intersection.normal.y / vect_length(intersection.normal));
 		adjustcolor(lat, lng, &intersection, minirt);
+	}
+	if (intersection.distance != -1 && minirt.show_checkboard)
+	{
+		lng = atan2(intersection.normal.z, intersection.normal.x);
+		lat = acos(intersection.normal.y / vect_length(intersection.normal));
+		intersection.object_color = get_checkboard(lat, lng, intersection, minirt);
 	}
 	return (intersection);
 }
+
 
 void closest_sphere(t_ray lray, t_sphere *spheres, double *closest, int *index)
 {
