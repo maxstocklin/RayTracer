@@ -6,11 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/26 15:26:39 by srapopor         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/25 14:09:17 by srapopor         ###   ########.fr       */
->>>>>>> cylinder ok, shadow on cylinder debuged
+/*   Updated: 2023/04/27 11:37:37 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
