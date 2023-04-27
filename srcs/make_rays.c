@@ -26,6 +26,29 @@ int	closest_object(t_minirt minirt, t_ray lray)
 	return (index);
 }
 
+
+t_vect	normalize(t_vect v)
+{
+	double	magnitude = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	t_vect	normalized_vec = {v.x / magnitude, v.y / magnitude, v.z / magnitude};
+	return (normalized_vec);
+}
+
+double vect_magnitude(t_vect v)
+{
+	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+double angle_degrees(t_vect v1, t_vect v2)
+{
+	double dot = vect_dot(v1, v2);
+	double mag1 = vect_magnitude(v1);
+	double mag2 = vect_magnitude(v2);
+	double angle = acos(dot / (mag1 * mag2)) * 180.0 / M_PI;
+	return angle;
+}
+
+/*
 int	apply_light(t_minirt minirt, t_intersect inter)
 {
 	t_ray	lray;
@@ -33,10 +56,19 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	double	factor;
 	double	adjustment;
 	t_rgb	total_spotlight;
+	t_rgb	tmp_spotlight;
+	t_rgb	phong_light;
 
-	adjustment = 0;
+	t_rgb	tmp_phong;
+	t_vect	light_dir;
+	t_vect	view_dir;
+	t_vect	reflection;
+
+	phong_light = add_intensity(inter.object_color, 0);
+	total_spotlight = add_intensity(inter.object_color, 0);
 	while (minirt.lights)
 	{
+		adjustment = 0;
 		lray.origin = minirt.lights->origin;
 		lray.direct = point_subtract(inter.point, lray.origin);
 		if (closest_object(minirt, lray) != inter.index)
@@ -49,18 +81,79 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 			factor = fabs(cos(deg_to_rad(angle)));
 		else
 			factor = 0.0;
-		adjustment += (factor * minirt.lights->intensity);
+		adjustment = (factor * minirt.lights->intensity);
 		if (adjustment >= 1.0)
-		{
 			adjustment = 1;
-			break ;
-		}
+		tmp_spotlight = add_light(inter.object_color, minirt.lights->rgb, adjustment);
+		total_spotlight = sum_light(tmp_spotlight, total_spotlight);
+
+
+
+		// PHONG
+		light_dir = point_subtract(inter.point, minirt.lights->origin);
+		reflection.x = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.x - light_dir.x;
+		reflection.y = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.y - light_dir.y;
+		reflection.z = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.z - light_dir.z;
+
+		view_dir = point_subtract(minirt.camera->origin, inter.point);
+		view_dir = normalize(view_dir);
+		double	cos_angle = vect_dot(reflection, view_dir);
+		double	cos_clamped = fmax(0.0, cos_angle);
+		double	specular_coef = 1;
+		double	specular_power = 1000;
+		double	specular = pow(cos_clamped, specular_power) * minirt.lights->intensity * specular_coef;
+
+
+
+
+		tmp_phong = add_light(minirt.ambiant->rgb, minirt.lights->rgb, specular);
+		phong_light = sum_light(tmp_phong, phong_light);
 		minirt.lights = minirt.lights->next;
 	}
-	total_spotlight = add_intensity(inter.object_color, adjustment);
+	inter.rgb = sum_light(inter.rgb, total_spotlight);
+	inter.rgb = sum_light(inter.rgb, phong_light);
+	return (rgb_to_int(phong_light));
+}
+*/
+int	apply_light(t_minirt minirt, t_intersect inter)
+{
+	t_ray	lray;
+	double	angle;
+	double	factor;
+	double	adjustment;
+	t_rgb	total_spotlight;
+	t_rgb	tmp_spotlight;
+
+	total_spotlight = add_intensity(inter.object_color, 0);
+	while (minirt.lights)
+	{
+		adjustment = 0;
+		lray.origin = minirt.lights->origin;
+		lray.direct = point_subtract(inter.point, lray.origin);
+		if (closest_object(minirt, lray) != inter.index)
+		{
+			minirt.lights = minirt.lights->next;
+			continue ;
+		}
+		angle = vect_angle(inter.normal, lray.direct);
+		if (angle > 90)
+			factor = fabs(cos(deg_to_rad(angle)));
+		else
+			factor = 0.0;
+		adjustment = (factor * minirt.lights->intensity);
+		if (adjustment >= 1.0)
+			adjustment = 1;
+		tmp_spotlight = add_light(inter.object_color, minirt.lights->rgb, adjustment);
+		total_spotlight = sum_light(tmp_spotlight, total_spotlight);
+
+		minirt.lights = minirt.lights->next;
+	}
 	inter.rgb = sum_light(inter.rgb, total_spotlight);
 	return (rgb_to_int(inter.rgb));
 }
+
+
+
 
 t_intersect	apply_intersect(t_intersect new, t_intersect old, t_minirt minirt)
 {

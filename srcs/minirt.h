@@ -231,4 +231,8 @@ t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
 void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
 
+
+
+t_vect	normalize(t_vect v);
+
 #endif

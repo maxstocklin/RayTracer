@@ -53,13 +53,6 @@ static double	ray_cylinder_distance(t_cylinder *cylinder, t_ray ray)
 		return (get_dist_cylinder(discriminant, b, cylinder, ray, a));
 }
 
-t_vect	normalize(t_vect v)
-{
-	double	magnitude = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	t_vect	normalized_vec = {v.x / magnitude, v.y / magnitude, v.z / magnitude};
-	return (normalized_vec);
-}
-
 t_vect	get_cylinder_norm(t_intersect intersection, t_cylinder *cylinder)
 {
 	t_vect	diff = point_subtract(intersection.point, cylinder->origin);
