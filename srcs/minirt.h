@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/26 18:26:51 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:14:49 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ typedef struct s_intersection
 {
 	int		color;
 	t_rgb	rgb;
+	t_rgb	ambiant;
+	t_rgb	diffuse;
+	t_rgb	specular;
 	t_rgb	object_color;
 	double	distance;
 	t_point	point;
@@ -222,11 +225,10 @@ t_intersect		apply_intersect(t_intersect new, t_intersect old,\
 
 void			tests(void);
 
-
-t_intersect	color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
+t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
 	t_ray ray, t_intersect old_intersect);
 
-void	closest_cylinder(t_ray lray, t_cylinder *cylinder, double *closest, int *index);
-
+void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
+	double *closest, int *index);
 
 #endif
