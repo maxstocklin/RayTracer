@@ -76,5 +76,6 @@ t_vect	vector_normalize(t_vect old);
 t_point	point_add(t_point p1, t_point p2);
 t_point	vect_to_point(t_vect v);
 t_point	point_apply_2vect(t_point origin, t_vect u, t_vect v);
+t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3);
 
 #endif

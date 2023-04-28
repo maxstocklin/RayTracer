@@ -124,6 +124,9 @@ typedef struct s_minirt
 	int			show_texture;
 	int			show_checkboard;
 
+	int x;
+	int y;
+
 }	t_minirt;
 
 typedef struct s_intersection

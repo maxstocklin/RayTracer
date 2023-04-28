@@ -13,55 +13,63 @@
 #include "minirt.h"
 
 
-
 double	ray_cone_distance(t_cone cone, t_ray ray)
 {
-	cone.angle = deg_to_rad(cone.angle);
-	double cos2 = cos(cone.angle) * cos(cone.angle);
-	double	sin2 = sin(cone.angle) * sin(cone.angle);
+	double	k;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
 	double	t1;
-	double t2;
+	t_vect	x;
 
-	t_vect	p = make_vect(ray.origin.x - cone.origin.x, \
-		ray.origin.y - cone.origin.y, ray.origin.z - cone.origin.z);
-	t_vect	d = vector_normalize(ray.direct);
-	t_vect	a = vector_normalize(cone.axis);
-
-	double dp = d.x * p.x + d.y * p.y + d.z * p.z;
-	double da = d.x * a.x + d.y * a.y + d.z * a.z;
-	double ap = a.x * p.x + a.y * p.y + a.z * p.z;
-	double aa = a.x * a.x + a.y * a.y + a.z * a.z;
-
-	double A = cos2 * aa - sin2 * da * da;
-	double B = 2 * cos2 * ap - 2 * sin2 * da * dp;
-	double C = cos2 * (p.x * p.x + p.y * p.y + p.z * p.z) - sin2 * dp * dp;
-
-	double discriminant = B * B - 4 * A * C;
+	k = tan(deg_to_rad(cone.angle / 2));
+	x = point_subtract(ray.origin, cone.origin);
+	a = vect_dot(ray.direct, ray.direct) - (1 + k * k) * \
+		pow(vect_dot(ray.direct, cone.axis), 2);
+	b = 2 * (vect_dot(ray.direct, x) - (1 + k * k) * \
+		vect_dot(ray.direct, cone.axis) * vect_dot(x, cone.axis));
+	c = vect_dot(x, x) - (1 + k * k) * pow(vect_dot(x, cone.axis), 2);
+	discriminant = b * b - 4 * a * c;
 	// printf("disc %f\n", discriminant);
 	if (discriminant < 0)
 		return (-1);
-	t1 = (-B - sqrt(discriminant)) / (2 * A);
-	t2 = (-B + sqrt(discriminant)) / (2 * A);
-	double t = fmin(t1, t2);
+
+	t1 = (-b - sqrt(discriminant)) / (2 * a);
+//	t2 = (-b + sqrt(discriminant)) / (2 * a);
+//	t = fmin(t1, t2);
 	// printf("distance %f  %f\n", t1, t2);
-	if (t < 0)
+	if (t1 < 0)
 		return (-1);
-	return (t);
+
+	if (acos(vect_dot(vector_normalize(point_subtract(get_intersect(ray, t1),cone.origin)),cone.axis)) > M_PI/2)
+		return (-1);
+	return (t1);
 }
 
 t_vect	get_cone_norm(t_intersect intersection, t_cone *cone)
 {
-	t_vect	diff = point_subtract(intersection.point, cone->origin);
-	t_vect 	proj = vect_scale(cone->axis, vect_dot(diff, cone->axis));
+	t_vect	D;
+	t_vect	normal;
+	t_vect	AP;
+	t_vect	proj;
 
-	t_vect normal = normalize(point_subtract(make_point(diff.x, diff.y, diff.z),make_point(proj.x, proj.y, proj.z)));
+	cone->axis = normalize(cone->axis);
+	AP = point_subtract(intersection.point, cone->origin);
+	D = cone->axis;
+	proj.x = vect_dot(AP, D) / vect_dot(D, D) * D.x;
+	proj.y = vect_dot(AP, D) / vect_dot(D, D) * D.y;
+	proj.z = vect_dot(AP, D) / vect_dot(D, D) * D.z;
+	normal = point_subtract(make_point(AP.x, AP.y, AP.z), make_point(proj.x, proj.y, proj.z));
+	normal = normalize(normal);
 	return (normal);
 }
 
 static t_intersect ray_cone_intersect(t_cone *cone, t_ray ray, t_minirt minirt)
 {
 	t_intersect	intersection;
-	t_vect		v_cam_pt;
+//	t_vect		v_cam_pt;
+	(void)minirt;
 
 	intersection.index = cone->index;
 	intersection.distance = ray_cone_distance(*cone, ray);
@@ -69,14 +77,16 @@ static t_intersect ray_cone_intersect(t_cone *cone, t_ray ray, t_minirt minirt)
 	intersection.object_color = cone->rgb;
 	intersection.normal = get_cone_norm(intersection, cone); // other
 
-	v_cam_pt = vector_normalize(point_subtract(intersection.point, \
-			minirt.camera->origin));
-	// if (acos(vect_dot(v_cam_pt, intersection.normal)) < M_PI / 2)
-	// {
-	// 	intersection.normal.x = -intersection.normal.x;
-	// 	intersection.normal.y = -intersection.normal.y;
-	// 	intersection.normal.z = -intersection.normal.z;
-	// }
+//	v_cam_pt = vector_normalize(point_subtract(intersection.point, \
+//			minirt.camera->origin));
+//
+//
+//	if (acos(vect_dot(v_cam_pt, intersection.normal)) < M_PI / 2)
+//	{
+//		intersection.normal.x = -intersection.normal.x;
+//		intersection.normal.y = -intersection.normal.y;
+//		intersection.normal.z = -intersection.normal.z;
+//	}
 	return (intersection);
 }
 

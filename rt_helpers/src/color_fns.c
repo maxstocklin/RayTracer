@@ -68,3 +68,27 @@ t_rgb	int_to_rgb(unsigned int x)
 
 	return (new);
 }
+
+
+t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3)
+{
+	t_rgb	sum;
+
+	sum.red = color1.red + color2.red + color3.red;
+	sum.green = color1.green + color2.green + color3.green;
+	sum.blue = color1.blue + color2.blue + color3.blue;
+	if (sum.red >= 255)
+		sum.red = 255;
+	if (sum.green >= 255)
+		sum.green = 255;
+	if (sum.blue >= 255)
+		sum.blue = 255;
+	if (sum.red <= 0)
+		sum.red = 0;
+	if (sum.green <= 0)
+		sum.green = 0;
+	if (sum.blue <= 0)
+		sum.blue = 0;
+
+	return (sum);
+}
