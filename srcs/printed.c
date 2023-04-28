@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:24:26 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/27 16:02:17 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/27 18:13:43 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	ft_print_ray(t_minirt ray)
 		printf("\nCONE:\n");
 		printf("coordinates x = %f y = %f z %f\n", ray.cones->origin.x, \
 			ray.cones->origin.y, ray.cones->origin.z);
+		printf("directions x = %f y = %f z %f\n", ray.cones->axis.x, \
+			ray.cones->axis.y, ray.cones->axis.z);
 		printf("angle: %f\n", ray.cones->angle);
 		printf("R = %d G = %d B = %d\n", ray.cones->rgb.red, \
 			ray.cones->rgb.green, ray.cones->rgb.blue);
