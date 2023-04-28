@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 17:57:24 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:33:41 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 
 void	ft_set_map(t_minirt *minirt)
 {
-	char	*relative_path = "./pngegg.xpm";
-	// char	*relative_path = "./8081_earthmap2k1682441384.xpm";
+	char	*relative_path = "./8081_earthmap2k.xpm";
 
 	minirt->map.texture.mlx = mlx_init();
 	minirt->map.texture.img = mlx_xpm_file_to_image(minirt->map.texture.mlx, \
@@ -102,6 +101,21 @@ void	ft_set_map(t_minirt *minirt)
 				&minirt->map.texture.endian);
 }
 
+void	ft_set_bump(t_minirt *minirt)
+{
+	char	*relative_path = "./8081_earthbump2k.xpm";
+
+	minirt->bump.texture.mlx = mlx_init();
+	minirt->bump.texture.img = mlx_xpm_file_to_image(minirt->bump.texture.mlx, \
+		relative_path, &minirt->bump.width, &minirt->bump.height);
+	printf("bump width height %d %d\n", minirt->bump.width, minirt->bump.height);
+	if (!minirt->bump.texture.img)
+		printf("problem with image reading\n");
+	minirt->bump.texture.addr = mlx_get_data_addr(minirt->bump.texture.img, \
+		&minirt->bump.texture.bits_per_pixel, &minirt->bump.texture.line_length, \
+				&minirt->bump.texture.endian);
+}
+
 int	main(int ac, char **av)
 {
 	t_minirt	minirt;
@@ -112,12 +126,9 @@ int	main(int ac, char **av)
 	}
 	ft_set_null(&minirt);
 	if (ft_checkinit(&minirt, av[1]) == FALSE)
-	{
 		exit(EXIT_FAILURE);
-	}
-	printf("before map set\n");
 	ft_set_map(&minirt);
-	printf("after map set\n");
+	ft_set_bump(&minirt);
 	ft_print_ray(minirt);
 	// tests();
 	display_mlx_win(&minirt);
