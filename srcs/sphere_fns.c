@@ -3,20 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_fns.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 18:29:27 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:34:36 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 
-//	removed for norminette
-// distance = fmin((-b + sqrt(discriminant)) / (2 * a), \
-// 	(-b - sqrt(discriminant)) / (2 * a));
-static double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
+double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 {
 	t_vect	oc;
 	double	a;
@@ -37,100 +34,61 @@ static double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 		return (-1);
 }
 
-void	adjustcolor(double lat, double lng, t_intersect *intersect, t_minirt minirt)
+t_rgb	apply_map(double lat, double lng, t_minirt minirt)
 {
 	int	x;
 	int	y;
 
-	// printf("lng lat %f %f\n", lng, lat);
-	lat = rad_to_deg(lat + M_PI/2);
-	lng = rad_to_deg(lng + M_PI/2) ;
-	(void)intersect;
-	(void)minirt;
-
-	x = (int)((lng / 180.0) * (double)minirt.map.width/ 2.0 + (double)minirt.map.width / 2.0);
-	y = (int)((lat / 90.0) * (double)minirt.map.height / 2.0 + (double)minirt.map.height / 2.0);
-	// printf("x y %d %d\n", x, y);
+	lat = rad_to_deg(lat + M_PI / 2);
+	lng = rad_to_deg(lng + M_PI / 2);
+	x = (int)((lng / 180.0) * (double)minirt.map.width / 2.0 + \
+		(double)minirt.map.width / 2.0);
+	y = (int)((lat / 90.0) * (double)minirt.map.height / 2.0 + \
+		(double)minirt.map.height / 2.0);
 	x = x % minirt.map.width;
 	y = y % minirt.map.height;
-
-	intersect->object_color = int_to_rgb(mlx_get_color_value(minirt.map.texture.img, \
-		*(int *)(minirt.map.texture.addr + x * (minirt.map.texture.bits_per_pixel / 8) + y * minirt.map.texture.line_length)));
-	// printf("%x r g b %d, %d, %d \n", *(minirt.map.texture.addr + x + y * minirt.map.width), intersect->object_color.red, intersect->object_color.green, intersect->object_color.blue);
+	return (int_to_rgb(mlx_get_color_value(minirt.map.texture.img, \
+	*(int *)(minirt.map.texture.addr + x * (minirt.map.texture.bits_per_pixel \
+	/ 8) + y * minirt.map.texture.line_length))));
 }
 
-t_rgb 	get_checkboard(double phi, double theta, t_intersect inter)
+t_rgb	apply_checkboard(double phi, double theta)
 {
-	double	u = theta / (2 * M_PI);
-	double	v = phi / M_PI;
-	int u_scale = 20;  // Scale factor for U coordinates
-	int v_scale = 20;  // Scale factor for V coordinates
-	int u_square = (int)(u * u_scale);
-	int v_square = (int)(v * v_scale);
-	if ((u_square + v_square) % 2 == 0) {
-		// Point is in a white square
-		inter.object_color.red = 255;
-		inter.object_color.green = 255;
-		inter.object_color.blue = 255;
-	}
+	double	u;
+	double	v;
+	int		u_square;
+	int		v_square;
+
+	u = theta / (2 * M_PI);
+	v = phi / M_PI;
+	u_square = (int)(u * BOARD_SCALE);
+	v_square = (int)(v * BOARD_SCALE);
+	if ((u_square + v_square) % 2 == 0)
+		return (make_color(255, 255, 255));
 	else
-	{
-		// Point is in a black square
-		inter.object_color.red = 0;
-		inter.object_color.green = 0;
-		inter.object_color.blue = 0;
-	}
-	return (inter.object_color);
+		return (make_color(0, 0, 0));
 }
 
-static t_intersect ray_sphere_intersect(t_sphere *sphere, t_ray ray, t_minirt minirt)
+static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
+	t_ray ray, t_minirt minirt)
 {
-	t_intersect	intersection;
+	t_intersect	intersect;
 	double		lat;
 	double		lng;
 
-	intersection.index = sphere->index;
-	intersection.distance = ray_sphere_distance(sphere, ray);
-	intersection.point = get_intersect(ray, intersection.distance);
-	intersection.object_color = sphere->rgb;
-	intersection.normal = point_subtract(intersection.point, sphere->origin);
-	if (intersection.distance != -1 && minirt.show_texture)
-	{
-		lng = atan2(-intersection.normal.z, intersection.normal.x);
-		lat = acos(intersection.normal.y / vect_length(intersection.normal));
-		adjustcolor(lat, lng, &intersection, minirt);
-	}
-	if (intersection.distance != -1 && minirt.show_checkboard)
-	{
-		lng = atan2(intersection.normal.z, intersection.normal.x);
-		lat = acos(intersection.normal.y / vect_length(intersection.normal));
-		intersection.object_color = get_checkboard(lat, lng, intersection);
-	}
-	return (intersection);
+	intersect.index = sphere->index;
+	intersect.distance = ray_sphere_distance(sphere, ray);
+	intersect.point = get_intersect(ray, intersect.distance);
+	intersect.object_color = sphere->rgb;
+	intersect.normal = point_subtract(intersect.point, sphere->origin);
+		lng = atan2(-intersect.normal.z, intersect.normal.x);
+		lat = acos(intersect.normal.y / vect_length(intersect.normal));
+	if (intersect.distance != -1 && minirt.show_texture)
+		intersect.object_color = apply_map(lat, lng, minirt);
+	if (intersect.distance != -1 && minirt.show_checkboard)
+		intersect.object_color = apply_checkboard(lat, lng);
+	return (intersect);
 }
-
-
-void closest_sphere(t_ray lray, t_sphere *spheres, double *closest, int *index)
-{
-	double	test;
-
-	while (spheres)
-	{
-		test = ray_sphere_distance(spheres, lray);
-		if (test == -1 || (test > *closest && *closest > -1))
-		{
-			spheres = spheres->next;
-			continue ;
-		}
-		if (*closest == -1 || test < *closest)
-		{
-			*index = spheres->index;
-			*closest = test;
-		}
-		spheres = spheres->next;
-	}
-}
-
 
 t_intersect	color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersect old_intersect)

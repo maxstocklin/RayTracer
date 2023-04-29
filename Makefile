@@ -14,8 +14,12 @@ SRCS_NAME	=	main.c \
 				check.c \
 				split_spaces.c \
 				errors.c \
-				utils.c \
-				assignment.c \
+				utils1.c \
+				utils2.c \
+				utils3.c \
+				assignment1.c \
+				assignment2.c \
+				assignment3.c \
 				get_next_line.c \
 				get_next_line_utils.c \
 				free.c \
@@ -27,6 +31,9 @@ SRCS_NAME	=	main.c \
 				cylinder_fns.c \
 				cone_fns.c \
 				get_intersect.c \
+				apply_light.c \
+				cylinder_utils.c \
+				closest_obj.c \
 				tests.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))

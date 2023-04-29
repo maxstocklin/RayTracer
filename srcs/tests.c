@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tests.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:15:19 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 15:05:42 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:18:12 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 
-
-
 void	tests(void)
 {
 	// char	*relative_path = "./pngegg.xpm";
-	char	*relative_path = "./8081_earthmap2k1682441384.xpm";
+	char		*relative_path = "./8081_earthmap2k1682441384.xpm";
 	int			img_width;
 	int			img_height;
 	t_minirt	minirt;

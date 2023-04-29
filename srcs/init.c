@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/27 15:56:49 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:33:21 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_point	ft_get_xyz(char *str)
 		ft_error(3);
 	}
 	dest = ft_split(str, ',');
-	xyz.x = ft_atod(dest[0]);
-	xyz.y = ft_atod(dest[1]);
-	xyz.z = ft_atod(dest[2]);
+	xyz.x = ft_atod(dest[0], 1, 0, 1);
+	xyz.y = ft_atod(dest[1], 1, 0, 1);
+	xyz.z = ft_atod(dest[2], 1, 0, 1);
 	if (ft_check_xyz_int(xyz) == FALSE)
 		ft_error(3);
 	ft_free_array(dest);
@@ -60,9 +60,9 @@ t_vect	ft_get_direction(char *str)
 		ft_error(5);
 	}
 	dest = ft_split(str, ',');
-	xyz.x = ft_atod(dest[0]);
-	xyz.y = ft_atod(dest[1]);
-	xyz.z = ft_atod(dest[2]);
+	xyz.x = ft_atod(dest[0], 1, 0, 1);
+	xyz.y = ft_atod(dest[1], 1, 0, 1);
+	xyz.z = ft_atod(dest[2], 1, 0, 1);
 	if (ft_check_direction_int(xyz) == FALSE)
 		ft_error(5);
 	ft_free_array(dest);
@@ -82,4 +82,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->num_spotlights = 0;
 	minirt->recalc = 0;
 	minirt->show_texture = 0;
+	minirt->show_checkboard = 0;
 }

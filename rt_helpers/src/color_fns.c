@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_fns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:36:04 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/26 15:26:26 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:15:10 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,15 @@ t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3)
 		sum.green = 0;
 	if (sum.blue <= 0)
 		sum.blue = 0;
-
 	return (sum);
+}
+
+t_rgb	make_color(int r, int g, int b)
+{
+	t_rgb	res;
+
+	res.red = r;
+	res.green = g;
+	res.blue = b;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:13:58 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 12:20:59 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 17:18:13 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,22 @@ int	ray_exit(void)
 	exit(0);
 }
 
-int	key_hook(int keycode, t_minirt *minirt)
+void	change_texture(int keycode, t_minirt *minirt)
 {
-	printf("hook = %d\n", keycode);
-	if (keycode == KEY_ESC)
-		exit(0);
-	if (keycode >= 0 && keycode < 100)
-		minirt->recalc = 0;
+	if (keycode == 17)
+	{
+		minirt->show_texture = !minirt->show_texture;
+		minirt->show_checkboard = 0;
+	}
+	if (keycode == 49)
+	{
+		minirt->show_checkboard = !minirt->show_checkboard;
+		minirt->show_texture = 0;
+	}
+}
+
+void	change_origin(int keycode, t_minirt *minirt)
+{
 	if (keycode == 83)
 		minirt->camera->origin.z -= 5;
 	if (keycode == 84)
@@ -36,6 +45,10 @@ int	key_hook(int keycode, t_minirt *minirt)
 		minirt->camera->origin.x -= 5;
 	if (keycode == 91)
 		minirt->camera->origin.x += 5;
+}
+
+void	change_direction(int keycode, t_minirt *minirt)
+{
 	if (keycode == 12)
 		minirt->camera->direction.z -= 0.2;
 	if (keycode == 13)
@@ -48,11 +61,24 @@ int	key_hook(int keycode, t_minirt *minirt)
 		minirt->camera->direction.x -= 0.2;
 	if (keycode == 7)
 		minirt->camera->direction.x += 0.2;
-	if (keycode == 17)
-		minirt->show_texture = !minirt->show_texture;
-	if (keycode == 49)
-		minirt->show_checkboard = !minirt->show_checkboard;
-	printf("origin direction %f %f %f direction %f %f %f\n", minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
+}
+
+int	key_hook(int keycode, t_minirt *minirt)
+{
+	printf("hook = %d\n", keycode);
+	if (keycode == KEY_ESC)
+		exit(0);
+	if (keycode >= 0 && keycode < 100)
+		minirt->recalc = 0;
+	if (keycode >= 83 && keycode <= 91)
+		change_origin(keycode, minirt);
+	if (keycode >= 0 && keycode <= 13)
+		change_direction(keycode, minirt);
+	if (keycode == 17 || keycode == 49)
+		change_texture(keycode, minirt);
+	printf("origin direction %f %f %f direction %f %f %f\n", \
+	minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, \
+	minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
 	return (0);
 }
 

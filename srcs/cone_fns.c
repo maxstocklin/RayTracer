@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:19:38 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 11:49:24 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 16:30:20 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ t_vect	get_cone_norm(t_intersect intersection, t_cone *cone)
 	t_vect	ap;
 	t_vect	p;
 
-	cone->axis = normalize(cone->axis);
+	cone->axis = vector_normalize(cone->axis);
 	ap = point_subtract(intersection.point, cone->origin);
 	d = cone->axis;
 	p.x = vect_dot(ap, d) / vect_dot(d, d) * d.x;
 	p.y = vect_dot(ap, d) / vect_dot(d, d) * d.y;
 	p.z = vect_dot(ap, d) / vect_dot(d, d) * d.z;
 	n = point_subtract(make_point(ap.x, ap.y, ap.z), make_point(p.x, p.y, p.z));
-	n = normalize(n);
+	n = vector_normalize(n);
 	return (n);
 }
 
@@ -74,29 +74,8 @@ t_intersect	color_cone(t_minirt minirt, t_cone *cone, \
 {
 	t_intersect	intersect;
 
-	cone->axis = normalize(cone->axis);
+	cone->axis = vector_normalize(cone->axis);
 	intersect = ray_cone_intersect(cone, ray, minirt);
 	intersect = apply_intersect(intersect, old_intersect, minirt);
 	return (intersect);
-}
-
-void	closest_cone(t_ray lray, t_cone *cone, double *closest, int *index)
-{
-	double	test;
-
-	while (cone)
-	{
-		test = ray_cone_distance(*cone, lray);
-		if (test == -1 || (test > *closest && *closest > -1))
-		{
-			cone = cone->next;
-			continue ;
-		}
-		if (*closest == -1 || test < *closest)
-		{
-			*index = cone->index;
-			*closest = test;
-		}
-		cone = cone->next;
-	}
 }

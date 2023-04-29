@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printed.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:24:26 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/27 16:02:17 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 16:57:46 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	ft_print_ray(t_minirt ray)
 		printf("R = %d G = %d B = %d\n", ray.cylinders->rgb.red, \
 			ray.cylinders->rgb.green, ray.cylinders->rgb.blue);
 	}
-
 		if (ray.cones)
 	{
 		printf("\nCONE:\n");

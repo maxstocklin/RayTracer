@@ -2,6 +2,7 @@
   "files.associations": {
     "*.ejs": "plaintext",
     "helpers.h": "c",
-    "iterator": "c"
+    "iterator": "c",
+    "minirt.h": "c"
   }
 }

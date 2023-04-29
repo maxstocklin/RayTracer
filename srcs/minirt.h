@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/29 12:55:52 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 17:33:20 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,16 @@ typedef struct s_screen
 	t_vect	vup;
 	t_vect	u;
 	t_vect	v;
-	t_vect	xIncVector;
-	t_vect	yIncVector;
+	t_vect	x_inc_vec;
+	t_vect	y_inc_vec;
 }	t_screen;
 
 # define WIDTH 1400		/* horizonal window size		*/
 # define HEIGHT 900 		/* vertical window size		*/
+
+# define PHONG_POW 100
+# define PHONG_COEF 0.9
+# define BOARD_SCALE 20
 
 # define FALSE 1
 # define TRUE 0
@@ -223,10 +227,21 @@ int				ft_is_whitespace(char c);
 char			**ft_split(char const *s, char c);
 int				ft_atoi(const char *str);
 int				ft_strcmp(char *input, char *str);
-double			ft_atod(char *str);
+double			ft_atod(char *str, double pos, double res, int dec);
 
-/*		ASSIGMENT		*/
+/*		ASSIGMENT 1, 2 & 3		*/
 void			ft_assignment(t_minirt *ray, char **tab);
+double			ft_assign_angle(char *str);
+double			ft_assign_diameter(char *str);
+double			ft_assign_range(char *str);
+int				check_array_size(char **tab, int size);
+void			assign_sphere(t_minirt *minirt, char **tab);
+void			assign_plane(t_minirt *minirt, char **tab);
+void			assign_cylinder(t_minirt *minirt, char **tab);
+void			assign_cone(t_minirt *minirt, char **tab);
+void			assign_spotlight(t_minirt *minirt, char **tab);
+void			assign_camera(t_minirt *minirt, char **tab);
+void			assign_ambiant(t_minirt *minirt, char **tab);
 
 /*		GNL		*/
 char			*get_next_line(int fd);
@@ -237,44 +252,64 @@ size_t			ft_strlen(const char *str);
 /*		FREE		*/
 void			ft_free_array(char **tab);
 
-
 /*		GET_INTERSECT		*/
+int				get_color(t_minirt minirt, t_ray ray);
 
-int	get_color(t_minirt minirt, t_ray ray);
+/*		APPLY_LIGHT		*/
+int				apply_light(t_minirt minirt, t_intersect inter);
+t_rgb			get_diffuse(t_minirt minirt, \
+	t_intersect inter, double adjustment);
+t_rgb			get_specular(t_minirt minirt, t_intersect inter, \
+	double angle, double specular);
 
-
-/*		TO BE REMOVED		*/
-void			ft_print_ray(t_minirt ray);
-
-void			new_draw_window(t_minirt minirt, int i, int j);
-double			ray_plane_distance(t_plane *plane, t_ray ray);
-t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
-	t_ray ray, t_intersect old_intersect);
-t_intersect		color_sphere(t_minirt minirt, t_sphere *sphere, \
-	t_ray ray, t_intersect old_intersect);
+/*		CLOSEST_OBJECT		*/
 int				closest_object(t_minirt minirt, t_ray lray);
 void			closest_sphere(t_ray lray, t_sphere *spheres, \
 	double *closest, int *index);
 void			closest_plane(t_ray lray, t_plane *planes, double *closest, \
 	int *index);
-
-t_intersect		apply_intersect(t_intersect new, t_intersect old, \
-	t_minirt minirt);
-
-void			tests(void);
-
-t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
-	t_ray ray, t_intersect old_intersect);
-
 void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
-
 void			closest_cone(t_ray lray, t_cone *cone, double *closest, \
 	int *index);
 
-t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
-			t_ray ray, t_intersect old_intersect);
+/*		SPHERE FUNCTIONS		*/
+double			ray_sphere_distance(t_sphere *sphere, t_ray ray);
+t_rgb			apply_map(double lat, double lng, t_minirt minirt);
+t_rgb			apply_checkboard(double phi, double theta);
+t_intersect		color_sphere(t_minirt minirt, t_sphere *sphere, \
+	t_ray ray, t_intersect old_intersect);
 
-t_vect			normalize(t_vect v);
+/*		PLANE FUNCTIONS		*/
+t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
+	t_ray ray, t_intersect old_intersect);
+t_rgb			get_checkboard_plane(t_intersect inter, \
+	t_plane *plane, t_ray ray);
+double			ray_plane_distance(t_plane *plane, t_ray ray);
+
+/*		CYLINDER FUNCTIONS		*/
+t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
+	t_ray ray, t_intersect old_intersect);
+t_vect			get_cylinder_norm(t_intersect intersection, \
+	t_cylinder *cylinder);
+double			ray_cylinder_distance(t_cylinder *cylinder, t_ray ray);
+double			get_dist_cylinder(t_cylinder *cylinder, t_ray ray, \
+	double t1, double t2);
+double			check_height(t_cylinder *cylinder, t_ray ray, double t);
+
+/*		CONE FUNCTIONS		*/
+t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
+	t_ray ray, t_intersect old_intersect);
+t_vect			get_cone_norm(t_intersect intersection, t_cone *cone);
+double			ray_cone_distance(t_cone cone, t_ray ray);
+
+/*		MAKE RAYS		*/
+void			new_draw_window(t_minirt minirt, int i, int j);
+t_intersect		apply_intersect(t_intersect new, t_intersect old, \
+	t_minirt minirt);
+
+/*		TO BE REMOVED		*/
+void			ft_print_ray(t_minirt ray);
+void			tests(void);
 
 #endif
