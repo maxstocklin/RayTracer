@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/29 12:13:19 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 12:55:52 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_light
 	int				index;
 	struct s_light	*next;
 }				t_light;
+
 typedef struct s_sphere
 {
 	double			diameter;
@@ -148,6 +149,17 @@ typedef struct s_intersection
 	int		index;
 }	t_intersect;
 
+typedef struct s_screen
+{
+	t_point	top_left;
+	t_point	center;
+	t_vect	vup;
+	t_vect	u;
+	t_vect	v;
+	t_vect	xIncVector;
+	t_vect	yIncVector;
+}	t_screen;
+
 # define WIDTH 1400		/* horizonal window size		*/
 # define HEIGHT 900 		/* vertical window size		*/
 
@@ -225,10 +237,16 @@ size_t			ft_strlen(const char *str);
 /*		FREE		*/
 void			ft_free_array(char **tab);
 
+
+/*		GET_INTERSECT		*/
+
+int	get_color(t_minirt minirt, t_ray ray);
+
+
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
 
-void			new_draw_window(t_minirt minirt);
+void			new_draw_window(t_minirt minirt, int i, int j);
 double			ray_plane_distance(t_plane *plane, t_ray ray);
 t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
 	t_ray ray, t_intersect old_intersect);

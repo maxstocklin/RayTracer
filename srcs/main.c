@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 12:33:10 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 12:39:59 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	loop_hook(t_minirt *minirt)
 {
 	if (minirt->recalc == 0)
 	{
-		new_draw_window(*minirt);
+		new_draw_window(*minirt, 0, 0);
 		minirt->recalc = 1;
 	}
 	return (0);
