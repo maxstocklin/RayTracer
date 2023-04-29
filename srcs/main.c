@@ -1,5 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/29 12:33:10 by max              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 #include "mlx.h"
+
+int	loop_hook(t_minirt *minirt)
+{
+	if (minirt->recalc == 0)
+	{
+		new_draw_window(*minirt);
+		minirt->recalc = 1;
+	}
+	return (0);
+}
 
 int	display_mlx_win(t_minirt *minirt)
 {
@@ -19,7 +41,7 @@ int	display_mlx_win(t_minirt *minirt)
 				mlx_put_image_to_window(minirt->vars.mlx, minirt->vars.win, \
 				minirt->vars.img, 0, 0);
 				add_mlx_hook(minirt);
-				new_draw_window(*minirt);
+				mlx_loop_hook(minirt->vars.mlx, loop_hook, minirt);
 				mlx_loop(minirt->vars.mlx);
 				return (0);
 			}
@@ -30,7 +52,6 @@ int	display_mlx_win(t_minirt *minirt)
 
 char	**ft_parse_spaces(char *str)
 {
-	// int		i;
 	char	**dest;
 
 	dest = ft_split_spaces(str);
@@ -64,6 +85,22 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 	return (TRUE);
 }
 
+void	ft_set_map(t_minirt *minirt)
+{
+	char	*relative_path = "./pngegg.xpm";
+	// char	*relative_path = "./8081_earthmap2k1682441384.xpm";
+
+	minirt->map.texture.mlx = mlx_init();
+	minirt->map.texture.img = mlx_xpm_file_to_image(minirt->map.texture.mlx, \
+		relative_path, &minirt->map.width, &minirt->map.height);
+	printf("map width height %d %d\n", minirt->map.width, minirt->map.height);
+	if (!minirt->map.texture.img)
+		printf("problem with image reading\n");
+	minirt->map.texture.addr = mlx_get_data_addr(minirt->map.texture.img, \
+		&minirt->map.texture.bits_per_pixel, &minirt->map.texture.line_length, \
+				&minirt->map.texture.endian);
+}
+
 int	main(int ac, char **av)
 {
 	t_minirt	minirt;
@@ -77,8 +114,11 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
-
+	printf("before map set\n");
+	ft_set_map(&minirt);
+	printf("after map set\n");
 	ft_print_ray(minirt);
+	// tests();
 	display_mlx_win(&minirt);
 	return (0);
 }

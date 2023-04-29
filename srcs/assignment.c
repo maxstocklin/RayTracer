@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   assignment.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
+/*   Updated: 2023/04/27 16:06:57 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 int	check_array_size(char **tab, int size)
@@ -104,6 +116,7 @@ void	assign_spotlight(t_minirt *minirt, char **tab)
 	light->intensity = ft_assign_range(tab[2]);
 	light->rgb = ft_get_rgb(tab[3]);
 	light->next = NULL;
+	light->index = ++minirt->num_spotlights;
 	current = minirt->lights;
 	if (!current)
 		minirt->lights = light;
@@ -113,7 +126,6 @@ void	assign_spotlight(t_minirt *minirt, char **tab)
 		{
 			current = current->next;
 		}
-		light->index = ++minirt->num_spotlights;
 		current->next = light;
 	}
 }
@@ -132,8 +144,8 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
 	sphere->next = NULL;
-	current = minirt->spheres;
 	sphere->index = ++minirt->num_objects;
+	current = minirt->spheres;
 	if (!current)
 		minirt->spheres = sphere;
 	else
@@ -158,6 +170,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
 	plane->next = NULL;
+	plane->index = ++minirt->num_objects;
 	current = minirt->planes;
 	if (!current)
 		minirt->planes = plane;
@@ -165,7 +178,6 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	{
 		while (current->next)
 			current = current->next;
-		plane->index = ++minirt->num_objects;
 		current->next = plane;
 	}
 }
@@ -181,11 +193,12 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	if (!cylinder)
 		ft_error(7);
 	cylinder->origin = ft_get_xyz(tab[1]);
-	cylinder->normal = ft_get_direction(tab[2]);
+	cylinder->axis = ft_get_direction(tab[2]);
 	cylinder->diameter = ft_assign_diameter(tab[3]);
 	cylinder->height = ft_assign_diameter(tab[4]);
 	cylinder->rgb = ft_get_rgb(tab[5]);
 	cylinder->next = NULL;
+	cylinder->index = ++minirt->num_objects;
 	current = minirt->cylinders;
 	if (!current)
 		minirt->cylinders = cylinder;
@@ -193,8 +206,35 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	{
 		while (current->next)
 			current = current->next;
-		cylinder->index = ++minirt->num_objects;
 		current->next = cylinder;
+	}
+}
+
+void	assign_cone(t_minirt *minirt, char **tab)
+{
+	t_cone	*cone;
+	t_cone	*current;
+
+	printf("In cone assingment");
+	if (check_array_size(tab, 5) == FALSE)
+		ft_error(6);
+	cone = malloc(sizeof(t_cone));
+	if (!cone)
+		ft_error(7);
+	cone->origin = ft_get_xyz(tab[1]);
+	cone->axis = ft_get_direction(tab[2]);
+	cone->angle = ft_assign_angle(tab[3]);
+	cone->rgb = ft_get_rgb(tab[4]);
+	cone->next = NULL;
+	cone->index = ++minirt->num_objects;
+	current = minirt->cones;
+	if (!current)
+		minirt->cones = cone;
+	else
+	{
+		while (current->next)
+			current = current->next;
+		current->next = cone;
 	}
 }
 
@@ -212,6 +252,8 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 		assign_plane(minirt, tab);
 	else if (ft_strcmp(tab[0], "cy") == TRUE)
 		assign_cylinder(minirt, tab);
+	else if (ft_strcmp(tab[0], "cn") == TRUE)
+		assign_cone(minirt, tab);
 	else
 		ft_error(4);
 }

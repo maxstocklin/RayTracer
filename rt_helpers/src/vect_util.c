@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   vect_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 20:55:53 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/18 20:58:32 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:27:28 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,23 @@ t_vect	make_vect(double x, double y, double z)
 	new_vect.y = y;
 	new_vect.z = z;
 	return (new_vect);
+}
+
+t_point	get_intersect(t_ray ray, double distance)
+{
+	return (make_point(ray.origin.x + ray.direct.x * distance, \
+		ray.origin.y + ray.direct.y * distance, ray.origin.z + \
+		ray.direct.z * distance));
+}
+
+t_vect	vector_normalize(t_vect old)
+{
+	t_vect	new;
+	double	length;
+
+	length = vect_length(old);
+	new.x = old.x / length;
+	new.y = old.y / length;
+	new.z = old.z / length;
+	return (new);
 }

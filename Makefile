@@ -8,20 +8,27 @@ CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
 RT_HELPERS = ./rt_helpers
 
 #Sources
-DIR_SRC=./srcs
-SRCS	=	${DIR_SRC}/main.c \
-			${DIR_SRC}/init.c \
-			${DIR_SRC}/check.c \
-			${DIR_SRC}/split_spaces.c \
-			${DIR_SRC}/errors.c \
-			${DIR_SRC}/utils.c \
-			${DIR_SRC}/assignment.c \
-			${DIR_SRC}/get_next_line.c \
-			${DIR_SRC}/get_next_line_utils.c \
-			${DIR_SRC}/free.c \
-			${DIR_SRC}/printed.c \
-			${DIR_SRC}/hooks.c \
-			${DIR_SRC}/make_rays.c
+DIR_SRC	=	./srcs
+SRCS_NAME	=	main.c \
+				init.c \
+				check.c \
+				split_spaces.c \
+				errors.c \
+				utils.c \
+				assignment.c \
+				get_next_line.c \
+				get_next_line_utils.c \
+				free.c \
+				printed.c \
+				plane_fns.c \
+				hooks.c \
+				make_rays.c \
+				sphere_fns.c \
+				cylinder_fns.c \
+				cone_fns.c \
+				tests.c
+
+SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))
 
 DIR_OBJ=./objs
 OBJS=${addprefix ${DIR_OBJ}/, ${notdir ${SRCS:.c=.o}}}

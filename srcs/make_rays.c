@@ -3,176 +3,132 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/21 14:38:50 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 12:33:48 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 
-t_point	get_intersect(t_ray ray, double distance)
-{
-	return (make_point(ray.origin.x + ray.direct.x * distance, \
-		ray.origin.y  + ray.direct.y * distance, ray.origin.z + \
-		ray.direct.z * distance));
-}
-
-double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
-{
-	t_vect	oc;
-	double	a;
-	double	b;
-	double	c;
-	double	discriminant;
-	double	distance;
-
-	oc = point_subtract(ray.origin, sphere->origin);
-	a = vect_dot(ray.direct, ray.direct);
-	b = 2.0 * vect_dot(oc, ray.direct);
-	c = vect_dot(oc, oc) - \
-		(sphere->diameter / 2 * sphere->diameter / 2);
-	discriminant = (b * b) - (4 * a * c);
-	if (discriminant < 0)
-		return (-1);
-	distance = fmin((-b + sqrt(discriminant)) / (2 * a), (-b - sqrt(discriminant)) / (2 * a));
-
-	if (distance > 0)
-		return (distance);
-	else
-		return (-1);
-}
-
-t_rgb	add_intensity(t_rgb	rgb, double intensity)
-{
-	double	red;
-	double	green;
-	double	blue;
-
-	red = (double)rgb.red * intensity;
-	green = (double)rgb.green * intensity;
-	blue = (double)rgb.blue * intensity;
-	rgb.red = (int)red;
-	rgb.green = (int)green;
-	rgb.blue = (int)blue;
-	return (rgb);
-}
-
-t_rgb sum_light(t_rgb color1, t_rgb color2)
-{
-	t_rgb sum;
-
-	sum.red = color1.red + color2.red;
-	sum.green = color1.green + color2.green;
-	sum.blue = color1.blue + color2.blue;
-	if (sum.red >= 255)
-		sum.red = 255;
-	if (sum.green >= 255)
-		sum.green = 255;
-	if (sum.blue >= 255)
-		sum.blue = 255;
-	return (sum);
-}
-
 int	closest_object(t_minirt minirt, t_ray lray)
 {
 	double			closest;
-	double			test;
-	int 			index = -1;
+	int				index;
 
+	index = -1;
 	closest = -1;
-	while (minirt.spheres)
-	{
-		test = ray_sphere_distance(minirt.spheres, lray);
-
-		if (test == -1 || (test > closest && closest > -1))
-		{
-			minirt.spheres = minirt.spheres->next;
-			continue;
-		}
-		if (closest == -1 || test < closest)
-		{
-			index = minirt.spheres->index;
-			closest = test;
-		}
-		minirt.spheres = minirt.spheres->next;
-	}
+	closest_plane(lray, minirt.planes, &closest, &index);
+	closest_sphere(lray, minirt.spheres, &closest, &index);
+	closest_cylinder(lray, minirt.cylinders, &closest, &index);
+	closest_cone(lray, minirt.cones, &closest, &index);
 	return (index);
 }
 
-int	apply_light(t_minirt minirt, t_intersection intersect)
+t_vect	normalize(t_vect v)
+{
+	double	magnitude = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	t_vect	normalized_vec = {v.x / magnitude, v.y / magnitude, v.z / magnitude};
+	return (normalized_vec);
+}
+
+double vect_magnitude(t_vect v)
+{
+	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+}
+
+double angle_degrees(t_vect v1, t_vect v2)
+{
+	double dot = vect_dot(v1, v2);
+	double mag1 = vect_magnitude(v1);
+	double mag2 = vect_magnitude(v2);
+	double angle = acos(dot / (mag1 * mag2)) * 180.0 / M_PI;
+	return angle;
+}
+
+t_rgb	get_phong(t_minirt minirt, t_intersect inter)
+{
+	t_rgb	tmp_phong;
+	t_vect	light_dir;
+	t_vect	view_dir;
+	t_vect	reflection;
+	double	cos_angle;
+	double	cos_clamped;
+	double	specular_coef;
+	double	specular_power;
+	double	specular;
+
+	light_dir = point_subtract(inter.point, minirt.lights->origin);
+	light_dir = normalize(light_dir);
+	inter.normal = normalize(inter.normal);
+	reflection.x = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.x - light_dir.x;
+	reflection.y = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.y - light_dir.y;
+	reflection.z = 2 * (vect_dot(inter.normal, light_dir)) * inter.normal.z - light_dir.z;
+	reflection = normalize(reflection);
+	view_dir = point_subtract(inter.point, minirt.camera->origin);
+	view_dir = normalize(view_dir);
+	cos_angle = vect_dot(reflection, view_dir);
+	cos_clamped = fmax(0.0, fmin(cos_angle, 1.0));
+	specular_coef = 0.9;
+	specular_power = 30;
+	double	power = pow(cos_clamped, specular_power);
+	double	times = minirt.lights->intensity * specular_coef;
+	specular = power * times;
+	tmp_phong = add_intensity(minirt.lights->rgb, specular);
+	return(sum_light(tmp_phong, inter.specular));
+}
+
+
+int	apply_light(t_minirt minirt, t_intersect inter)
 {
 	t_ray	lray;
 	double	angle;
 	double	factor;
 	double	adjustment;
-	t_rgb total_spotlight;
+	t_rgb	tmp_spotlight;
 
-	adjustment = 0;
+	inter.specular = add_intensity(inter.object_color, 0);
+	inter.diffuse = add_intensity(inter.object_color, 0);
 	while (minirt.lights)
 	{
+		adjustment = 0;
 		lray.origin = minirt.lights->origin;
-		lray.direct = point_subtract(intersect.point, lray.origin);
-		int closest_index = closest_object(minirt, lray);
-		if (closest_index != intersect.index)
+		lray.direct = point_subtract(inter.point, lray.origin);
+		if (closest_object(minirt, lray) != inter.index)
 		{
 			minirt.lights = minirt.lights->next;
-			continue;
+			continue ;
 		}
-		angle = vect_angle(intersect.normal, lray.direct);
+		angle = vect_angle(inter.normal, lray.direct);
 		if (angle > 90)
 			factor = fabs(cos(deg_to_rad(angle)));
 		else
-			factor = 0;
-		adjustment += (factor * minirt.lights->intensity);
-		if (adjustment >= 1)
-		{
+			factor = 0.0;
+		adjustment = (factor * minirt.lights->intensity);
+		if (adjustment >= 1.0)
 			adjustment = 1;
-			break ;
-		}
+		tmp_spotlight = add_light(inter.object_color, minirt.lights->rgb, adjustment);
+		inter.diffuse = sum_light(tmp_spotlight, inter.diffuse);
+		inter.specular = get_phong(minirt, inter);
 		minirt.lights = minirt.lights->next;
 	}
-	total_spotlight = add_intensity(intersect.object_color, adjustment);
-	intersect.rgb = sum_light(intersect.rgb, total_spotlight);
-	int color;
-	color = 0 << 24 | intersect.rgb.red << 16 | intersect.rgb.green << 8 | intersect.rgb.blue;
-	return (color);
+	inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
+	return (rgb_to_int(inter.rgb));
 }
 
-t_rgb	add_light(t_rgb color1, t_rgb color2, double intensity)
+
+t_intersect	apply_intersect(t_intersect new, t_intersect old, t_minirt minirt)
 {
-	t_rgb res;
-
-	res.red = (color1.red * color2.red * intensity / 255);
-	res.green = (color1.green * color2.green * intensity / 255);
-	res.blue = (color1.blue * color2.blue * intensity / 255);
-	return (res);
-
-}
-
-t_intersection	color_sphere(t_minirt minirt, t_sphere *sphere, \
-	t_ray ray, t_intersection old_intersect)
-{
-	t_intersection	intersect;
-
-	(void)minirt;
-	intersect.index = sphere->index;
-	intersect.distance = ray_sphere_distance(sphere, ray);
-	if (intersect.distance == -1 || (intersect.distance > \
-		old_intersect.distance && old_intersect.distance > -1))
-		return (old_intersect);
-	intersect.point = get_intersect(ray, intersect.distance);
-	intersect.normal = point_subtract(intersect.point, sphere->origin);
-	intersect.object_color.red = sphere->rgb.red;
-	intersect.object_color.green = sphere->rgb.green;
-	intersect.object_color.blue = sphere->rgb.blue;
-	intersect.rgb = add_light(sphere->rgb, minirt.ambiant->rgb, minirt.ambiant->intensity);
-	intersect.color = apply_light(minirt, intersect);
-
-	// intersect.color = 0 << 24 | intersect.rgb.red << 16 | intersect.rgb.green << 8 | intersect.rgb.blue;
-	return (intersect);
+	if (new.distance == -1 || (new.distance > \
+		old.distance && old.distance > -1))
+		return (old);
+	new.ambiant = add_light(new.object_color, minirt.ambiant->rgb, \
+		minirt.ambiant->intensity);
+	new.color = apply_light(minirt, new);
+	//new.color = rgb_to_int(new.rgb);
+	return (new);
 }
 
 void	put_pixel(t_minirt minirt, int x, int y, int color)
@@ -191,32 +147,58 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 	t_point	px_position;
 	t_point	top_left;
 	t_point	center;
+	t_vect	vup;
+	t_vect	u;
+	t_vect	v;
+	t_vect xIncVector;
+	t_vect yIncVector;
 
-	center = point_offset_1(camera->origin, camera->direction);
+	vup = make_vect(0, 1, 0);
+	if (vect_angle(camera->direction, make_vect(1,0,0)) == 0)
+		vup = make_vect(0, 0, 1);
+	u = vect_cross(vector_normalize(camera->direction), vup);
+	v = vect_cross(u, vector_normalize(camera->direction));
+	center = point_offset_1(camera->origin, vector_normalize(camera->direction));
 	world_width = 2.0 * tan(deg_to_rad(camera->angle / 2));
 	px_size = world_width / (double)WIDTH;
-	top_left = make_point(center.x - world_width / 2, center.y + \
-		(world_width * HEIGHT / WIDTH) / 2, center.z);
-	px_position = make_point(top_left.x + (double)i * px_size, \
-		top_left.y - (double)j * px_size, top_left.z);
+	xIncVector = vect_scale(u, px_size);
+	yIncVector = vect_scale(v, px_size);
+	top_left = point_apply_2vect(center, vect_scale(u, -world_width / 2), \
+		vect_scale(v, (world_width * HEIGHT / WIDTH) / 2));
+	px_position = point_apply_2vect(top_left, vect_scale(xIncVector, i), \
+		vect_scale(yIncVector, -j));
 	return (px_position);
 }
 
 int	get_color(t_minirt minirt, t_ray ray)
 {
-	t_intersection	intersection;
-	t_minirt		temp;
+	t_intersect		intersect;
+	t_minirt		tmp_minirt;
 
-	temp = minirt;
-	intersection.distance = -1;
-	intersection.color = 0;
-	while(temp.spheres)
+	tmp_minirt = minirt;
+	intersect.distance = -1;
+	intersect.color = 0;
+	while (tmp_minirt.spheres)
 	{
-		intersection.index = temp.spheres->index;
-		intersection = color_sphere(minirt, temp.spheres, ray, intersection);
-		temp.spheres = temp.spheres->next;
+		intersect = color_sphere(minirt, tmp_minirt.spheres, ray, intersect);
+		tmp_minirt.spheres = tmp_minirt.spheres->next;
 	}
-	return (intersection.color);
+	while (tmp_minirt.cylinders)
+	{
+		intersect = color_cylinder(minirt, tmp_minirt.cylinders, ray, intersect);
+		tmp_minirt.cylinders = tmp_minirt.cylinders->next;
+	}
+	while (tmp_minirt.planes)
+	{
+		intersect = color_plane(minirt, tmp_minirt.planes, ray, intersect);
+		tmp_minirt.planes = tmp_minirt.planes->next;
+	}
+	while (tmp_minirt.cones)
+	{
+		intersect = color_cone(minirt, tmp_minirt.cones, ray, intersect);
+		tmp_minirt.cones = tmp_minirt.cones->next;
+	}
+	return (intersect.color);
 }
 
 void	new_draw_window(t_minirt minirt)

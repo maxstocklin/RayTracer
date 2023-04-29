@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/20 17:22:56 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/04/29 12:13:19 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,10 @@
 # include "../rt_helpers/helpers.h"
 # include <sys/uio.h>
 
-typedef struct s_rgb
-{
-	int	red;
-	int	green;
-	int	blue;
-}				t_rgb;
-
-// typedef struct s_vect
-// {
-// 	double	x;
-// 	double	y;
-// 	double	z;
-// }				t_vect;
-
-// typedef struct s_point
-// {
-// 	double	x;
-// 	double	y;
-// 	double	z;
-// }				t_point;
-
 typedef struct s_ambiant
 {
 	double	intensity;
 	t_rgb	rgb;
-
 }				t_ambiant;
 
 typedef struct s_cam
@@ -65,16 +43,15 @@ typedef struct s_light
 	double			intensity;
 	t_point			origin;
 	t_rgb			rgb;
-	int 			index;
+	int				index;
 	struct s_light	*next;
 }				t_light;
-
 typedef struct s_sphere
 {
 	double			diameter;
 	t_point			origin;
 	t_rgb			rgb;
-	int 			index;
+	int				index;
 	struct s_sphere	*next;
 }				t_sphere;
 
@@ -83,22 +60,39 @@ typedef struct s_plane
 	t_vect			normal;
 	t_point			point;
 	t_rgb			rgb;
-	int 			index;
+	int				index;
 	struct s_plane	*next;
 
 }				t_plane;
 
 typedef struct s_cylinder
 {
-	t_vect				normal;
+	t_vect				axis;
 	t_point				origin;
 	t_rgb				rgb;
 	double				diameter;
 	double				height;
-	int 				index;
+	int					index;
 	struct s_cylinder	*next;
+	double				a;
+	double				b;
+	double				c;
 
 }				t_cylinder;
+
+typedef struct s_cone {
+	t_point			origin;
+	t_vect			axis;
+	t_rgb			rgb;
+	double			angle;
+	int				index;
+	struct s_cone	*next;
+	double			k;
+	double			a;
+	double			b;
+	double			c;
+
+}	t_cone;
 
 typedef struct s_vars
 {
@@ -112,29 +106,47 @@ typedef struct s_vars
 	int		endian;
 }				t_vars;
 
+typedef struct s_map{
+	t_vars		texture;
+	int			width;
+	int			height;
+
+}	t_map;
 typedef struct s_minirt
 {
 	t_vars		vars;
+	t_map		map;
 	t_cylinder	*cylinders;
 	t_plane		*planes;
 	t_sphere	*spheres;
+	t_cone		*cones;
 	t_cam		*camera;
 	t_light		*lights;
 	t_ambiant	*ambiant;
-	int 		num_objects;
-	int 		num_spotlights;
-}				t_minirt;
+	int			num_objects;
+	int			num_spotlights;
+	int			recalc;
+	int			show_texture;
+	int			show_checkboard;
+
+	int			x;
+	int			y;
+
+}	t_minirt;
 
 typedef struct s_intersection
 {
 	int		color;
-	t_rgb 	rgb;
-	t_rgb 	object_color;
-	double distance;
+	t_rgb	rgb;
+	t_rgb	ambiant;
+	t_rgb	diffuse;
+	t_rgb	specular;
+	t_rgb	object_color;
+	double	distance;
 	t_point	point;
 	t_vect	normal;
-	int 	index;
-}	t_intersection;
+	int		index;
+}	t_intersect;
 
 # define WIDTH 1400		/* horizonal window size		*/
 # define HEIGHT 900 		/* vertical window size		*/
@@ -172,53 +184,79 @@ typedef struct s_intersection
 # define SCROLLDOWN_KEY 5
 
 /*		HOOKS		*/
-void
-add_mlx_hook(t_minirt *ray);
+void			add_mlx_hook(t_minirt *ray);
 
 /*		ERRORS		*/
-int		ft_error(int index);
+int				ft_error(int index);
 
 /*		INIT		*/
-void	ft_set_null(t_minirt *ray);
-t_rgb	ft_get_rgb(char *str);
-t_point	ft_get_xyz(char *str);
-t_vect	ft_get_direction(char *str);
+void			ft_set_null(t_minirt *ray);
+t_rgb			ft_get_rgb(char *str);
+t_point			ft_get_xyz(char *str);
+t_vect			ft_get_direction(char *str);
 
 /*		CHECK		*/
-int		ft_check_rgb(char *str);
-int		ft_check_xyz(char *str);
-int		ft_check_rgb_255(t_rgb rgb);
-int		ft_check_xyz_int(t_point xyz);
-int		ft_check_direction_int(t_vect xyz);
+int				ft_check_rgb(char *str);
+int				ft_check_xyz(char *str);
+int				ft_check_rgb_255(t_rgb rgb);
+int				ft_check_xyz_int(t_point xyz);
+int				ft_check_direction_int(t_vect xyz);
 
 /*		SPLIT SPACES		*/
-char	**ft_split_spaces(char const *s);
-int		ft_is_all_whitespace(char *str);
-int		ft_is_whitespace(char c);
+char			**ft_split_spaces(char const *s);
+int				ft_is_all_whitespace(char *str);
+int				ft_is_whitespace(char c);
 
 /*		UTILS		*/
-char	**ft_split(char const *s, char c);
-int		ft_atoi(const char *str);
-int		ft_strcmp(char *input, char *str);
-double	ft_atod(char *str);
+char			**ft_split(char const *s, char c);
+int				ft_atoi(const char *str);
+int				ft_strcmp(char *input, char *str);
+double			ft_atod(char *str);
 
 /*		ASSIGMENT		*/
-void	ft_assignment(t_minirt *ray, char **tab);
+void			ft_assignment(t_minirt *ray, char **tab);
 
 /*		GNL		*/
-char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char const *s2);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlen(const char *str);
-
+char			*get_next_line(int fd);
+char			*ft_strjoin(char *s1, char const *s2);
+char			*ft_strchr(const char *s, int c);
+size_t			ft_strlen(const char *str);
 
 /*		FREE		*/
-void	ft_free_array(char **tab);
-
+void			ft_free_array(char **tab);
 
 /*		TO BE REMOVED		*/
-void	ft_print_ray(t_minirt ray);
+void			ft_print_ray(t_minirt ray);
 
-void	new_draw_window(t_minirt minirt);
+void			new_draw_window(t_minirt minirt);
+double			ray_plane_distance(t_plane *plane, t_ray ray);
+t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
+	t_ray ray, t_intersect old_intersect);
+t_intersect		color_sphere(t_minirt minirt, t_sphere *sphere, \
+	t_ray ray, t_intersect old_intersect);
+int				closest_object(t_minirt minirt, t_ray lray);
+void			closest_sphere(t_ray lray, t_sphere *spheres, \
+	double *closest, int *index);
+void			closest_plane(t_ray lray, t_plane *planes, double *closest, \
+	int *index);
+
+t_intersect		apply_intersect(t_intersect new, t_intersect old, \
+	t_minirt minirt);
+
+void			tests(void);
+
+t_intersect		color_cylinder(t_minirt minirt, t_cylinder *cylinder, \
+	t_ray ray, t_intersect old_intersect);
+
+void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
+	double *closest, int *index);
+
+void			closest_cone(t_ray lray, t_cone *cone, double *closest, \
+	int *index);
+
+t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
+			t_ray ray, t_intersect old_intersect);
+
+t_vect			normalize(t_vect v);
 
 #endif
