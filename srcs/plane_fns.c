@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 17:18:14 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 18:11:56 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,40 +29,37 @@ double	ray_plane_distance(t_plane *plane, t_ray ray)
 	return (distance);
 }
 
-t_rgb	get_checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
+t_vect	get_arbitrary(t_plane *plane, t_ray ray)
 {
-	t_vect	p;
-	double	d;
-	t_vect	tmp;
-	t_point	tmpoint;
-	t_point	ppoint;
-	t_vect	p_ortho;
-	t_vect	v1;
-	t_vect	v2;
-	double	v1len;
-	double	v2len;
-	double	u;
-	double	v;
-	int		u_square;
-	int		v_square;
+	t_vect	arbitrary;
 
-	p = vector_normalize(point_subtract(inter.point, plane->point));
-	d = vect_dot(p, plane->normal) / vect_dot(plane->normal, plane->normal);
-	tmp = vect_scale(plane->normal, d);
-	tmpoint = make_point(tmp.x, tmp.y, tmp.z);
-	ppoint = make_point(p.x, p.y, p.z);
-	p_ortho = vector_normalize(point_subtract(ppoint, tmpoint));
-	v1 = ray.direct;
-	v2 = vect_cross(plane->normal, v1);
-	v1 = vector_normalize(v1);
-	v2 = vector_normalize(v2);
-	v1len = sqrt(vect_dot(v1, v1));
-	v2len = sqrt(vect_dot(v2, v2));
-	u = vect_dot(p_ortho, v1) / v1len;
-	v = vect_dot(p_ortho, v2) / v2len;
-	u_square = (int)(u * BOARD_SCALE);
-	v_square = (int)(v * BOARD_SCALE);
-	if ((u_square + v_square) % 2 == 0)
+	arbitrary = make_vect(0.0, 1.0, 0.0);
+	if (plane->normal.x == 0 && (plane->normal.y == 1.0 ||  plane->normal.y == -1.0) && plane->normal.z == 0)
+		arbitrary = make_vect(1.0, 0.0, 0.0);
+	
+	(void)ray;
+	// to make a dart target
+	//t_vect	arbitrary = ray.direct;
+	return (arbitrary);
+}
+
+t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
+{
+	t_vect	x;
+	t_vect	y;
+	t_vect	arbitrary;
+	t_vect	relativePos;
+	double	x_coord;
+	double	y_coord;
+
+	(void)ray;
+	relativePos = point_subtract(inter.point, plane->point);
+	arbitrary = get_arbitrary(plane, ray);
+	x = vector_normalize(vect_cross(plane->normal, arbitrary));
+	y = vector_normalize(vect_cross(plane->normal, x));
+	x_coord = vect_dot(relativePos, x) + BOARD_SCALE * 20.0; // weird way to solve the double whites and blacks problem
+	y_coord = vect_dot(relativePos, y) + BOARD_SCALE * 20.0;
+	if (((int)(x_coord / BOARD_SCALE) + (int)(y_coord / BOARD_SCALE)) % 2 == 0)
 		return (make_color(255, 255, 255));
 	else
 		return (make_color(0, 0, 0));
@@ -89,7 +86,7 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	intersection.normal = plane->normal;
 	if (intersection.distance != -1 && minirt.show_checkboard)
 	{
-		intersection.object_color = get_checkboard_plane(intersection, plane, ray);
+		intersection.object_color = checkboard_plane(intersection, plane, ray);
 	}
 	return (intersection);
 }

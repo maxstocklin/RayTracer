@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 12:44:04 by max               #+#    #+#             */
-/*   Updated: 2023/04/29 12:53:46 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 20:17:17 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ int	get_color(t_minirt minirt, t_ray ray)
 	intersect = intersect_cylinders(minirt, ray, intersect);
 	intersect = intersect_planes(minirt, ray, intersect);
 	intersect = intersect_cones(minirt, ray, intersect);
+	intersect = intersect_spherestr(minirt, ray, intersect);
 	return (intersect.color);
 }

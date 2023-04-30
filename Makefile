@@ -34,6 +34,7 @@ SRCS_NAME	=	main.c \
 				apply_light.c \
 				cylinder_utils.c \
 				closest_obj.c \
+				aaspherestr.c \
 				tests.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))

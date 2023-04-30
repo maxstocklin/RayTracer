@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/29 17:33:20 by max              ###   ########.fr       */
+/*   Updated: 2023/04/29 19:17:11 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ typedef struct s_sphere
 	int				index;
 	struct s_sphere	*next;
 }				t_sphere;
+
+typedef struct s_spheretr
+{
+	double				diameter;
+	t_point				origin;
+	t_rgb				rgb;
+	int					index;
+	struct s_spheretr	*next;
+}				t_spheretr;
 
 typedef struct s_plane
 {
@@ -120,6 +129,7 @@ typedef struct s_minirt
 	t_cylinder	*cylinders;
 	t_plane		*planes;
 	t_sphere	*spheres;
+	t_spheretr	*spheretr;
 	t_cone		*cones;
 	t_cam		*camera;
 	t_light		*lights;
@@ -143,6 +153,7 @@ typedef struct s_intersection
 	t_rgb	diffuse;
 	t_rgb	specular;
 	t_rgb	object_color;
+	t_rgb	reflection;
 	double	distance;
 	t_point	point;
 	t_vect	normal;
@@ -254,6 +265,12 @@ void			ft_free_array(char **tab);
 
 /*		GET_INTERSECT		*/
 int				get_color(t_minirt minirt, t_ray ray);
+t_intersect		intersect_cylinders(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_intersect		intersect_planes(t_minirt minirt, t_ray ray, t_intersect intersect);
+t_intersect		intersect_cones(t_minirt minirt, t_ray ray, t_intersect intersect);
+t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, t_intersect intersect);
+
 
 /*		APPLY_LIGHT		*/
 int				apply_light(t_minirt minirt, t_intersect inter);
@@ -307,6 +324,19 @@ double			ray_cone_distance(t_cone cone, t_ray ray);
 void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
+
+/*		mirror sphere with errors in tr...		*/
+double			ray_spheretr_distance(t_spheretr *spheretr, t_ray ray);
+t_rgb			apply_map(double lat, double lng, t_minirt minirt);
+t_rgb			apply_checkboard(double phi, double theta);
+t_rgb			get_color_tr(t_minirt minirt, t_ray ray);
+t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
+int				apply_light_tr(t_minirt minirt, t_intersect inter);
+t_intersect		apply_intersect_tr(t_intersect new, t_intersect old, t_minirt minirt);
+t_intersect		color_spheretr(t_minirt minirt, t_spheretr *spheretr, \
+	t_ray ray, t_intersect old_intersect);
+t_intersect		intersect_spherestr(t_minirt minirt, t_ray ray, t_intersect intersect);
+
 
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
