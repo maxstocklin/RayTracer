@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/04/30 13:01:21 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 14:46:46 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_rgb	get_specular(t_minirt minirt, t_intersect inter, \
 	t_vect	reflection;
 
 	ldir = vector_normalize(point_subtract(inter.point, minirt.lights->origin));
+	inter.normal = vector_normalize(inter.normal);
 	reflection.x = 2 * (vect_dot(inter.normal, ldir)) * inter.normal.x - ldir.x;
 	reflection.y = 2 * (vect_dot(inter.normal, ldir)) * inter.normal.y - ldir.y;
 	reflection.z = 2 * (vect_dot(inter.normal, ldir)) * inter.normal.z - ldir.z;
