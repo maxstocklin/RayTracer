@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 20:16:07 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 18:34:55 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->recalc = 0;
 	minirt->show_texture = 0;
 	minirt->show_checkboard = 0;
+	minirt->mirrorlvl = 0;
 }

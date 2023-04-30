@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 18:11:56 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 20:29:57 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	intersection.distance = ray_plane_distance(plane, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = plane->rgb;
-	intersection.normal = plane->normal;
+	intersection.normal = vector_normalize(plane->normal);
 	if (intersection.distance != -1 && minirt.show_checkboard)
 	{
 		intersection.object_color = checkboard_plane(intersection, plane, ray);

@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/29 19:17:11 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 18:42:49 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_minirt
 	int			recalc;
 	int			show_texture;
 	int			show_checkboard;
+	int			mirrorlvl;
 
 	int			x;
 	int			y;
@@ -176,6 +177,7 @@ typedef struct s_screen
 
 # define PHONG_POW 100
 # define PHONG_COEF 0.9
+# define MIRR_COEF 0.1
 # define BOARD_SCALE 20
 
 # define FALSE 1
@@ -336,6 +338,8 @@ t_intersect		apply_intersect_tr(t_intersect new, t_intersect old, t_minirt minir
 t_intersect		color_spheretr(t_minirt minirt, t_spheretr *spheretr, \
 	t_ray ray, t_intersect old_intersect);
 t_intersect		intersect_spherestr(t_minirt minirt, t_ray ray, t_intersect intersect);
+t_rgb			get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular);
+t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
 
 
 /*		TO BE REMOVED		*/

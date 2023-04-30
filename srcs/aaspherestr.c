@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 18:37:13 by max               #+#    #+#             */
-/*   Updated: 2023/04/30 14:39:27 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 18:41:52 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,42 @@ t_rgb	get_color_tr(t_minirt minirt, t_ray ray)
 }
 
 
-t_rgb	apply_reflection(t_minirt minirt, t_intersect inter)
-{
-	t_vect	vdir;
-	t_vect	reflection;
-	t_rgb	reflect_color;
-	t_ray	rayflection;
+// t_rgb	apply_reflection(t_minirt minirt, t_intersect inter)
+// {
+// 	t_vect	vdir;
+// 	t_vect	reflection;
+// 	t_rgb	reflect_color;
+// 	t_ray	rayflection;
 
-	rayflection.origin = inter.point;
-	vdir = vector_normalize(point_subtract(inter.point, minirt.camera->origin));
-	reflection.x = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.x - vdir.x;
-	reflection.y = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.y - vdir.y;
-	reflection.z = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.z - vdir.z;
-	reflection.x = -reflection.x;
-	reflection.y = -reflection.y;
-	reflection.z = -reflection.z;
-	reflection = vector_normalize(reflection);
-	rayflection.direct = reflection;
-	reflect_color = get_color_tr(minirt, rayflection);
-	return (reflect_color);
-}
+// 	rayflection.origin = inter.point;
+// 	vdir = vector_normalize(point_subtract(inter.point, minirt.camera->origin));
+// 	reflection.x = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.x - vdir.x;
+// 	reflection.y = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.y - vdir.y;
+// 	reflection.z = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.z - vdir.z;
+// 	reflection.x = -reflection.x;
+// 	reflection.y = -reflection.y;
+// 	reflection.z = -reflection.z;
+// 	reflection = vector_normalize(reflection);
+// 	rayflection.direct = reflection;
+// 	reflect_color = get_color_tr(minirt, rayflection);
+// 	return (reflect_color);
+// }
+
+// t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
+// {
+// 	t_rgb	half;
+// 	double	coef;
+// 	double	op;
+	
+// 	coef = 0.07;
+// 	op = 1 - coef;
+
+// 	half.red = (rgb.red * op) + (reflection.red * coef);
+// 	half.green = (rgb.green * op) + (reflection.green * coef);
+// 	half.blue = (rgb.blue * op) + (reflection.blue * coef);
+// 	half = sum_light(half, specular);
+// 	return (half);
+// }
 
 int	apply_light_tr(t_minirt minirt, t_intersect inter)
 {
@@ -106,10 +122,7 @@ int	apply_light_tr(t_minirt minirt, t_intersect inter)
 	}
 	inter.rgb = sum_light(inter.ambiant, inter.specular);
 	t_rgb half;
-	half.red = inter.rgb.red + inter.reflection.red / 2;
-	half.green = inter.rgb.green + inter.reflection.green / 2;
-	half.blue = inter.rgb.blue + inter.reflection.blue / 2;
-	half = sum_light(half, inter.specular);
+	half = get_mirrors(inter.reflection, inter.rgb, inter.specular);
 	return (rgb_to_int(half));
 }
 

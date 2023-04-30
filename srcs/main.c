@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 20:15:31 by max              ###   ########.fr       */
+/*   Updated: 2023/04/30 20:24:32 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	display_mlx_win(t_minirt *minirt)
 				mlx_put_image_to_window(minirt->vars.mlx, minirt->vars.win, \
 				minirt->vars.img, 0, 0);
 				add_mlx_hook(minirt);
-				printf("121212 map set\n");
 				mlx_loop_hook(minirt->vars.mlx, loop_hook, minirt);
 				mlx_loop(minirt->vars.mlx);
 				return (0);
