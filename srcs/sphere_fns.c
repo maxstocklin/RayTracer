@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 16:34:36 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:39:54 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,21 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	t_ray ray, t_minirt minirt)
 {
 	t_intersect	intersect;
-	double		lat;
-	double		lng;
+	// double		lat;
+	// double		lng;
 
+	(void)minirt;
 	intersect.index = sphere->index;
 	intersect.distance = ray_sphere_distance(sphere, ray);
 	intersect.point = get_intersect(ray, intersect.distance);
 	intersect.object_color = sphere->rgb;
 	intersect.normal = point_subtract(intersect.point, sphere->origin);
-		lng = atan2(-intersect.normal.z, intersect.normal.x);
-		lat = acos(intersect.normal.y / vect_length(intersect.normal));
-	if (intersect.distance != -1 && minirt.show_texture)
-		intersect.object_color = apply_map(lat, lng, minirt);
-	if (intersect.distance != -1 && minirt.show_checkboard)
-		intersect.object_color = apply_checkboard(lat, lng);
+	// lng = atan2(-intersect.normal.z, intersect.normal.x);
+	// lat = acos(intersect.normal.y / vect_length(intersect.normal));
+	// if (intersect.distance != -1 && minirt.show_texture)
+	// 	intersect.object_color = apply_map(lat, lng, minirt);
+	// if (intersect.distance != -1 && minirt.show_checkboard)
+	// 	intersect.object_color = apply_checkboard(lat, lng);
 	return (intersect);
 }
 

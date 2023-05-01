@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/01 23:54:14 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:43:49 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_rgb	get_specular(t_minirt minirt, t_intersect inter, \
 	return (sum_light(tmp_phong, inter.specular));
 }
 
-t_rgb	get_diffuse(t_minirt minirt, t_intersect inter, double adjustment)
+t_rgb	get_diffuse(t_minirt minirt, t_intersect inter, \
+	double adjustment, int *check)
 {
 	t_rgb	tmp;
 	t_ray	lray;
@@ -54,40 +55,34 @@ t_rgb	get_diffuse(t_minirt minirt, t_intersect inter, double adjustment)
 	adjustment = (factor * minirt.lights->intensity);
 	adjustment = fmin(1.0, adjustment);
 	tmp = add_light(inter.object_color, minirt.lights->rgb, adjustment);
+	*check = 1;
 	return (sum_light(tmp, inter.diffuse));
 }
-
-
-
-
-
-
-
-
 
 t_rgb	apply_reflection(t_minirt minirt, t_intersect inter)
 {
 	t_vect	vdir;
-	t_vect	reflection;
 	t_rgb	reflect_color;
-	t_ray	rayflection;
+	t_ray	rayflect;
+	t_vect	tmp;
+	t_point	tmpoint;
 
-	rayflection.origin = inter.point;
+	rayflect.origin = inter.point;
 	vdir = vector_normalize(point_subtract(inter.point, minirt.camera->origin));
 	inter.normal = vector_normalize(inter.normal);
-	reflection.x = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.x - vdir.x;
-	reflection.y = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.y - vdir.y;
-	reflection.z = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.z - vdir.z;
-	reflection.x = -reflection.x;
-	reflection.y = -reflection.y;
-	reflection.z = -reflection.z;
-	reflection = vector_normalize(reflection);
+	rayflect.direct.x = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.x - vdir.x;
+	rayflect.direct.y = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.y - vdir.y;
+	rayflect.direct.z = 2 * (vect_dot(inter.normal, vdir)) * inter.normal.z - vdir.z;
+	rayflect.direct.x = -rayflect.direct.x;
+	rayflect.direct.y = -rayflect.direct.y;
+	rayflect.direct.z = -rayflect.direct.z;
+	rayflect.direct = vector_normalize(rayflect.direct);
 	// add a little offset for the plane
-	t_vect tmp = vect_scale(reflection, 0.001);
-	t_point	tmpoint = make_point(tmp.x, tmp.y, tmp.z);
-	rayflection.origin = point_add(inter.point, tmpoint);
-	rayflection.direct = reflection;
-	reflect_color = int_to_rgb(get_color(minirt, rayflection));
+	tmp = vect_scale(rayflect.direct, 0.001);
+	tmpoint = make_point(tmp.x, tmp.y, tmp.z);
+	rayflect.origin = point_add(inter.point, tmpoint);
+	rayflect.direct = rayflect.direct;
+	reflect_color = int_to_rgb(get_color(minirt, rayflect));
 	return (reflect_color);
 }
 
@@ -96,8 +91,8 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
 	t_rgb	mixed;
 	double	coef;
 	double	op;
-	
-	coef = 0.5;
+
+	coef = 0.9;
 	op = 1 - coef;
 	mixed.red = (rgb.red * op) + (reflection.red * coef);
 	mixed.green = (rgb.green * op) + (reflection.green * coef);
@@ -106,24 +101,25 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
 	return (mixed);
 }
 
-
 int	apply_light(t_minirt minirt, t_intersect inter)
 {
-	t_rgb mixed;
+	t_rgb	mixed;
+	int		check;
 
 	inter.specular = add_intensity(inter.object_color, 0);
 	inter.diffuse = add_intensity(inter.object_color, 0);
 	minirt.mirrorlvl++;
-	if (minirt.mirrorlvl < 2 && inter.index == 1)
+	if (minirt.mirrorlvl < 4 && inter.index < 4)
 		inter.reflection = apply_reflection(minirt, inter);
 	while (minirt.lights)
 	{
-		inter.diffuse = get_diffuse(minirt, inter, 0);
-		if (inter.diffuse.red > 0 || inter.diffuse.green > 0 || inter.diffuse.blue > 0)
+		check = 0;
+		inter.diffuse = get_diffuse(minirt, inter, 0, &check);
+		if (check == 1)
 			inter.specular = get_specular(minirt, inter, 0, 0);
 		minirt.lights = minirt.lights->next;
 	}
-	if (minirt.mirrorlvl >= 2 || inter.index != 1)
+	if (minirt.mirrorlvl >= 4 || inter.index > 3)
 	{
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
 		return (rgb_to_int(inter.rgb));

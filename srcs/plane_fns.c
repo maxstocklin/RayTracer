@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/30 20:29:57 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:20:11 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_vect	get_arbitrary(t_plane *plane, t_ray ray)
 	t_vect	arbitrary;
 
 	arbitrary = make_vect(0.0, 1.0, 0.0);
-	if (plane->normal.x == 0 && (plane->normal.y == 1.0 ||  plane->normal.y == -1.0) && plane->normal.z == 0)
+	if (plane->normal.x == 0 && (plane->normal.y == 1.0 || \
+	plane->normal.y == -1.0) && plane->normal.z == 0)
 		arbitrary = make_vect(1.0, 0.0, 0.0);
-	
 	(void)ray;
 	// to make a dart target
 	//t_vect	arbitrary = ray.direct;

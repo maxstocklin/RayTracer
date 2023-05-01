@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/04/30 18:42:49 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:12:22 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, t_intersect intersect
 /*		APPLY_LIGHT		*/
 int				apply_light(t_minirt minirt, t_intersect inter);
 t_rgb			get_diffuse(t_minirt minirt, \
-	t_intersect inter, double adjustment);
+	t_intersect inter, double adjustment, int *check);
 t_rgb			get_specular(t_minirt minirt, t_intersect inter, \
 	double angle, double specular);
 
@@ -326,21 +326,6 @@ double			ray_cone_distance(t_cone cone, t_ray ray);
 void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
-
-/*		mirror sphere with errors in tr...		*/
-double			ray_spheretr_distance(t_spheretr *spheretr, t_ray ray);
-t_rgb			apply_map(double lat, double lng, t_minirt minirt);
-t_rgb			apply_checkboard(double phi, double theta);
-t_rgb			get_color_tr(t_minirt minirt, t_ray ray);
-t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
-int				apply_light_tr(t_minirt minirt, t_intersect inter);
-t_intersect		apply_intersect_tr(t_intersect new, t_intersect old, t_minirt minirt);
-t_intersect		color_spheretr(t_minirt minirt, t_spheretr *spheretr, \
-	t_ray ray, t_intersect old_intersect);
-t_intersect		intersect_spherestr(t_minirt minirt, t_ray ray, t_intersect intersect);
-t_rgb			get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular);
-t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
-
 
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);

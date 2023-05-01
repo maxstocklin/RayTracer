@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 19:02:46 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:12:23 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,6 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 		while (current->next)
 			current = current->next;
 		current->next = sphere;
-	}
-}
-
-void	assign_sphere_tr(t_minirt *minirt, char **tab)
-{
-	t_spheretr	*spheretr;
-	t_spheretr	*current;
-
-	if (check_array_size(tab, 4) == FALSE)
-		ft_error(6);
-	spheretr = malloc(sizeof(t_spheretr));
-	if (!spheretr)
-		ft_error(7);
-	spheretr->origin = ft_get_xyz(tab[1]);
-	spheretr->diameter = ft_assign_diameter(tab[2]);
-	spheretr->rgb = ft_get_rgb(tab[3]);
-	spheretr->next = NULL;
-	spheretr->index = ++minirt->num_objects;
-	current = minirt->spheretr;
-	if (!current)
-		minirt->spheretr = spheretr;
-	else
-	{
-		while (current->next)
-			current = current->next;
-		current->next = spheretr;
 	}
 }
 
@@ -155,8 +129,6 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 		assign_spotlight(minirt, tab);
 	else if (ft_strcmp(tab[0], "sp") == TRUE)
 		assign_sphere(minirt, tab);
-	else if (ft_strcmp(tab[0], "tr") == TRUE)
-		assign_sphere_tr(minirt, tab);
 	else if (ft_strcmp(tab[0], "pl") == TRUE)
 		assign_plane(minirt, tab);
 	else if (ft_strcmp(tab[0], "cy") == TRUE)

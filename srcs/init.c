@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/30 18:34:55 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 00:12:24 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->ambiant = NULL;
 	minirt->camera = NULL;
 	minirt->spheres = NULL;
-	minirt->spheretr = NULL;
 	minirt->lights = NULL;
 	minirt->cylinders = NULL;
 	minirt->cones = NULL;
