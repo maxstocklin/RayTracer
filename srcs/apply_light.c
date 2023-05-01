@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/04/30 20:40:01 by max              ###   ########.fr       */
+/*   Updated: 2023/05/01 23:54:14 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ t_rgb	apply_reflection(t_minirt minirt, t_intersect inter)
 	reflection.y = -reflection.y;
 	reflection.z = -reflection.z;
 	reflection = vector_normalize(reflection);
+	// add a little offset for the plane
+	t_vect tmp = vect_scale(reflection, 0.001);
+	t_point	tmpoint = make_point(tmp.x, tmp.y, tmp.z);
+	rayflection.origin = point_add(inter.point, tmpoint);
 	rayflection.direct = reflection;
 	reflect_color = int_to_rgb(get_color(minirt, rayflection));
 	return (reflect_color);
@@ -93,7 +97,7 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
 	double	coef;
 	double	op;
 	
-	coef = 1;
+	coef = 0.5;
 	op = 1 - coef;
 	mixed.red = (rgb.red * op) + (reflection.red * coef);
 	mixed.green = (rgb.green * op) + (reflection.green * coef);
@@ -101,6 +105,7 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
 	mixed = sum_light(mixed, specular);
 	return (mixed);
 }
+
 
 int	apply_light(t_minirt minirt, t_intersect inter)
 {
@@ -114,7 +119,8 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	while (minirt.lights)
 	{
 		inter.diffuse = get_diffuse(minirt, inter, 0);
-		inter.specular = get_specular(minirt, inter, 0, 0);
+		if (inter.diffuse.red > 0 || inter.diffuse.green > 0 || inter.diffuse.blue > 0)
+			inter.specular = get_specular(minirt, inter, 0, 0);
 		minirt.lights = minirt.lights->next;
 	}
 	if (minirt.mirrorlvl >= 2 || inter.index != 1)
