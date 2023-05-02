@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/02 00:43:49 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 14:58:20 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, t_rgb specular)
 	double	coef;
 	double	op;
 
-	coef = 0.9;
+	coef = 0.4;
 	op = 1 - coef;
 	mixed.red = (rgb.red * op) + (reflection.red * coef);
 	mixed.green = (rgb.green * op) + (reflection.green * coef);
@@ -109,7 +109,7 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	inter.specular = add_intensity(inter.object_color, 0);
 	inter.diffuse = add_intensity(inter.object_color, 0);
 	minirt.mirrorlvl++;
-	if (minirt.mirrorlvl < 4 && inter.index < 4)
+	if (minirt.mirrorlvl < 0 && inter.index < 3)
 		inter.reflection = apply_reflection(minirt, inter);
 	while (minirt.lights)
 	{
@@ -119,8 +119,9 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 			inter.specular = get_specular(minirt, inter, 0, 0);
 		minirt.lights = minirt.lights->next;
 	}
-	if (minirt.mirrorlvl >= 4 || inter.index > 3)
+	if (minirt.mirrorlvl >= 0 || inter.index >= 3)
 	{
+		// inter.specular = add_intensity(inter.object_color, 0);
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
 		return (rgb_to_int(inter.rgb));
 	}

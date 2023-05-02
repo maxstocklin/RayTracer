@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 11:58:42 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:57:38 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	ft_set_map(t_minirt *minirt)
 
 void	ft_set_bump(t_minirt *minirt)
 {
-	char	*relative_path = "./8081_earthbump2k.xpm";
+	// char	*relative_path = "./8081_earthbump2k.xpm";
+	char	*relative_path = "./normal-map.xpm";
 
 	minirt->bump.texture.mlx = mlx_init();
 	minirt->bump.texture.img = mlx_xpm_file_to_image(minirt->bump.texture.mlx, \
@@ -130,6 +131,7 @@ int	main(int ac, char **av)
 	}
 	printf("before map set\n");
 	ft_set_map(&minirt);
+	ft_set_bump(&minirt);
 	printf("after map set\n");
 	ft_print_ray(minirt);
 	// tests();
