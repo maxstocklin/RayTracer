@@ -65,6 +65,28 @@ t_intersect	intersect_cones(t_minirt minirt, t_ray ray, t_intersect intersect)
 	return (intersect);
 }
 
+
+
+
+
+
+
+
+
+
+
+t_intersect	intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect)
+{
+	t_minirt		tmp;
+
+	tmp = minirt;
+	while (tmp.discs)
+	{
+		intersect = color_disc(minirt, tmp.discs, ray, intersect);
+		tmp.discs = tmp.discs->next;
+	}
+	return (intersect);
+}
 int	get_color(t_minirt minirt, t_ray ray)
 {
 	t_intersect		intersect;
@@ -75,5 +97,6 @@ int	get_color(t_minirt minirt, t_ray ray)
 	intersect = intersect_cylinders(minirt, ray, intersect);
 	intersect = intersect_planes(minirt, ray, intersect);
 	intersect = intersect_cones(minirt, ray, intersect);
+	intersect = intersect_discs(minirt, ray, intersect);
 	return (intersect.color);
 }

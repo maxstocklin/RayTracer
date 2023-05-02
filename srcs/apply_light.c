@@ -121,7 +121,7 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	}
 	if (minirt.mirrorlvl >= 0 || inter.index >= 3)
 	{
-		// inter.specular = add_intensity(inter.object_color, 0);
+//		inter.specular = add_intensity(inter.object_color, 0);
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
 		return (rgb_to_int(inter.rgb));
 	}

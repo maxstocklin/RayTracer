@@ -17,7 +17,7 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	t_sphere	*sphere;
 	t_sphere	*current;
 
-	if (check_array_size(tab, 4) == FALSE)
+	if (check_array_size(tab, 5) == FALSE)
 		ft_error(6);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
@@ -25,6 +25,7 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	sphere->origin = ft_get_xyz(tab[1]);
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
+	sphere->reflect = ft_assign_range(tab[4]);
 	sphere->next = NULL;
 	sphere->index = ++minirt->num_objects;
 	current = minirt->spheres;
@@ -43,7 +44,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	t_plane	*plane;
 	t_plane	*current;
 
-	if (check_array_size(tab, 4) == FALSE)
+	if (check_array_size(tab, 5) == FALSE)
 		ft_error(6);
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
@@ -51,6 +52,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	plane->point = ft_get_xyz(tab[1]);
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
+	plane->reflect = ft_assign_range(tab[4]);
 	plane->next = NULL;
 	plane->index = ++minirt->num_objects;
 	current = minirt->planes;
@@ -61,6 +63,51 @@ void	assign_plane(t_minirt *minirt, char **tab)
 		while (current->next)
 			current = current->next;
 		current->next = plane;
+	}
+}
+
+
+t_point	get_intersect2(t_vect direct, t_point origin, double distance)
+{
+	direct = vector_normalize(direct);
+	return (make_point(origin.x + direct.x * distance, \
+		origin.y + direct.y * distance, origin.z + \
+		direct.z * distance));
+}
+
+void	assign_discs(t_minirt *minirt, t_cylinder cylinder)
+{
+	t_disc 	*disc1;
+	t_disc *disc2;
+	t_disc	*current;
+
+
+	disc1 = malloc(sizeof(t_disc));
+	if (!disc1)
+		ft_error(7);
+	disc2 = malloc(sizeof(t_disc));
+	if (!disc2)
+		ft_error(7);
+	disc1->origin = get_intersect2(cylinder.axis, cylinder.origin, cylinder.height / 2);
+	disc2->origin = get_intersect2(vect_scale(cylinder.axis, -1), cylinder.origin, cylinder.height / 2);
+	disc1->normal = cylinder.axis;
+	disc2->normal = vect_scale(cylinder.axis, -1);
+	disc1->diameter = cylinder.diameter;
+	disc2->diameter = cylinder.diameter;
+	disc1->rgb = cylinder.rgb;
+	disc2->rgb = cylinder.rgb;
+	disc1->next = disc2;
+	disc2->next = NULL;
+	disc1->index = ++minirt->num_objects;
+	disc2->index = ++minirt->num_objects;
+	current = minirt->discs;
+	if (!current)
+		minirt->discs = disc1;
+	else
+	{
+		while (current->next)
+			current = current->next;
+		current->next = disc1;
 	}
 }
 
@@ -79,6 +126,7 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	cylinder->diameter = ft_assign_diameter(tab[3]);
 	cylinder->height = ft_assign_diameter(tab[4]);
 	cylinder->rgb = ft_get_rgb(tab[5]);
+	assign_discs(minirt, *cylinder);
 	cylinder->next = NULL;
 	cylinder->index = ++minirt->num_objects;
 	current = minirt->cylinders;

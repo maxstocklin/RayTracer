@@ -54,16 +54,20 @@ typedef struct s_sphere
 	t_rgb			rgb;
 	int				index;
 	struct s_sphere	*next;
+	double 			reflect;
 }				t_sphere;
 
-typedef struct s_spheretr
+typedef struct s_disc
 {
-	double				diameter;
-	t_point				origin;
-	t_rgb				rgb;
-	int					index;
-	struct s_spheretr	*next;
-}				t_spheretr;
+	double			diameter;
+	t_point			origin;
+	t_vect			normal;
+	t_rgb			rgb;
+	int				index;
+	double 			reflect;
+	struct s_disc	*next;
+}				t_disc;
+
 
 typedef struct s_plane
 {
@@ -71,6 +75,7 @@ typedef struct s_plane
 	t_point			point;
 	t_rgb			rgb;
 	int				index;
+	double 			reflect;
 	struct s_plane	*next;
 
 }				t_plane;
@@ -87,6 +92,7 @@ typedef struct s_cylinder
 	double				a;
 	double				b;
 	double				c;
+	double 				reflect;
 
 }				t_cylinder;
 
@@ -101,6 +107,7 @@ typedef struct s_cone {
 	double			a;
 	double			b;
 	double			c;
+	double 			reflect;
 
 }	t_cone;
 
@@ -128,9 +135,9 @@ typedef struct s_minirt
 	t_map		map;
 	t_map		bump;
 	t_cylinder	*cylinders;
+	t_disc		*discs;
 	t_plane		*planes;
 	t_sphere	*spheres;
-	t_spheretr	*spheretr;
 	t_cone		*cones;
 	t_cam		*camera;
 	t_light		*lights;
@@ -331,5 +338,17 @@ t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
 void			tests(void);
+
+
+
+
+
+t_intersect	color_disc(t_minirt minirt, t_disc *disc, \
+	t_ray ray, t_intersect old_intersect);
+t_intersect	ray_disc_intersect(t_disc *disc, t_ray ray, \
+	t_minirt minirt);
+double	ray_disc_distance(t_disc *disc, t_ray ray);
+
+
 
 #endif

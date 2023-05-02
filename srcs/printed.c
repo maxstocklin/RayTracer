@@ -69,7 +69,7 @@ void	ft_print_ray(t_minirt ray)
 		printf("R = %d G = %d B = %d\n", ray.cylinders->rgb.red, \
 			ray.cylinders->rgb.green, ray.cylinders->rgb.blue);
 	}
-		if (ray.cones)
+	if (ray.cones)
 	{
 		printf("\nCONE:\n");
 		printf("coordinates x = %f y = %f z %f\n", ray.cones->origin.x, \
@@ -77,5 +77,16 @@ void	ft_print_ray(t_minirt ray)
 		printf("angle: %f\n", ray.cones->angle);
 		printf("R = %d G = %d B = %d\n", ray.cones->rgb.red, \
 			ray.cones->rgb.green, ray.cones->rgb.blue);
+	}
+	if (ray.discs)
+	{
+		printf("\nDISC:\n");
+		printf("coordinates x = %f y = %f z %f\n", ray.discs->origin.x, \
+			ray.discs->origin.y, ray.discs->origin.z);
+		printf("normal x = %f y = %f z %f\n", ray.discs->normal.x, \
+			ray.discs->normal.y, ray.discs->normal.z);
+		printf("diameter: %f\n", ray.discs->diameter);
+		printf("R = %d G = %d B = %d\n", ray.discs->rgb.red, \
+			ray.discs->rgb.green, ray.discs->rgb.blue);
 	}
 }

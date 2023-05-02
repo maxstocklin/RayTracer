@@ -123,12 +123,12 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	intersect.normal = point_subtract(intersect.point, sphere->origin);
 	lng = atan2(-intersect.normal.z, intersect.normal.x);
 	lat = acos(intersect.normal.y / vect_length(intersect.normal));
-	if (intersect.distance != -1 && minirt.show_texture)
+	if (intersect.distance != -1)
 	{
 
 		adjustnormal(lat, lng, &intersect, minirt);
-		// intersect.object_color = apply_map(lat, lng, minirt);
-		intersect.object_color = make_color(125, 75, 75);
+		 intersect.object_color = apply_map(lat, lng, minirt);
+//		intersect.object_color = make_color(75, 75, 255);
 	}
 	// if (intersect.distance != -1 && minirt.show_checkboard)
 	// 	intersect.object_color = apply_checkboard(lat, lng);

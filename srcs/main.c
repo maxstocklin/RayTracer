@@ -87,7 +87,8 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 
 void	ft_set_map(t_minirt *minirt)
 {
-	char	*relative_path = "./8081_earthmap2k.xpm";
+//	char	*relative_path = "./8081_earthmap2k.xpm";
+	char	*relative_path = "./stock-metal-texture-diffuse.xpm";
 
 	minirt->map.texture.mlx = mlx_init();
 	minirt->map.texture.img = mlx_xpm_file_to_image(minirt->map.texture.mlx, \
@@ -102,8 +103,9 @@ void	ft_set_map(t_minirt *minirt)
 
 void	ft_set_bump(t_minirt *minirt)
 {
-	// char	*relative_path = "./8081_earthbump2k.xpm";
-	char	*relative_path = "./normal-map.xpm";
+//	char	*relative_path = "./8081_earthbump2k.xpm";
+	char	*relative_path = "./stock-metal-texture-normal.xpm";
+//	char	*relative_path = "./normal-map.xpm";
 
 	minirt->bump.texture.mlx = mlx_init();
 	minirt->bump.texture.img = mlx_xpm_file_to_image(minirt->bump.texture.mlx, \

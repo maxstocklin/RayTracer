@@ -99,6 +99,28 @@ void	closest_plane(t_ray lray, t_plane *planes, double *closest, int *index)
 	}
 }
 
+
+void	closest_disc(t_ray lray, t_disc *disc, double *closest, int *index)
+{
+	double	test;
+
+	while (disc)
+	{
+		test = ray_disc_distance(disc, lray);
+		if (test == -1 || (test > *closest && *closest > -1))
+		{
+			disc = disc->next;
+			continue ;
+		}
+		if (*closest == -1 || test < *closest)
+		{
+			*index = disc->index;
+			*closest = test;
+		}
+		disc = disc->next;
+	}
+}
+
 int	closest_object(t_minirt minirt, t_ray lray)
 {
 	double			closest;
@@ -110,5 +132,6 @@ int	closest_object(t_minirt minirt, t_ray lray)
 	closest_sphere(lray, minirt.spheres, &closest, &index);
 	closest_cylinder(lray, minirt.cylinders, &closest, &index);
 	closest_cone(lray, minirt.cones, &closest, &index);
+	closest_disc(lray, minirt.discs, &closest, &index);
 	return (index);
 }

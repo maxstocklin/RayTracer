@@ -81,7 +81,7 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;
 	minirt->recalc = 0;
-	minirt->show_texture = 1;
+	minirt->show_texture = 0;
 	minirt->show_checkboard = 0;
 	minirt->mirrorlvl = 0;
 }
