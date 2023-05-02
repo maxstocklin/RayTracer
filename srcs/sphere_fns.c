@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_fns.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:39:54 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 12:02:45 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,38 @@ t_rgb	apply_map(double lat, double lng, t_minirt minirt)
 	return (int_to_rgb(mlx_get_color_value(minirt.map.texture.img, \
 	*(int *)(minirt.map.texture.addr + x * (minirt.map.texture.bits_per_pixel \
 	/ 8) + y * minirt.map.texture.line_length))));
+}
+
+t_vect perturb_normal(t_vect normal, t_vect tangent, double bump) {
+    t_vect bitangent = vect_cross(normal, tangent); // Compute bitangent vector
+    t_vect perturbed_normal = vect_add(vect_scale(normal, 1.0 - bump), vect_add(vect_scale(tangent, bump * bitangent.x), vect_scale(bitangent, bump * tangent.x)));
+    return vector_normalize(perturbed_normal);
+}
+
+void	adjustnormal(double lat, double lng, t_intersect *inter, t_minirt minirt)
+{
+	int		x2;
+	int		y2;
+	t_vect	tangent;
+
+	lat = rad_to_deg(lat + M_PI / 2);
+	lng = rad_to_deg(lng + M_PI / 2) ;
+	tangent = vector_normalize(vect_cross(inter->normal, make_vect(0, 1, 0)));
+	x2 = (int)((lng / 180.0) * (double)minirt.bump.width / 2.0 + \
+		(double)minirt.map.width / 2.0);
+	y2 = (int)((lat / 90.0) * (double)minirt.bump.height / 2.0 + \
+		(double)minirt.map.height / 2.0);
+	x2 = x2 % minirt.bump.width;
+	y2 = y2 % minirt.bump.height;
+	inter->rgb = int_to_rgb(mlx_get_color_value(minirt.bump.texture.img, \
+		*(int *)(minirt.bump.texture.addr + x2 * \
+		(minirt.bump.texture.bits_per_pixel / 8) + \
+		y2 * minirt.bump.texture.line_length)));
+
+	inter->normal = vector_normalize(inter->normal);
+	inter->normal = perturb_normal(inter->normal, tangent, inter->rgb.blue/20);
+	// printf("r g b %d, %d, %d \n", inter->rgb.red, inter->rgb.green,
+	// 	   inter->rgb.blue);
 }
 
 t_rgb	apply_checkboard(double phi, double theta)
