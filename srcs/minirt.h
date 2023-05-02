@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/02 00:12:22 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 11:58:39 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_minirt
 {
 	t_vars		vars;
 	t_map		map;
+	t_map		bump;
 	t_cylinder	*cylinders;
 	t_plane		*planes;
 	t_sphere	*spheres;
