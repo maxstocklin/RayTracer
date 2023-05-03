@@ -43,8 +43,6 @@ t_rgb	get_map_rgb(int x, int y, t_map map)
 		y * map.texture.line_length))));
 }
 
-
-
 t_rgb	apply_map(double lat, double lng, t_minirt minirt)
 {
 	int	x;
@@ -59,7 +57,8 @@ t_rgb	apply_map(double lat, double lng, t_minirt minirt)
 	return (get_map_rgb(x, y, minirt.map));
 }
 
-void	adjustnormal(double lat, double lng, t_intersect *inter, t_minirt minirt)
+void	adjustnormal(double lat, double lng, t_intersect *inter, \
+	t_minirt minirt)
 {
 	int		x;
 	int		y;
@@ -68,9 +67,7 @@ void	adjustnormal(double lat, double lng, t_intersect *inter, t_minirt minirt)
 	t_rgb	v_plus_1;
 	int		dx;
 	int		dy;
-	t_vect perturbation;
-
-	(void)inter;
+	t_vect	perturbation;
 
 	lat = rad_to_deg(lat + M_PI / 2);
 	lng = rad_to_deg(lng + M_PI / 2) ;
@@ -84,9 +81,6 @@ void	adjustnormal(double lat, double lng, t_intersect *inter, t_minirt minirt)
 	dx = u_plus_1.blue - base.blue;
 	dy = v_plus_1.blue - base.blue;
 	perturbation = vector_normalize(make_vect(dx, dy, 0.02 * base.blue));
-
-	// printf("%d %d %d\n",base.blue, base.green, base.red);
-
 	inter->normal = vector_normalize(vect_add(vector_normalize(inter->normal), perturbation));
 	inter->normal = vector_normalize(make_vect(base.red*2, base.green, base.blue));
 }
@@ -117,6 +111,7 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 
 	(void)minirt;
 	intersect.index = sphere->index;
+	intersect.reflect = sphere->reflect;
 	intersect.distance = ray_sphere_distance(sphere, ray);
 	intersect.point = get_intersect(ray, intersect.distance);
 	intersect.object_color = sphere->rgb;
@@ -125,13 +120,11 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	lat = acos(intersect.normal.y / vect_length(intersect.normal));
 	if (intersect.distance != -1 && minirt.show_texture)
 	{
-
 		adjustnormal(lat, lng, &intersect, minirt);
-		 intersect.object_color = apply_map(lat, lng, minirt);
-//		intersect.object_color = make_color(75, 75, 255);
+		intersect.object_color = apply_map(lat, lng, minirt);
 	}
-	// if (intersect.distance != -1 && minirt.show_checkboard)
-	// 	intersect.object_color = apply_checkboard(lat, lng);
+	 if (intersect.distance != -1 && minirt.show_checkboard && sphere->reflect < 0.1)
+	 	intersect.object_color = apply_checkboard(lat, lng);
 	return (intersect);
 }
 

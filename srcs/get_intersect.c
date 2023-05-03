@@ -87,12 +87,14 @@ t_intersect	intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect)
 	}
 	return (intersect);
 }
+
 int	get_color(t_minirt minirt, t_ray ray)
 {
 	t_intersect		intersect;
 
 	intersect.distance = -1;
 	intersect.color = 0;
+	intersect.reflect = 0;
 	intersect = intersect_spheres(minirt, ray, intersect);
 	intersect = intersect_cylinders(minirt, ray, intersect);
 	intersect = intersect_planes(minirt, ray, intersect);
