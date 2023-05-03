@@ -17,7 +17,7 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	t_sphere	*sphere;
 	t_sphere	*current;
 
-	if (check_array_size(tab, 4) == FALSE)
+	if (check_array_size(tab, 5) == FALSE)
 		ft_error(6);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
@@ -25,6 +25,7 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	sphere->origin = ft_get_xyz(tab[1]);
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
+	sphere->reflect = ft_assign_range(tab[4]);
 	sphere->next = NULL;
 	sphere->index = ++minirt->num_objects;
 	current = minirt->spheres;
@@ -43,7 +44,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	t_plane	*plane;
 	t_plane	*current;
 
-	if (check_array_size(tab, 4) == FALSE)
+	if (check_array_size(tab, 5) == FALSE)
 		ft_error(6);
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
@@ -51,6 +52,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	plane->point = ft_get_xyz(tab[1]);
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
+	plane->reflect = ft_assign_range(tab[4]);
 	plane->next = NULL;
 	plane->index = ++minirt->num_objects;
 	current = minirt->planes;
@@ -69,16 +71,14 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	t_cylinder	*cylinder;
 	t_cylinder	*current;
 
-	if (check_array_size(tab, 6) == FALSE)
-		ft_error(6);
-	cylinder = malloc(sizeof(t_cylinder));
-	if (!cylinder)
-		ft_error(7);
+	cylinder = create_cylinder(tab);
 	cylinder->origin = ft_get_xyz(tab[1]);
 	cylinder->axis = ft_get_direction(tab[2]);
 	cylinder->diameter = ft_assign_diameter(tab[3]);
 	cylinder->height = ft_assign_diameter(tab[4]);
 	cylinder->rgb = ft_get_rgb(tab[5]);
+	cylinder->reflect = ft_assign_range(tab[6]);
+	assign_discs(minirt, *cylinder);
 	cylinder->next = NULL;
 	cylinder->index = ++minirt->num_objects;
 	current = minirt->cylinders;
@@ -97,7 +97,7 @@ void	assign_cone(t_minirt *minirt, char **tab)
 	t_cone	*cone;
 	t_cone	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
+	if (check_array_size(tab, 6) == FALSE)
 		ft_error(6);
 	cone = malloc(sizeof(t_cone));
 	if (!cone)

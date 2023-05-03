@@ -3,79 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   printed.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:24:26 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 16:57:46 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 17:05:48 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	ft_print_ray(t_minirt ray)
+void	print_ambiant(t_minirt minirt)
 {
-	if (ray.ambiant)
+	if (minirt.ambiant)
 	{
 		printf("AMBIANT:\n");
-		printf("intensity: %f\n", ray.ambiant->intensity);
-		printf("R = %d G = %d B = %d\n", ray.ambiant->rgb.red, \
-			ray.ambiant->rgb.green, ray.ambiant->rgb.blue);
+		printf("intensity: %f\n", minirt.ambiant->intensity);
+		printf("R = %d G = %d B = %d\n", minirt.ambiant->rgb.red, \
+			minirt.ambiant->rgb.green, minirt.ambiant->rgb.blue);
 	}
-	if (ray.camera)
+}
+
+void	print_camera(t_minirt minirt)
+{
+	if (minirt.camera)
 	{
 		printf("\nCAMERA:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.camera->origin.x, \
-			ray.camera->origin.y, ray.camera->origin.z);
-		printf("orientation x = %f y = %f z %f\n", ray.camera->direction.x, \
-			ray.camera->direction.y, ray.camera->direction.z);
-		printf("Angle: %f\n", ray.camera->angle);
+		printf("coordinates x = %f y = %f z %f\n", minirt.camera->origin.x, \
+			minirt.camera->origin.y, minirt.camera->origin.z);
+		printf("orientation x = %f y = %f z %f\n", minirt.camera->direction.x, \
+			minirt.camera->direction.y, minirt.camera->direction.z);
+		printf("Angle: %f\n", minirt.camera->angle);
 	}
-	if (ray.lights)
+}
+
+void	print_lights(t_minirt minirt)
+{
+	while (minirt.lights)
 	{
 		printf("\nSPOTLIGHT:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.lights->origin.x, \
-			ray.lights->origin.y, ray.lights->origin.z);
-		printf("intensity: %f\n", ray.lights->intensity);
-		printf("R = %d G = %d B = %d\n", ray.lights->rgb.red, \
-			ray.lights->rgb.green, ray.lights->rgb.blue);
+		printf("coordinates x = %f y = %f z %f\n", minirt.lights->origin.x, \
+			minirt.lights->origin.y, minirt.lights->origin.z);
+		printf("intensity: %f\n", minirt.lights->intensity);
+		printf("R = %d G = %d B = %d\n", minirt.lights->rgb.red, \
+			minirt.lights->rgb.green, minirt.lights->rgb.blue);
+		minirt.lights = minirt.lights->next;
 	}
-	if (ray.spheres)
+}
+
+void	print_spheres(t_minirt minirt)
+{
+	while (minirt.spheres)
 	{
 		printf("\nSPHERE:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.spheres->origin.x, \
-			ray.spheres->origin.y, ray.spheres->origin.z);
-		printf("index = %d\n", ray.spheres->index);
-		printf("diameter: %f\n", ray.spheres->diameter);
-		printf("R = %d G = %d B = %d\n", ray.spheres->rgb.red, \
-			ray.spheres->rgb.green, ray.spheres->rgb.blue);
+		printf("coordinates x = %f y = %f z %f\n", minirt.spheres->origin.x, \
+			minirt.spheres->origin.y, minirt.spheres->origin.z);
+		printf("index = %d\n", minirt.spheres->index);
+		printf("diameter: %f\n", minirt.spheres->diameter);
+		printf("R = %d G = %d B = %d\n", minirt.spheres->rgb.red, \
+			minirt.spheres->rgb.green, minirt.spheres->rgb.blue);
+		minirt.spheres = minirt.spheres->next;
 	}
-	if (ray.planes)
+}
+
+void	print_planes(t_minirt minirt)
+{
+	while (minirt.planes)
 	{
 		printf("\nPLANE:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.planes->point.x, \
-			ray.planes->point.y, ray.planes->point.z);
-		printf("normal x = %f y = %f z %f\n", ray.planes->normal.x, \
-			ray.planes->normal.y, ray.planes->normal.z);
-		printf("R = %d G = %d B = %d\n", ray.planes->rgb.red, \
-			ray.planes->rgb.green, ray.planes->rgb.blue);
-	}
-	if (ray.cylinders)
-	{
-		printf("\nCYLINDER:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.cylinders->origin.x, \
-			ray.cylinders->origin.y, ray.cylinders->origin.z);
-		printf("diameter: %f\n", ray.cylinders->diameter);
-		printf("height: %f\n", ray.cylinders->height);
-		printf("R = %d G = %d B = %d\n", ray.cylinders->rgb.red, \
-			ray.cylinders->rgb.green, ray.cylinders->rgb.blue);
-	}
-		if (ray.cones)
-	{
-		printf("\nCONE:\n");
-		printf("coordinates x = %f y = %f z %f\n", ray.cones->origin.x, \
-			ray.cones->origin.y, ray.cones->origin.z);
-		printf("angle: %f\n", ray.cones->angle);
-		printf("R = %d G = %d B = %d\n", ray.cones->rgb.red, \
-			ray.cones->rgb.green, ray.cones->rgb.blue);
+		printf("coordinates x = %f y = %f z %f\n", minirt.planes->point.x, \
+			minirt.planes->point.y, minirt.planes->point.z);
+		printf("normal x = %f y = %f z %f\n", minirt.planes->normal.x, \
+			minirt.planes->normal.y, minirt.planes->normal.z);
+		printf("R = %d G = %d B = %d\n", minirt.planes->rgb.red, \
+			minirt.planes->rgb.green, minirt.planes->rgb.blue);
+		minirt.planes = minirt.planes->next;
 	}
 }

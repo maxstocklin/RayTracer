@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:12:24 by max              ###   ########.fr       */
+/*   Updated: 2023/05/02 13:50:05 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->show_texture = 0;
 	minirt->show_checkboard = 0;
 	minirt->mirrorlvl = 0;
+	minirt->rotate_index = 0;
 }

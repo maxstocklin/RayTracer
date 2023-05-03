@@ -2,7 +2,20 @@
 
 NAME	=	minirt
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror #-g -fsanitize=address
+
+##-----VARIABLES-----##
+COLOR			= \033
+WHITE			= $(COLOR)[97m
+CYAN			= $(COLOR)[96m
+GREEN			= $(COLOR)[32m
+BLUE			= $(COLOR)[34m
+RED 			= $(COLOR)[31m
+YELLOW			= $(COLOR)[33m
+MAGENTA 		= $(COLOR)[35m
+BOLD			= $(COLOR)[1m
+RESET			= $(COLOR)[0m
+RESET_BOLD		= $(COLOR)[21m
 
 #Libraries
 RT_HELPERS = ./rt_helpers
@@ -20,21 +33,30 @@ SRCS_NAME	=	main.c \
 				assignment1.c \
 				assignment2.c \
 				assignment3.c \
+				assignment4.c \
 				get_next_line.c \
 				get_next_line_utils.c \
 				free.c \
 				printed.c \
+				printed2.c \
 				plane_fns.c \
 				hooks.c \
+				hooks2.c \
 				make_rays.c \
 				sphere_fns.c \
+				sphere_fns2.c \
 				cylinder_fns.c \
 				cone_fns.c \
 				get_intersect.c \
+				get_intersect2.c \
 				apply_light.c \
+				apply_light2.c \
 				cylinder_utils.c \
 				closest_obj.c \
-				tests.c
+				closest_obj2.c \
+				discs_fns.c \
+				bump.c \
+				rotate.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))
 
@@ -66,7 +88,7 @@ endif
 vpath %.c ${DIR_SRC}
 RM=rm -f
 
-all : ${NAME}
+all : ${NAME} asciiart
 
 $(NAME):			 $(OBJS)
 		#make -C ${DIR_LIB_MLX}
@@ -94,3 +116,31 @@ re: fclean all
 
 norm:
 		norminette ${SRCS}
+
+
+asciiart:
+	@echo "$(RED)                                                                            										"
+	@echo "                                                                                     									"
+	@echo "                                                                                     									"
+	@echo "		███╗   ███╗██╗███╗   ██╗██╗██████╗ ████████╗   						"
+	@echo "		████╗ ████║██║████╗  ██║██║██╔══██╗╚══██╔══╝   						"
+	@echo "		██╔████╔██║██║██╔██╗ ██║██║██████╔╝   ██║   						"
+	@echo "		██║╚██╔╝██║██║██║╚██╗██║██║██╔══██╗   ██║   						"
+	@echo "		██║ ╚═╝ ██║██║██║ ╚████║██║██║  ██║   ██║   						"
+	@echo "		╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝   ╚═╝   						"
+	@echo "$(BLUE)                                                                                       							"
+	@echo "		██████╗ ██╗   ██╗    ███████╗██████╗  █████╗ ██████╗  ██████╗ ██████╗  ██████╗ ██████╗   						"
+	@echo "		██╔══██╗╚██╗ ██╔╝    ██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔═══██╗██╔══██╗   						"
+	@echo "		██████╔╝ ╚████╔╝     ███████╗██████╔╝███████║██████╔╝██║   ██║██████╔╝██║   ██║██████╔╝   						"
+	@echo "		██╔══██╗  ╚██╔╝      ╚════██║██╔══██╗██╔══██║██╔═══╝ ██║   ██║██╔═══╝ ██║   ██║██╔══██╗   						"
+	@echo "		██████╔╝   ██║       ███████║██║  ██║██║  ██║██║     ╚██████╔╝██║     ╚██████╔╝██║  ██║   						"
+	@echo "		╚═════╝    ╚═╝       ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝      ╚═════╝ ╚═╝  ╚═╝   						"
+	@echo "$(GREEN)                                                                                       							"
+	@echo "		   ██╗       ███╗   ███╗███████╗████████╗ ██████╗  ██████╗██╗  ██╗██╗     ██╗   						"
+	@echo "		   ██║       ████╗ ████║██╔════╝╚══██╔══╝██╔═══██╗██╔════╝██║ ██╔╝██║     ██║   						"
+	@echo "		████████╗    ██╔████╔██║███████╗   ██║   ██║   ██║██║     █████╔╝ ██║     ██║   						"
+	@echo "		██╔═██╔═╝    ██║╚██╔╝██║╚════██║   ██║   ██║   ██║██║     ██╔═██╗ ██║     ██║   						"
+	@echo "		██████║      ██║ ╚═╝ ██║███████║   ██║   ╚██████╔╝╚██████╗██║  ██╗███████╗██║   						"
+	@echo "		╚═════╝      ╚═╝     ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝   						"
+	@echo "   						"
+

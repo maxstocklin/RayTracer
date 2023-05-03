@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone_fns.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 13:19:38 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 16:30:20 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 14:18:44 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ static t_intersect	ray_cone_intersect(t_cone *cone, t_ray ray, t_minirt minirt)
 	t_intersect	intersection;
 
 	(void)minirt;
+	intersection.reflect = cone->reflect;
 	intersection.index = cone->index;
+	intersection.is_sphere = false;
 	intersection.distance = ray_cone_distance(*cone, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = cone->rgb;

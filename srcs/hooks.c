@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:13:58 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 17:18:13 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 18:23:26 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,38 @@ void	change_texture(int keycode, t_minirt *minirt)
 
 void	change_origin(int keycode, t_minirt *minirt)
 {
-	if (keycode == 83)
-		minirt->camera->origin.z -= 5;
-	if (keycode == 84)
-		minirt->camera->origin.z += 5;
-	if (keycode == 86)
-		minirt->camera->origin.y -= 5;
-	if (keycode == 87)
-		minirt->camera->origin.y += 5;
-	if (keycode == 89)
-		minirt->camera->origin.x -= 5;
-	if (keycode == 91)
-		minirt->camera->origin.x += 5;
+	t_sphere	*temp;
+
+	temp = minirt->spheres;
+	if (minirt->rotate_index == 0)
+		change_origin_cam(keycode, minirt);
+	else
+	{
+		while (temp)
+		{
+			if (minirt->rotate_index == temp->index)
+				temp = change_origin_sphere(keycode, temp);
+			temp = temp->next;
+		}
+	}
 }
 
 void	change_direction(int keycode, t_minirt *minirt)
 {
-	if (keycode == 12)
-		minirt->camera->direction.z -= 0.2;
-	if (keycode == 13)
-		minirt->camera->direction.z += 0.2;
-	if (keycode == 0)
-		minirt->camera->direction.y -= 0.2;
-	if (keycode == 1)
-		minirt->camera->direction.y += 0.2;
-	if (keycode == 6)
-		minirt->camera->direction.x -= 0.2;
-	if (keycode == 7)
-		minirt->camera->direction.x += 0.2;
+	t_plane	*temp;
+
+	temp = minirt->planes;
+	if (minirt->rotate_index == 0)
+		change_direction_cam(keycode, minirt);
+	else
+	{
+		while (temp)
+		{
+			if (minirt->rotate_index == temp->index)
+				temp->normal = change_direction_plane(keycode, temp->normal);
+			temp = temp->next;
+		}
+	}
 }
 
 int	key_hook(int keycode, t_minirt *minirt)
@@ -77,13 +81,8 @@ int	key_hook(int keycode, t_minirt *minirt)
 	if (keycode == 17 || keycode == 49)
 		change_texture(keycode, minirt);
 	printf("origin direction %f %f %f direction %f %f %f\n", \
-	minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, \
-	minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
+		minirt->camera->origin.x, minirt->camera->origin.y, \
+		minirt->camera->origin.z, minirt->camera->direction.x, \
+		minirt->camera->direction.y, minirt->camera->direction.z);
 	return (0);
-}
-
-void	add_mlx_hook(t_minirt *ray)
-{
-	mlx_hook(ray->vars.win, KEYPRESS, 0, key_hook, ray);
-	mlx_hook(ray->vars.win, DESTROYNOTIFY, 0, ray_exit, ray);
 }

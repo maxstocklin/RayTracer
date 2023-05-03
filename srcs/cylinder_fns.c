@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_fns.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 12:19:58 by max               #+#    #+#             */
-/*   Updated: 2023/04/29 16:54:52 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 14:18:24 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ static t_intersect	ray_cylinder_intersect(t_cylinder *cylinder, \
 	t_vect		v_cam_pt;
 
 	intersection.index = cylinder->index;
+	intersection.is_sphere = false;
+	intersection.reflect = cylinder->reflect;
 	intersection.distance = ray_cylinder_distance(cylinder, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = cylinder->rgb;

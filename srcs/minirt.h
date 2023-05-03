@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/02 11:58:39 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 18:28:46 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,19 @@ typedef struct s_sphere
 	t_rgb			rgb;
 	int				index;
 	struct s_sphere	*next;
+	double			reflect;
 }				t_sphere;
 
-typedef struct s_spheretr
+typedef struct s_disc
 {
-	double				diameter;
-	t_point				origin;
-	t_rgb				rgb;
-	int					index;
-	struct s_spheretr	*next;
-}				t_spheretr;
+	double			diameter;
+	t_point			origin;
+	t_vect			normal;
+	t_rgb			rgb;
+	int				index;
+	double			reflect;
+	struct s_disc	*next;
+}				t_disc;
 
 typedef struct s_plane
 {
@@ -71,6 +74,7 @@ typedef struct s_plane
 	t_point			point;
 	t_rgb			rgb;
 	int				index;
+	double			reflect;
 	struct s_plane	*next;
 
 }				t_plane;
@@ -87,6 +91,7 @@ typedef struct s_cylinder
 	double				a;
 	double				b;
 	double				c;
+	double				reflect;
 
 }				t_cylinder;
 
@@ -101,6 +106,7 @@ typedef struct s_cone {
 	double			a;
 	double			b;
 	double			c;
+	double			reflect;
 
 }	t_cone;
 
@@ -128,9 +134,9 @@ typedef struct s_minirt
 	t_map		map;
 	t_map		bump;
 	t_cylinder	*cylinders;
+	t_disc		*discs;
 	t_plane		*planes;
 	t_sphere	*spheres;
-	t_spheretr	*spheretr;
 	t_cone		*cones;
 	t_cam		*camera;
 	t_light		*lights;
@@ -141,26 +147,12 @@ typedef struct s_minirt
 	int			show_texture;
 	int			show_checkboard;
 	int			mirrorlvl;
+	int			rotate_index;
 
 	int			x;
 	int			y;
 
 }	t_minirt;
-
-typedef struct s_intersection
-{
-	int		color;
-	t_rgb	rgb;
-	t_rgb	ambiant;
-	t_rgb	diffuse;
-	t_rgb	specular;
-	t_rgb	object_color;
-	t_rgb	reflection;
-	double	distance;
-	t_point	point;
-	t_vect	normal;
-	int		index;
-}	t_intersect;
 
 typedef struct s_screen
 {
@@ -172,6 +164,15 @@ typedef struct s_screen
 	t_vect	x_inc_vec;
 	t_vect	y_inc_vec;
 }	t_screen;
+
+typedef struct s_adjust
+{
+	int		x;
+	int		y;
+	int		dx;
+	int		dy;
+
+}	t_adjust;
 
 # define WIDTH 1400		/* horizonal window size		*/
 # define HEIGHT 900 		/* vertical window size		*/
@@ -215,6 +216,11 @@ typedef struct s_screen
 
 /*		HOOKS		*/
 void			add_mlx_hook(t_minirt *ray);
+int				ray_exit(void);
+void			change_texture(int keycode, t_minirt *minirt);
+void			change_origin(int keycode, t_minirt *minirt);
+void			change_direction(int keycode, t_minirt *minirt);
+int				key_hook(int keycode, t_minirt *minirt);
 
 /*		ERRORS		*/
 int				ft_error(int index);
@@ -256,6 +262,8 @@ void			assign_cone(t_minirt *minirt, char **tab);
 void			assign_spotlight(t_minirt *minirt, char **tab);
 void			assign_camera(t_minirt *minirt, char **tab);
 void			assign_ambiant(t_minirt *minirt, char **tab);
+void			assign_discs(t_minirt *minirt, t_cylinder cylinder);
+t_cylinder		*create_cylinder(char **tab);
 
 /*		GNL		*/
 char			*get_next_line(int fd);
@@ -270,10 +278,14 @@ void			ft_free_array(char **tab);
 int				get_color(t_minirt minirt, t_ray ray);
 t_intersect		intersect_cylinders(t_minirt minirt, t_ray ray, \
 	t_intersect intersect);
-t_intersect		intersect_planes(t_minirt minirt, t_ray ray, t_intersect intersect);
-t_intersect		intersect_cones(t_minirt minirt, t_ray ray, t_intersect intersect);
-t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, t_intersect intersect);
-
+t_intersect		intersect_planes(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_intersect		intersect_cones(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_rgb			get_mirrors(t_rgb reflection, t_rgb rgb, \
+	t_rgb specular, t_intersect inter);
 
 /*		APPLY_LIGHT		*/
 int				apply_light(t_minirt minirt, t_intersect inter);
@@ -281,6 +293,8 @@ t_rgb			get_diffuse(t_minirt minirt, \
 	t_intersect inter, double adjustment, int *check);
 t_rgb			get_specular(t_minirt minirt, t_intersect inter, \
 	double angle, double specular);
+t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
+void			get_diff_and_specular(t_minirt minirt, t_intersect *intersect);
 
 /*		CLOSEST_OBJECT		*/
 int				closest_object(t_minirt minirt, t_ray lray);
@@ -292,6 +306,8 @@ void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
 void			closest_cone(t_ray lray, t_cone *cone, double *closest, \
 	int *index);
+void			closest_disc(t_ray lray, t_disc *disc, double *closest, \
+	int *index);
 
 /*		SPHERE FUNCTIONS		*/
 double			ray_sphere_distance(t_sphere *sphere, t_ray ray);
@@ -299,6 +315,11 @@ t_rgb			apply_map(double lat, double lng, t_minirt minirt);
 t_rgb			apply_checkboard(double phi, double theta);
 t_intersect		color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersect old_intersect);
+double			ray_sphere_distance(t_sphere *sphere, t_ray ray);
+double			ray_sphere_distance2(t_sphere *sphere, t_ray ray);
+t_rgb			get_map_rgb(int x, int y, t_map map);
+void			adjustnormal(double lat, double lng, t_intersect *inter, \
+	t_minirt minirt);
 
 /*		PLANE FUNCTIONS		*/
 t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
@@ -323,13 +344,36 @@ t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
 t_vect			get_cone_norm(t_intersect intersection, t_cone *cone);
 double			ray_cone_distance(t_cone cone, t_ray ray);
 
+/*		DISC FUNCTIONS		*/
+
+t_intersect		color_disc(t_minirt minirt, t_disc *disc, \
+	t_ray ray, t_intersect old_intersect);
+t_intersect		ray_disc_intersect(t_disc *disc, t_ray ray, \
+	t_minirt minirt);
+double			ray_disc_distance(t_disc *disc, t_ray ray);
+t_intersect		intersect_discs(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+
 /*		MAKE RAYS		*/
 void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
-
-/*		TO BE REMOVED		*/
+t_point			screen_to_world(t_cam *camera, int i, int j);
+/* PRINT		*/
 void			ft_print_ray(t_minirt ray);
-void			tests(void);
+void			print_ambiant(t_minirt minirt);
+void			print_camera(t_minirt minirt);
+void			print_lights(t_minirt minirt);
+void			print_spheres(t_minirt minirt);
+void			print_planes(t_minirt minirt);
+
+/*  BUMP 	*/
+void			ft_set_map(t_minirt *minirt);
+void			ft_set_bump(t_minirt *minirt);
+
+t_vect			change_direction_plane(int keycode, t_vect normal);
+t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
+void			change_origin_cam(int keycode, t_minirt *minirt);
+void			change_direction_cam(int keycode, t_minirt *minirt);
 
 #endif

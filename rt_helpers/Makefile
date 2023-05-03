@@ -13,7 +13,9 @@ SRCS_NAME = main.c \
 			vect_cross.c \
 			vect_util.c \
 			point_util.c \
-			color_fns.c
+			refract_fns.c \
+			color_fns.c	\
+			color_fns_2.c
 
 
 SRCS = $(addprefix $(SRCS_PATH)/,$(SRCS_NAME))
@@ -44,6 +46,7 @@ all : ${NAME}
 
 clean :
 	rm -f ${OBJS} $(OBJS_BONUS)
+	rm -f ${NAME}
 fclean : clean
 	rm -f ${NAME}
 re : fclean all
