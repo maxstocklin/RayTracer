@@ -148,6 +148,7 @@ typedef struct s_minirt
 	int			show_texture;
 	int			show_checkboard;
 	int			mirrorlvl;
+	int 		rotate_index;
 
 	int			x;
 	int			y;
@@ -249,6 +250,7 @@ void			assign_spotlight(t_minirt *minirt, char **tab);
 void			assign_camera(t_minirt *minirt, char **tab);
 void			assign_ambiant(t_minirt *minirt, char **tab);
 void			assign_discs(t_minirt *minirt, t_cylinder cylinder);
+t_cylinder		*create_cylinder(char **tab);
 
 /*		GNL		*/
 char			*get_next_line(int fd);
@@ -323,14 +325,22 @@ t_intersect		color_disc(t_minirt minirt, t_disc *disc, \
 t_intersect		ray_disc_intersect(t_disc *disc, t_ray ray, \
 	t_minirt minirt);
 double			ray_disc_distance(t_disc *disc, t_ray ray);
+t_intersect		intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect);
 
 /*		MAKE RAYS		*/
 void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
+t_point			screen_to_world(t_cam *camera, int i, int j);
 
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
 void			tests(void);
 
+
+
+
+
+t_vect			change_direction_plane(int keycode, t_vect normal);
+t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
 #endif

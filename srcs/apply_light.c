@@ -111,7 +111,7 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 
 		// inter.exit_color = make_color(0, 0, 255);
 	}
-	if (++minirt.mirrorlvl < 3 && inter.reflect > 0.01)
+	if (++minirt.mirrorlvl < 0 && inter.reflect > 0.01)
 		inter.reflection = apply_reflection(minirt, inter);
 	while (minirt.lights)
 	{
@@ -121,7 +121,7 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 			inter.specular = get_specular(minirt, inter, 0, 0);
 		minirt.lights = minirt.lights->next;
 	}
-	if (minirt.mirrorlvl >= 3 || inter.reflect <= 0.01)
+	if (minirt.mirrorlvl >= 0 || inter.reflect <= 0.01)
 	{
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
 		if (inter.is_sphere == 1)

@@ -12,6 +12,18 @@
 
 #include "minirt.h"
 
+t_cylinder	*create_cylinder(char **tab)
+{
+	t_cylinder	*cylinder;
+
+	if (check_array_size(tab, 7) == FALSE)
+		ft_error(6);
+	cylinder = malloc(sizeof(t_cylinder));
+	if (!cylinder)
+		ft_error(7);
+	return (cylinder);
+}
+
 t_point	get_intersect_disc(t_vect direct, t_point origin, double distance)
 {
 	direct = vector_normalize(direct);
@@ -22,13 +34,13 @@ t_point	get_intersect_disc(t_vect direct, t_point origin, double distance)
 
 t_disc	*get_disc(t_minirt *minirt, t_cylinder cylinder, t_vect normal)
 {
-	t_disc 	*disc;
+	t_disc	*disc;
 
 	disc = malloc(sizeof(t_disc));
 	if (!disc)
 		ft_error(7);
-
-	disc->origin = get_intersect_disc(normal, cylinder.origin, cylinder.height / 2);
+	disc->origin = get_intersect_disc(normal, \
+		cylinder.origin, cylinder.height / 2);
 	disc->normal = normal;
 	disc->diameter = cylinder.diameter;
 	disc->rgb = cylinder.rgb;
@@ -39,7 +51,7 @@ t_disc	*get_disc(t_minirt *minirt, t_cylinder cylinder, t_vect normal)
 
 void	assign_discs(t_minirt *minirt, t_cylinder cylinder)
 {
-	t_disc 	*disc1;
+	t_disc	*disc1;
 	t_disc	*disc2;
 	t_disc	*current;
 

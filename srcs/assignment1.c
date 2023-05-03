@@ -71,11 +71,7 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	t_cylinder	*cylinder;
 	t_cylinder	*current;
 
-	if (check_array_size(tab, 7) == FALSE)
-		ft_error(6);
-	cylinder = malloc(sizeof(t_cylinder));
-	if (!cylinder)
-		ft_error(7);
+	cylinder = create_cylinder(tab);
 	cylinder->origin = ft_get_xyz(tab[1]);
 	cylinder->axis = ft_get_direction(tab[2]);
 	cylinder->diameter = ft_assign_diameter(tab[3]);

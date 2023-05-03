@@ -84,4 +84,5 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->show_texture = 0;
 	minirt->show_checkboard = 0;
 	minirt->mirrorlvl = 0;
+	minirt->rotate_index = 0;
 }

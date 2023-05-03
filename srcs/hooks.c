@@ -31,7 +31,7 @@ void	change_texture(int keycode, t_minirt *minirt)
 	}
 }
 
-void	change_origin(int keycode, t_minirt *minirt)
+void	change_origin_cam(int keycode, t_minirt *minirt)
 {
 	if (keycode == 83)
 		minirt->camera->origin.z -= 5;
@@ -47,7 +47,7 @@ void	change_origin(int keycode, t_minirt *minirt)
 		minirt->camera->origin.x += 5;
 }
 
-void	change_direction(int keycode, t_minirt *minirt)
+void	change_direction_cam(int keycode, t_minirt *minirt)
 {
 	if (keycode == 12)
 		minirt->camera->direction.z -= 0.2;
@@ -61,6 +61,49 @@ void	change_direction(int keycode, t_minirt *minirt)
 		minirt->camera->direction.x -= 0.2;
 	if (keycode == 7)
 		minirt->camera->direction.x += 0.2;
+}
+
+
+
+
+
+
+
+
+void	change_origin(int keycode, t_minirt *minirt)
+{
+	t_sphere	*temp;
+
+	temp = minirt->spheres;
+	if (minirt->rotate_index == 0)
+		change_origin_cam(keycode, minirt);
+	else
+	{
+		while (temp)
+		{
+			if (minirt->rotate_index == temp->index)
+				temp = change_origin_sphere(keycode, temp);
+			temp = temp->next;
+		}
+	}
+}
+
+void	change_direction(int keycode, t_minirt *minirt)
+{
+	t_plane	*temp;
+
+	temp = minirt->planes;
+	if (minirt->rotate_index == 0)
+		change_direction_cam(keycode, minirt);
+	else
+	{
+		while (temp)
+		{
+			if (minirt->rotate_index == temp->index)
+				temp->normal = change_direction_plane(keycode, temp->normal);
+			temp = temp->next;
+		}
+	}
 }
 
 int	key_hook(int keycode, t_minirt *minirt)
@@ -82,8 +125,66 @@ int	key_hook(int keycode, t_minirt *minirt)
 	return (0);
 }
 
-void	add_mlx_hook(t_minirt *ray)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int	get_index(t_minirt minirt, t_ray ray)
 {
-	mlx_hook(ray->vars.win, KEYPRESS, 0, key_hook, ray);
-	mlx_hook(ray->vars.win, DESTROYNOTIFY, 0, ray_exit, ray);
+	t_intersect		intersect;
+
+	intersect.distance = -1;
+	intersect.color = 0;
+	intersect.reflect = 0;
+	intersect.index = 0;
+	intersect = intersect_spheres(minirt, ray, intersect);
+	intersect = intersect_cylinders(minirt, ray, intersect);
+	intersect = intersect_planes(minirt, ray, intersect);
+	intersect = intersect_cones(minirt, ray, intersect);
+	intersect = intersect_discs(minirt, ray, intersect);
+	return (intersect.index);
+}
+
+
+void	get_object(int i, int j, t_minirt *minirt)
+{
+	t_point	vp_pt;
+	t_ray	ray;
+
+	vp_pt = screen_to_world(minirt->camera, i, j);
+	ray.origin = make_point(minirt->camera->origin.x, \
+				minirt->camera->origin.y, minirt->camera->origin.z);
+	ray.direct = make_vect(vp_pt.x - minirt->camera->origin.x, vp_pt.y - \
+				minirt->camera->origin.y, vp_pt.z - minirt->camera->origin.z);
+	minirt->rotate_index = get_index(*minirt, ray);
+
+}
+
+int	mouse_hook(int button, int x, int y, t_minirt *minirt)
+{
+	if (button == LEFT_CLICK)
+		get_object(x, y, minirt);
+	//draw_win(fractol);
+	return (0);
+}
+
+
+void	add_mlx_hook(t_minirt *minirt)
+{
+	mlx_hook(minirt->vars.win, KEYPRESS, 0, key_hook, minirt);
+	mlx_hook(minirt->vars.win, DESTROYNOTIFY, 0, ray_exit, minirt);
+	mlx_hook(minirt->vars.win, MOUSEPRESS, 0, mouse_hook, minirt);
+
 }

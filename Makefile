@@ -36,6 +36,7 @@ SRCS_NAME	=	main.c \
 				cylinder_utils.c \
 				closest_obj.c \
 				discs_fns.c \
+				rotate.c \
 				tests.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))
