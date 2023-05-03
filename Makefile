@@ -20,6 +20,7 @@ SRCS_NAME	=	main.c \
 				assignment1.c \
 				assignment2.c \
 				assignment3.c \
+				assignment4.c \
 				get_next_line.c \
 				get_next_line_utils.c \
 				free.c \

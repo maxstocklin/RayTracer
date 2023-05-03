@@ -72,6 +72,7 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	t_vect		v_cam_pln;
 
 	intersection.index = plane->index;
+	intersection.reflect = plane->reflect;
 	v_cam_pln = vector_normalize(point_subtract(plane->point, \
 			minirt.camera->origin));
 	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)

@@ -55,6 +55,7 @@ static t_intersect	ray_cylinder_intersect(t_cylinder *cylinder, \
 	t_vect		v_cam_pt;
 
 	intersection.index = cylinder->index;
+	intersection.reflect = cylinder->reflect;
 	intersection.distance = ray_cylinder_distance(cylinder, ray);
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = cylinder->rgb;

@@ -61,6 +61,7 @@ static t_intersect	ray_cone_intersect(t_cone *cone, t_ray ray, t_minirt minirt)
 	t_intersect	intersection;
 
 	(void)minirt;
+	intersection.reflect = cone->reflect;
 	intersection.index = cone->index;
 	intersection.distance = ray_cone_distance(*cone, ray);
 	intersection.point = get_intersect(ray, intersection.distance);

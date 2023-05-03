@@ -164,6 +164,7 @@ typedef struct s_intersection
 	t_rgb	object_color;
 	t_rgb	reflection;
 	double	distance;
+	double	reflect;
 	t_point	point;
 	t_vect	normal;
 	int		index;
@@ -263,6 +264,7 @@ void			assign_cone(t_minirt *minirt, char **tab);
 void			assign_spotlight(t_minirt *minirt, char **tab);
 void			assign_camera(t_minirt *minirt, char **tab);
 void			assign_ambiant(t_minirt *minirt, char **tab);
+void			assign_discs(t_minirt *minirt, t_cylinder cylinder);
 
 /*		GNL		*/
 char			*get_next_line(int fd);
@@ -330,6 +332,14 @@ t_intersect		color_cone(t_minirt minirt, t_cone *cone, \
 t_vect			get_cone_norm(t_intersect intersection, t_cone *cone);
 double			ray_cone_distance(t_cone cone, t_ray ray);
 
+/*		DISC FUNCTIONS		*/
+
+t_intersect		color_disc(t_minirt minirt, t_disc *disc, \
+	t_ray ray, t_intersect old_intersect);
+t_intersect		ray_disc_intersect(t_disc *disc, t_ray ray, \
+	t_minirt minirt);
+double			ray_disc_distance(t_disc *disc, t_ray ray);
+
 /*		MAKE RAYS		*/
 void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
@@ -338,17 +348,5 @@ t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
 void			tests(void);
-
-
-
-
-
-t_intersect	color_disc(t_minirt minirt, t_disc *disc, \
-	t_ray ray, t_intersect old_intersect);
-t_intersect	ray_disc_intersect(t_disc *disc, t_ray ray, \
-	t_minirt minirt);
-double	ray_disc_distance(t_disc *disc, t_ray ray);
-
-
 
 #endif

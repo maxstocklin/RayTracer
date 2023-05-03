@@ -66,51 +66,6 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	}
 }
 
-t_point	get_intersect2(t_vect direct, t_point origin, double distance)
-{
-	direct = vector_normalize(direct);
-	return (make_point(origin.x + direct.x * distance, \
-		origin.y + direct.y * distance, origin.z + \
-		direct.z * distance));
-}
-
-void	assign_discs(t_minirt *minirt, t_cylinder cylinder)
-{
-	t_disc 	*disc1;
-	t_disc *disc2;
-	t_disc	*current;
-
-	disc1 = malloc(sizeof(t_disc));
-	if (!disc1)
-		ft_error(7);
-	disc2 = malloc(sizeof(t_disc));
-	if (!disc2)
-		ft_error(7);
-	disc1->origin = get_intersect2(cylinder.axis, cylinder.origin, cylinder.height / 2);
-	disc2->origin = get_intersect2(vect_scale(cylinder.axis, -1), cylinder.origin, cylinder.height / 2);
-	disc1->normal = cylinder.axis;
-	disc2->normal = vect_scale(cylinder.axis, -1);
-	disc1->diameter = cylinder.diameter;
-	disc2->diameter = cylinder.diameter;
-	disc1->rgb = cylinder.rgb;
-	disc2->rgb = cylinder.rgb;
-	disc1->reflect = cylinder.reflect;
-	disc2->reflect = cylinder.reflect;
-	disc1->next = disc2;
-	disc2->next = NULL;
-	disc1->index = ++minirt->num_objects;
-	disc2->index = ++minirt->num_objects;
-	current = minirt->discs;
-	if (!current)
-		minirt->discs = disc1;
-	else
-	{
-		while (current->next)
-			current = current->next;
-		current->next = disc1;
-	}
-}
-
 void	assign_cylinder(t_minirt *minirt, char **tab)
 {
 	t_cylinder	*cylinder;
