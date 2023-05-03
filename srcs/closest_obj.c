@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   closest_obj.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 16:29:19 by max               #+#    #+#             */
-/*   Updated: 2023/04/29 16:51:41 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 17:21:11 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	closest_plane(t_ray lray, t_plane *planes, double *closest, int *index)
 	}
 }
 
-
 void	closest_disc(t_ray lray, t_disc *disc, double *closest, int *index)
 {
 	double	test;
@@ -119,19 +118,4 @@ void	closest_disc(t_ray lray, t_disc *disc, double *closest, int *index)
 		}
 		disc = disc->next;
 	}
-}
-
-int	closest_object(t_minirt minirt, t_ray lray)
-{
-	double			closest;
-	int				index;
-
-	index = -1;
-	closest = -1;
-	closest_plane(lray, minirt.planes, &closest, &index);
-	closest_sphere(lray, minirt.spheres, &closest, &index);
-	closest_cylinder(lray, minirt.cylinders, &closest, &index);
-	closest_cone(lray, minirt.cones, &closest, &index);
-	closest_disc(lray, minirt.discs, &closest, &index);
-	return (index);
 }

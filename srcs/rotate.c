@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotate.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/03 16:52:52 by srapopor          #+#    #+#             */
+/*   Updated: 2023/05/03 17:09:22 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_sphere	*change_origin_sphere(int keycode, t_sphere *sphere)
@@ -17,7 +29,7 @@ t_sphere	*change_origin_sphere(int keycode, t_sphere *sphere)
 	return (sphere);
 }
 
-t_vect 	change_direction_plane(int keycode, t_vect normal)
+t_vect	change_direction_plane(int keycode, t_vect normal)
 {
 	if (keycode == 12)
 		normal.z -= 0.2;

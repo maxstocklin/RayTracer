@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/03 13:52:17 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:23:01 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,10 +265,14 @@ void			ft_free_array(char **tab);
 int				get_color(t_minirt minirt, t_ray ray);
 t_intersect		intersect_cylinders(t_minirt minirt, t_ray ray, \
 	t_intersect intersect);
-t_intersect		intersect_planes(t_minirt minirt, t_ray ray, t_intersect intersect);
-t_intersect		intersect_cones(t_minirt minirt, t_ray ray, t_intersect intersect);
-t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, t_intersect intersect);
-
+t_intersect		intersect_planes(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_intersect		intersect_cones(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_intersect		intersect_spheres(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
+t_rgb			get_mirrors(t_rgb reflection, t_rgb rgb, \
+	t_rgb specular, t_intersect inter);
 
 /*		APPLY_LIGHT		*/
 int				apply_light(t_minirt minirt, t_intersect inter);
@@ -276,6 +280,8 @@ t_rgb			get_diffuse(t_minirt minirt, \
 	t_intersect inter, double adjustment, int *check);
 t_rgb			get_specular(t_minirt minirt, t_intersect inter, \
 	double angle, double specular);
+t_rgb			apply_reflection(t_minirt minirt, t_intersect inter);
+void			get_diff_and_specular(t_minirt minirt, t_intersect *intersect);
 
 /*		CLOSEST_OBJECT		*/
 int				closest_object(t_minirt minirt, t_ray lray);
@@ -286,6 +292,8 @@ void			closest_plane(t_ray lray, t_plane *planes, double *closest, \
 void			closest_cylinder(t_ray lray, t_cylinder *cylinder, \
 	double *closest, int *index);
 void			closest_cone(t_ray lray, t_cone *cone, double *closest, \
+	int *index);
+void			closest_disc(t_ray lray, t_disc *disc, double *closest, \
 	int *index);
 
 /*		SPHERE FUNCTIONS		*/
@@ -335,11 +343,11 @@ t_point			screen_to_world(t_cam *camera, int i, int j);
 
 /*		TO BE REMOVED		*/
 void			ft_print_ray(t_minirt ray);
-void			tests(void);
-
-
-
-
+void			print_ambiant(t_minirt minirt);
+void			print_camera(t_minirt minirt);
+void			print_lights(t_minirt minirt);
+void			print_spheres(t_minirt minirt);
+void			print_planes(t_minirt minirt);
 
 t_vect			change_direction_plane(int keycode, t_vect normal);
 t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);

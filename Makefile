@@ -25,6 +25,7 @@ SRCS_NAME	=	main.c \
 				get_next_line_utils.c \
 				free.c \
 				printed.c \
+				printed2.c \
 				plane_fns.c \
 				hooks.c \
 				make_rays.c \
@@ -32,12 +33,14 @@ SRCS_NAME	=	main.c \
 				cylinder_fns.c \
 				cone_fns.c \
 				get_intersect.c \
+				get_intersect2.c \
 				apply_light.c \
+				apply_light2.c \
 				cylinder_utils.c \
 				closest_obj.c \
+				closest_obj2.c \
 				discs_fns.c \
-				rotate.c \
-				tests.c
+				rotate.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))
 

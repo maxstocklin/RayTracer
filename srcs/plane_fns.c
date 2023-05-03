@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 14:17:02 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:18:16 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ t_vect	get_arbitrary(t_plane *plane, t_ray ray)
 	plane->normal.y == -1.0) && plane->normal.z == 0)
 		arbitrary = make_vect(1.0, 0.0, 0.0);
 	(void)ray;
-	// to make a dart target
-	//t_vect	arbitrary = ray.direct;
 	return (arbitrary);
 }
 
@@ -47,18 +45,16 @@ t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
 {
 	t_vect	x;
 	t_vect	y;
-	t_vect	arbitrary;
-	t_vect	relativePos;
+	t_vect	relative_pos;
 	double	x_coord;
 	double	y_coord;
 
 	(void)ray;
-	relativePos = point_subtract(inter.point, plane->point);
-	arbitrary = get_arbitrary(plane, ray);
-	x = vector_normalize(vect_cross(plane->normal, arbitrary));
+	relative_pos = point_subtract(inter.point, plane->point);
+	x = vector_normalize(vect_cross(plane->normal, get_arbitrary(plane, ray)));
 	y = vector_normalize(vect_cross(plane->normal, x));
-	x_coord = vect_dot(relativePos, x) + BOARD_SCALE * 20.0; // weird way to solve the double whites and blacks problem
-	y_coord = vect_dot(relativePos, y) + BOARD_SCALE * 20.0;
+	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE * 20.0;
+	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE * 20.0;
 	if (((int)(x_coord / BOARD_SCALE) + (int)(y_coord / BOARD_SCALE)) % 2 == 0)
 		return (make_color(255, 255, 255));
 	else
@@ -74,8 +70,8 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	intersection.index = plane->index;
 	intersection.reflect = plane->reflect;
 	intersection.is_sphere = false;
-	v_cam_pln = vector_normalize(point_subtract(plane->point,
-												minirt.camera->origin));
+	v_cam_pln = vector_normalize(point_subtract(plane->point, \
+		minirt.camera->origin));
 	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)
 	{
 		plane->normal.x = -plane->normal.x;

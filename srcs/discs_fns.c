@@ -1,24 +1,34 @@
-#include "minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   discs_fns.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/03 17:13:37 by srapopor          #+#    #+#             */
+/*   Updated: 2023/05/03 17:14:22 by srapopor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minirt.h"
 
 double	ray_disc_distance(t_disc *disc, t_ray ray)
 {
 	double	distance;
 	t_vect	point_diff;
 	double	denom;
+	t_point	ipoint;
+	t_vect	d;
 
 	denom = vect_dot(disc->normal, ray.direct);
 	if (fabs(denom) < 0.0001)
 		return (-1);
 	point_diff = point_subtract(disc->origin, ray.origin);
 	distance = vect_dot(point_diff, disc->normal) / denom;
-
 	if (distance < 0)
 		return (-1);
-
-	t_point ipoint = get_intersect(ray, distance);
-
-	t_vect d = point_subtract(ipoint, disc->origin);
+	ipoint = get_intersect(ray, distance);
+	d = point_subtract(ipoint, disc->origin);
 	if (vect_length(d) > disc->diameter / 2)
 	{
 		return (-1);

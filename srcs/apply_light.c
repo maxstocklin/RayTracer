@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/03 15:38:07 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:47:55 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,42 +95,12 @@ t_rgb	get_mirrors(t_rgb reflection, t_rgb rgb, \
 	return (mixed);
 }
 
-int	apply_light(t_minirt minirt, t_intersect inter)
+void	get_diff_and_specular(t_minirt minirt, t_intersect *intersect)
 {
-	t_rgb	mixed;
-	int		check;
+	int	check;
 
-	inter.specular = add_intensity(inter.object_color, 0);
-	inter.diffuse = add_intensity(inter.object_color, 0);
-	if (inter.is_sphere == 1)
-	{
-		// printf("inter entry point %f %f %f\n", inter.point.x, inter.point.y, inter.point.z);
-		// printf("inter exit point %f %f %f\n", inter.exit.origin.x, inter.exit.origin.y, inter.exit.origin.z);
-		// printf("inter exit direct %f %f %f\n", inter.exit.direct.x, inter.exit.direct.y, inter.exit.direct.z);
-		inter.exit_color = int_to_rgb(get_color(minirt, inter.exit));
-
-		// inter.exit_color = make_color(0, 0, 255);
-	}
-	if (++minirt.mirrorlvl < 0 && inter.reflect > 0.01)
-		inter.reflection = apply_reflection(minirt, inter);
-	while (minirt.lights)
-	{
-		check = 0;
-		inter.diffuse = get_diffuse(minirt, inter, 0, &check);
-		if (check == 1)
-			inter.specular = get_specular(minirt, inter, 0, 0);
-		minirt.lights = minirt.lights->next;
-	}
-	if (minirt.mirrorlvl >= 0 || inter.reflect <= 0.01)
-	{
-		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
-		if (inter.is_sphere == 1)
-			inter.rgb = sum_light(inter.rgb, inter.exit_color);
-		return (rgb_to_int(inter.rgb));
-	}
-	inter.rgb = sum_light(inter.ambiant, inter.diffuse);
-	if (inter.is_sphere == 1)
-		inter.rgb = sum_light(inter.rgb, inter.exit_color);
-	mixed = get_mirrors(inter.reflection, inter.rgb, inter.specular, inter);
-	return (rgb_to_int(mixed));
+	check = 0;
+	intersect->diffuse = get_diffuse(minirt, *intersect, 0, &check);
+	if (check == 1)
+		intersect->specular = get_specular(minirt, *intersect, 0, 0);
 }

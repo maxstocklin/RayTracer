@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_intersect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 12:44:04 by max               #+#    #+#             */
-/*   Updated: 2023/05/02 00:12:26 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 17:11:43 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,6 @@ t_intersect	intersect_cones(t_minirt minirt, t_ray ray, t_intersect intersect)
 	return (intersect);
 }
 
-
-
-
-
-
-
-
-
-
-
 t_intersect	intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect)
 {
 	t_minirt		tmp;
@@ -86,19 +76,4 @@ t_intersect	intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect)
 		tmp.discs = tmp.discs->next;
 	}
 	return (intersect);
-}
-
-int	get_color(t_minirt minirt, t_ray ray)
-{
-	t_intersect		intersect;
-
-	intersect.distance = -1;
-	intersect.color = 0;
-	intersect.reflect = 0;
-	intersect = intersect_spheres(minirt, ray, intersect);
-	intersect = intersect_cylinders(minirt, ray, intersect);
-	intersect = intersect_planes(minirt, ray, intersect);
-	intersect = intersect_cones(minirt, ray, intersect);
-	intersect = intersect_discs(minirt, ray, intersect);
-	return (intersect.color);
 }

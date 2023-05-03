@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 12:02:49 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:36:11 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ int	main(int ac, char **av)
 	ft_set_bump(&minirt);
 	printf("after map set\n");
 	ft_print_ray(minirt);
-	tests();
 	display_mlx_win(&minirt);
 	return (0);
 }
