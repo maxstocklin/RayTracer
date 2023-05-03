@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tests.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 16:15:19 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:05:07 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 12:03:24 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,12 @@
 
 void	tests(void)
 {
-	// char	*relative_path = "./pngegg.xpm";
-	char		*relative_path = "./8081_earthmap2k1682441384.xpm";
-	int			img_width;
-	int			img_height;
-	t_minirt	minirt;
-	int			i;
-	int			j;
+	t_vect	normal = make_vect(0, 0, 1);
+	t_vect	incident = make_vect(1, 1, -1);
+	double	n1 = 1;
+	double	n2 = 1.5;
+	t_vect	refracted;
 
-	minirt.vars.mlx = mlx_init();
-	minirt.vars.img = mlx_xpm_file_to_image(minirt.vars.mlx, relative_path, &img_width, &img_height);
-	if (!minirt.vars.img)
-		printf("problem with image reading\n");
-	printf("width height %d %d\n", img_width, img_height);
-	minirt.vars.win = mlx_new_window(minirt.vars.mlx, \
-									img_width, img_height, "MINI RT");
-	minirt.vars.addr = mlx_get_data_addr(minirt.vars.img, \
-				&minirt.vars.bits_per_pixel, &minirt.vars.line_length, \
-				&minirt.vars.endian);
-	i = 0;
-	while (i < img_width)
-	{
-		j = 0;
-		while (j < img_height)
-		{
-			printf("address value %x \n", *(minirt.vars.addr + i + j * img_width));
-			j++;
-		}
-		i++;
-	}
-	mlx_put_image_to_window(minirt.vars.mlx, minirt.vars.win, minirt.vars.img, 0, 0);
-	mlx_loop(minirt.vars.mlx);
+	refracted = refract_vector(incident, normal, n1, n2);
+	printf("refracted vector %f %f %f\n", refracted.x, refracted.y, refracted.z);
 }

@@ -13,6 +13,7 @@ SRCS_NAME = main.c \
 			vect_cross.c \
 			vect_util.c \
 			point_util.c \
+			refract_fns.c \
 			color_fns.c
 
 
