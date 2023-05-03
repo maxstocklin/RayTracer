@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:34:42 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 14:55:12 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:09:31 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,3 @@ t_vect	refract_vector(t_vect incident, t_vect normal, \
 	refracted = vect_add(temp, refracted);
 	return (refracted);
 }
-
-
