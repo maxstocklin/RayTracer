@@ -31,45 +31,6 @@ void	change_texture(int keycode, t_minirt *minirt)
 	}
 }
 
-void	change_origin_cam(int keycode, t_minirt *minirt)
-{
-	if (keycode == 83)
-		minirt->camera->origin.z -= 5;
-	if (keycode == 84)
-		minirt->camera->origin.z += 5;
-	if (keycode == 86)
-		minirt->camera->origin.y -= 5;
-	if (keycode == 87)
-		minirt->camera->origin.y += 5;
-	if (keycode == 89)
-		minirt->camera->origin.x -= 5;
-	if (keycode == 91)
-		minirt->camera->origin.x += 5;
-}
-
-void	change_direction_cam(int keycode, t_minirt *minirt)
-{
-	if (keycode == 12)
-		minirt->camera->direction.z -= 0.2;
-	if (keycode == 13)
-		minirt->camera->direction.z += 0.2;
-	if (keycode == 0)
-		minirt->camera->direction.y -= 0.2;
-	if (keycode == 1)
-		minirt->camera->direction.y += 0.2;
-	if (keycode == 6)
-		minirt->camera->direction.x -= 0.2;
-	if (keycode == 7)
-		minirt->camera->direction.x += 0.2;
-}
-
-
-
-
-
-
-
-
 void	change_origin(int keycode, t_minirt *minirt)
 {
 	t_sphere	*temp;
@@ -120,26 +81,11 @@ int	key_hook(int keycode, t_minirt *minirt)
 	if (keycode == 17 || keycode == 49)
 		change_texture(keycode, minirt);
 	printf("origin direction %f %f %f direction %f %f %f\n", \
-	minirt->camera->origin.x, minirt->camera->origin.y, minirt->camera->origin.z, \
-	minirt->camera->direction.x, minirt->camera->direction.y, minirt->camera->direction.z);
+		minirt->camera->origin.x, minirt->camera->origin.y, \
+		minirt->camera->origin.z, minirt->camera->direction.x, \
+		minirt->camera->direction.y, minirt->camera->direction.z);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 int	get_index(t_minirt minirt, t_ray ray)
 {
@@ -157,34 +103,26 @@ int	get_index(t_minirt minirt, t_ray ray)
 	return (intersect.index);
 }
 
-
-void	get_object(int i, int j, t_minirt *minirt)
+int	mouse_hook(int button, int i, int j, t_minirt *minirt)
 {
 	t_point	vp_pt;
 	t_ray	ray;
 
-	vp_pt = screen_to_world(minirt->camera, i, j);
-	ray.origin = make_point(minirt->camera->origin.x, \
-				minirt->camera->origin.y, minirt->camera->origin.z);
-	ray.direct = make_vect(vp_pt.x - minirt->camera->origin.x, vp_pt.y - \
-				minirt->camera->origin.y, vp_pt.z - minirt->camera->origin.z);
-	minirt->rotate_index = get_index(*minirt, ray);
-
-}
-
-int	mouse_hook(int button, int x, int y, t_minirt *minirt)
-{
 	if (button == LEFT_CLICK)
-		get_object(x, y, minirt);
-	//draw_win(fractol);
+	{
+		vp_pt = screen_to_world(minirt->camera, i, j);
+		ray.origin = make_point(minirt->camera->origin.x, \
+				minirt->camera->origin.y, minirt->camera->origin.z);
+		ray.direct = make_vect(vp_pt.x - minirt->camera->origin.x, vp_pt.y - \
+				minirt->camera->origin.y, vp_pt.z - minirt->camera->origin.z);
+		minirt->rotate_index = get_index(*minirt, ray);
+	}
 	return (0);
 }
-
 
 void	add_mlx_hook(t_minirt *minirt)
 {
 	mlx_hook(minirt->vars.win, KEYPRESS, 0, key_hook, minirt);
 	mlx_hook(minirt->vars.win, DESTROYNOTIFY, 0, ray_exit, minirt);
 	mlx_hook(minirt->vars.win, MOUSEPRESS, 0, mouse_hook, minirt);
-
 }

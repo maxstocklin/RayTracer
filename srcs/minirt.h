@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/03 17:23:01 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 18:17:12 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_sphere
 	t_rgb			rgb;
 	int				index;
 	struct s_sphere	*next;
-	double 			reflect;
+	double			reflect;
 }				t_sphere;
 
 typedef struct s_disc
@@ -64,10 +64,9 @@ typedef struct s_disc
 	t_vect			normal;
 	t_rgb			rgb;
 	int				index;
-	double 			reflect;
+	double			reflect;
 	struct s_disc	*next;
 }				t_disc;
-
 
 typedef struct s_plane
 {
@@ -75,7 +74,7 @@ typedef struct s_plane
 	t_point			point;
 	t_rgb			rgb;
 	int				index;
-	double 			reflect;
+	double			reflect;
 	struct s_plane	*next;
 
 }				t_plane;
@@ -92,7 +91,7 @@ typedef struct s_cylinder
 	double				a;
 	double				b;
 	double				c;
-	double 				reflect;
+	double				reflect;
 
 }				t_cylinder;
 
@@ -107,7 +106,7 @@ typedef struct s_cone {
 	double			a;
 	double			b;
 	double			c;
-	double 			reflect;
+	double			reflect;
 
 }	t_cone;
 
@@ -148,7 +147,7 @@ typedef struct s_minirt
 	int			show_texture;
 	int			show_checkboard;
 	int			mirrorlvl;
-	int 		rotate_index;
+	int			rotate_index;
 
 	int			x;
 	int			y;
@@ -165,6 +164,15 @@ typedef struct s_screen
 	t_vect	x_inc_vec;
 	t_vect	y_inc_vec;
 }	t_screen;
+
+typedef struct s_adjust
+{
+	int		x;
+	int		y;
+	int		dx;
+	int		dy;
+
+}	t_adjust;
 
 # define WIDTH 1400		/* horizonal window size		*/
 # define HEIGHT 900 		/* vertical window size		*/
@@ -333,7 +341,8 @@ t_intersect		color_disc(t_minirt minirt, t_disc *disc, \
 t_intersect		ray_disc_intersect(t_disc *disc, t_ray ray, \
 	t_minirt minirt);
 double			ray_disc_distance(t_disc *disc, t_ray ray);
-t_intersect		intersect_discs(t_minirt minirt, t_ray ray, t_intersect intersect);
+t_intersect		intersect_discs(t_minirt minirt, t_ray ray, \
+	t_intersect intersect);
 
 /*		MAKE RAYS		*/
 void			new_draw_window(t_minirt minirt, int i, int j);
@@ -351,4 +360,7 @@ void			print_planes(t_minirt minirt);
 
 t_vect			change_direction_plane(int keycode, t_vect normal);
 t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
+void			change_origin_cam(int keycode, t_minirt *minirt);
+void			change_direction_cam(int keycode, t_minirt *minirt);
+
 #endif

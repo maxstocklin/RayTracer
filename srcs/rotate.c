@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:52:52 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 17:09:22 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 18:18:12 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,36 @@ t_vect	change_direction_plane(int keycode, t_vect normal)
 		normal.x += 0.2;
 	normal = vector_normalize(normal);
 	return (normal);
+}
+
+void	change_origin_cam(int keycode, t_minirt *minirt)
+{
+	if (keycode == 83)
+		minirt->camera->origin.z -= 5;
+	if (keycode == 84)
+		minirt->camera->origin.z += 5;
+	if (keycode == 86)
+		minirt->camera->origin.y -= 5;
+	if (keycode == 87)
+		minirt->camera->origin.y += 5;
+	if (keycode == 89)
+		minirt->camera->origin.x -= 5;
+	if (keycode == 91)
+		minirt->camera->origin.x += 5;
+}
+
+void	change_direction_cam(int keycode, t_minirt *minirt)
+{
+	if (keycode == 12)
+		minirt->camera->direction.z -= 0.2;
+	if (keycode == 13)
+		minirt->camera->direction.z += 0.2;
+	if (keycode == 0)
+		minirt->camera->direction.y -= 0.2;
+	if (keycode == 1)
+		minirt->camera->direction.y += 0.2;
+	if (keycode == 6)
+		minirt->camera->direction.x -= 0.2;
+	if (keycode == 7)
+		minirt->camera->direction.x += 0.2;
 }
