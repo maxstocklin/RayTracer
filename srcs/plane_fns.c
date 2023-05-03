@@ -53,8 +53,12 @@ t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
 	relative_pos = point_subtract(inter.point, plane->point);
 	x = vector_normalize(vect_cross(plane->normal, get_arbitrary(plane, ray)));
 	y = vector_normalize(vect_cross(plane->normal, x));
-	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE * 20.0;
-	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE * 20.0;
+	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE;
+	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE;
+	if (x_coord < 0)
+		x_coord -= BOARD_SCALE;
+	if (y_coord < 0)
+		y_coord -= BOARD_SCALE;
 	if (((int)(x_coord / BOARD_SCALE) + (int)(y_coord / BOARD_SCALE)) % 2 == 0)
 		return (make_color(255, 255, 255));
 	else
