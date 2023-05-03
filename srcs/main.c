@@ -85,39 +85,6 @@ int	ft_checkinit(t_minirt *minirt, char *str)
 	return (TRUE);
 }
 
-void	ft_set_map(t_minirt *minirt)
-{
-//	char	*relative_path = "./8081_earthmap2k.xpm";
-	char	*relative_path = "./stock-metal-texture-diffuse.xpm";
-
-	minirt->map.texture.mlx = mlx_init();
-	minirt->map.texture.img = mlx_xpm_file_to_image(minirt->map.texture.mlx, \
-		relative_path, &minirt->map.width, &minirt->map.height);
-	printf("map width height %d %d\n", minirt->map.width, minirt->map.height);
-	if (!minirt->map.texture.img)
-		printf("problem with image reading\n");
-	minirt->map.texture.addr = mlx_get_data_addr(minirt->map.texture.img, \
-		&minirt->map.texture.bits_per_pixel, &minirt->map.texture.line_length, \
-				&minirt->map.texture.endian);
-}
-
-void	ft_set_bump(t_minirt *minirt)
-{
-//	char	*relative_path = "./8081_earthbump2k.xpm";
-	char	*relative_path = "./stock-metal-texture-normal.xpm";
-//	char	*relative_path = "./normal-map.xpm";
-
-	minirt->bump.texture.mlx = mlx_init();
-	minirt->bump.texture.img = mlx_xpm_file_to_image(minirt->bump.texture.mlx, \
-		relative_path, &minirt->bump.width, &minirt->bump.height);
-	printf("bump width height %d %d\n", minirt->bump.width, minirt->bump.height);
-	if (!minirt->bump.texture.img)
-		printf("problem with image reading\n");
-	minirt->bump.texture.addr = mlx_get_data_addr(minirt->bump.texture.img, \
-		&minirt->bump.texture.bits_per_pixel, &minirt->bump.texture.line_length, \
-				&minirt->bump.texture.endian);
-}
-
 int	main(int ac, char **av)
 {
 	t_minirt	minirt;
@@ -136,7 +103,6 @@ int	main(int ac, char **av)
 	ft_set_bump(&minirt);
 	printf("after map set\n");
 	ft_print_ray(minirt);
-	tests();
 	display_mlx_win(&minirt);
 	return (0);
 }
