@@ -32,7 +32,7 @@ t_intersect	ray_disc_intersect(t_disc *disc, t_ray ray, \
 	t_intersect	intersection;
 
 	(void)minirt;
-
+	intersection.is_sphere = false;
 	intersection.reflect = disc->reflect;
 	intersection.index = disc->index;
 	intersection.distance = ray_disc_distance(disc, ray);

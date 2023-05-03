@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 12:08:53 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:25:53 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,27 @@ double	ray_sphere_distance(t_sphere *sphere, t_ray ray)
 		return (-1);
 	if ((-b - sqrt(discriminant)) / (2 * a) > 0)
 		return ((-b - sqrt(discriminant)) / (2 * a));
+	else
+		return (-1);
+}
+
+double	ray_sphere_distance2(t_sphere *sphere, t_ray ray)
+{
+	t_vect	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+
+	oc = point_subtract(ray.origin, sphere->origin);
+	a = vect_dot(ray.direct, ray.direct);
+	b = 2.0 * vect_dot(oc, ray.direct);
+	c = vect_dot(oc, oc) - (sphere->diameter / 2 * sphere->diameter / 2);
+	discriminant = (b * b) - (4 * a * c);
+	if (discriminant < 0)
+		return (-1);
+	if ((-b + sqrt(discriminant)) / (2 * a) > 0)
+		return ((-b + sqrt(discriminant)) / (2 * a));
 	else
 		return (-1);
 }
@@ -102,6 +123,33 @@ t_rgb	apply_checkboard(double phi, double theta)
 		return (make_color(0, 0, 0));
 }
 
+t_ray	refract_ray(t_vect incident, t_intersect *intersect, t_sphere *sphere)
+{
+	t_ray	internal_ray;
+	double	distance;
+	t_ray	external_ray;
+
+	internal_ray.direct = refract_vector(incident, intersect->normal, 1, 1.5);
+	if (internal_ray.direct.x == 0 && internal_ray.direct.y == 0 && \
+		internal_ray.direct.z == 0)
+	{
+		intersect->is_sphere = false;
+		return (internal_ray);
+	}
+	internal_ray.origin = intersect->point;
+	distance = ray_sphere_distance2(sphere, internal_ray);
+	// if (distance != -1)
+	// {
+	// 	printf(" ray origin %f %f %f\n", internal_ray.origin.x, internal_ray.origin.y, internal_ray.origin.z);
+	// 	printf("distance %f\n", distance);
+	// }
+	if (distance == -1 || distance < 0.4)
+		intersect->is_sphere = false;
+	external_ray.origin = get_intersect(internal_ray, distance);
+	external_ray.direct = vector_normalize(refract_vector(incident, intersect->normal, 1, 1.5));
+	return (external_ray);
+}
+
 static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	t_ray ray, t_minirt minirt)
 {
@@ -111,11 +159,16 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 
 	(void)minirt;
 	intersect.index = sphere->index;
+	intersect.is_sphere = true;
 	intersect.reflect = sphere->reflect;
 	intersect.distance = ray_sphere_distance(sphere, ray);
 	intersect.point = get_intersect(ray, intersect.distance);
 	intersect.object_color = sphere->rgb;
 	intersect.normal = point_subtract(intersect.point, sphere->origin);
+	if (intersect.distance != -1)
+	{
+		intersect.exit = refract_ray(ray.direct, &intersect, sphere);
+	}
 	lng = atan2(-intersect.normal.z, intersect.normal.x);
 	lat = acos(intersect.normal.y / vect_length(intersect.normal));
 	if (intersect.distance != -1 && minirt.show_texture)
@@ -123,8 +176,8 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 		adjustnormal(lat, lng, &intersect, minirt);
 		intersect.object_color = apply_map(lat, lng, minirt);
 	}
-	 if (intersect.distance != -1 && minirt.show_checkboard && sphere->reflect < 0.1)
-	 	intersect.object_color = apply_checkboard(lat, lng);
+	//  if (intersect.distance != -1 && minirt.show_checkboard && sphere->reflect < 0.1)
+	//  	intersect.object_color = apply_checkboard(lat, lng);
 	return (intersect);
 }
 

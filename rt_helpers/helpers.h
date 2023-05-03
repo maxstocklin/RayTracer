@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 11:56:51 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:25:34 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,26 @@ typedef struct s_screen_size
 	int	height;
 }	t_screen_size;
 
+typedef struct s_intersection
+{
+	int		color;
+	t_rgb	rgb;
+	t_rgb	ambiant;
+	t_rgb	diffuse;
+	t_rgb	specular;
+	t_rgb	object_color;
+	t_rgb	reflection;
+	double	distance;
+	double	reflect;
+	t_point	point;
+	t_vect	normal;
+	t_ray	exit;
+	int		is_sphere;
+	t_rgb	exit_color;
+	int		index;
+
+}	t_intersect;
+
 double	vect_dot(t_vect vect1, t_vect vect2);
 double	vect_length(t_vect vect);
 double	vect_angle(t_vect vect1, t_vect vect2);
@@ -78,6 +98,7 @@ t_point	vect_to_point(t_vect v);
 t_point	point_apply_2vect(t_point origin, t_vect u, t_vect v);
 t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3);
 t_rgb	make_color(int r, int g, int b);
-t_vect	refract_vector(t_vect incident, t_vect normal, double n1, double n2);
+t_vect	refract_vector(t_vect incident, t_vect normal, \
+					double n1, double n2);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/02 11:58:39 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:52:17 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,22 +153,6 @@ typedef struct s_minirt
 	int			y;
 
 }	t_minirt;
-
-typedef struct s_intersection
-{
-	int		color;
-	t_rgb	rgb;
-	t_rgb	ambiant;
-	t_rgb	diffuse;
-	t_rgb	specular;
-	t_rgb	object_color;
-	t_rgb	reflection;
-	double	distance;
-	double	reflect;
-	t_point	point;
-	t_vect	normal;
-	int		index;
-}	t_intersect;
 
 typedef struct s_screen
 {

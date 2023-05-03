@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_fns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:20:11 by max              ###   ########.fr       */
+/*   Updated: 2023/05/03 14:17:02 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 
 	intersection.index = plane->index;
 	intersection.reflect = plane->reflect;
-	v_cam_pln = vector_normalize(point_subtract(plane->point, \
-			minirt.camera->origin));
+	intersection.is_sphere = false;
+	v_cam_pln = vector_normalize(point_subtract(plane->point,
+												minirt.camera->origin));
 	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)
 	{
 		plane->normal.x = -plane->normal.x;

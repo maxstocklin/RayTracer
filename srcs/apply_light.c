@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/02 14:58:20 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:38:07 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,15 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 
 	inter.specular = add_intensity(inter.object_color, 0);
 	inter.diffuse = add_intensity(inter.object_color, 0);
+	if (inter.is_sphere == 1)
+	{
+		// printf("inter entry point %f %f %f\n", inter.point.x, inter.point.y, inter.point.z);
+		// printf("inter exit point %f %f %f\n", inter.exit.origin.x, inter.exit.origin.y, inter.exit.origin.z);
+		// printf("inter exit direct %f %f %f\n", inter.exit.direct.x, inter.exit.direct.y, inter.exit.direct.z);
+		inter.exit_color = int_to_rgb(get_color(minirt, inter.exit));
+
+		// inter.exit_color = make_color(0, 0, 255);
+	}
 	if (++minirt.mirrorlvl < 3 && inter.reflect > 0.01)
 		inter.reflection = apply_reflection(minirt, inter);
 	while (minirt.lights)
@@ -115,9 +124,13 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	if (minirt.mirrorlvl >= 3 || inter.reflect <= 0.01)
 	{
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
+		if (inter.is_sphere == 1)
+			inter.rgb = sum_light(inter.rgb, inter.exit_color);
 		return (rgb_to_int(inter.rgb));
 	}
 	inter.rgb = sum_light(inter.ambiant, inter.diffuse);
+	if (inter.is_sphere == 1)
+		inter.rgb = sum_light(inter.rgb, inter.exit_color);
 	mixed = get_mirrors(inter.reflection, inter.rgb, inter.specular, inter);
 	return (rgb_to_int(mixed));
 }
