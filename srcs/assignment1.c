@@ -66,7 +66,6 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	}
 }
 
-
 t_point	get_intersect2(t_vect direct, t_point origin, double distance)
 {
 	direct = vector_normalize(direct);
@@ -80,7 +79,6 @@ void	assign_discs(t_minirt *minirt, t_cylinder cylinder)
 	t_disc 	*disc1;
 	t_disc *disc2;
 	t_disc	*current;
-
 
 	disc1 = malloc(sizeof(t_disc));
 	if (!disc1)
@@ -96,6 +94,8 @@ void	assign_discs(t_minirt *minirt, t_cylinder cylinder)
 	disc2->diameter = cylinder.diameter;
 	disc1->rgb = cylinder.rgb;
 	disc2->rgb = cylinder.rgb;
+	disc1->reflect = cylinder.reflect;
+	disc2->reflect = cylinder.reflect;
 	disc1->next = disc2;
 	disc2->next = NULL;
 	disc1->index = ++minirt->num_objects;
@@ -116,7 +116,7 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	t_cylinder	*cylinder;
 	t_cylinder	*current;
 
-	if (check_array_size(tab, 6) == FALSE)
+	if (check_array_size(tab, 7) == FALSE)
 		ft_error(6);
 	cylinder = malloc(sizeof(t_cylinder));
 	if (!cylinder)
@@ -126,6 +126,7 @@ void	assign_cylinder(t_minirt *minirt, char **tab)
 	cylinder->diameter = ft_assign_diameter(tab[3]);
 	cylinder->height = ft_assign_diameter(tab[4]);
 	cylinder->rgb = ft_get_rgb(tab[5]);
+	cylinder->reflect = ft_assign_range(tab[6]);
 	assign_discs(minirt, *cylinder);
 	cylinder->next = NULL;
 	cylinder->index = ++minirt->num_objects;
@@ -145,7 +146,7 @@ void	assign_cone(t_minirt *minirt, char **tab)
 	t_cone	*cone;
 	t_cone	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
+	if (check_array_size(tab, 6) == FALSE)
 		ft_error(6);
 	cone = malloc(sizeof(t_cone));
 	if (!cone)
