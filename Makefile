@@ -2,7 +2,7 @@
 
 NAME	=	minirt
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	=	-Wall -Wextra -Werror #-g -fsanitize=address
 
 ##-----VARIABLES-----##
 COLOR			= \033
@@ -41,8 +41,10 @@ SRCS_NAME	=	main.c \
 				printed2.c \
 				plane_fns.c \
 				hooks.c \
+				hooks2.c \
 				make_rays.c \
 				sphere_fns.c \
+				sphere_fns2.c \
 				cylinder_fns.c \
 				cone_fns.c \
 				get_intersect.c \

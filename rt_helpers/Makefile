@@ -46,6 +46,7 @@ all : ${NAME}
 
 clean :
 	rm -f ${OBJS} $(OBJS_BONUS)
+	rm -f ${NAME}
 fclean : clean
 	rm -f ${NAME}
 re : fclean all

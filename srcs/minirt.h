@@ -6,7 +6,7 @@
 /*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/03 18:17:12 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/03 18:28:46 by srapopor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,11 @@ typedef struct s_adjust
 
 /*		HOOKS		*/
 void			add_mlx_hook(t_minirt *ray);
+int				ray_exit(void);
+void			change_texture(int keycode, t_minirt *minirt);
+void			change_origin(int keycode, t_minirt *minirt);
+void			change_direction(int keycode, t_minirt *minirt);
+int				key_hook(int keycode, t_minirt *minirt);
 
 /*		ERRORS		*/
 int				ft_error(int index);
@@ -310,6 +315,11 @@ t_rgb			apply_map(double lat, double lng, t_minirt minirt);
 t_rgb			apply_checkboard(double phi, double theta);
 t_intersect		color_sphere(t_minirt minirt, t_sphere *sphere, \
 	t_ray ray, t_intersect old_intersect);
+double			ray_sphere_distance(t_sphere *sphere, t_ray ray);
+double			ray_sphere_distance2(t_sphere *sphere, t_ray ray);
+t_rgb			get_map_rgb(int x, int y, t_map map);
+void			adjustnormal(double lat, double lng, t_intersect *inter, \
+	t_minirt minirt);
 
 /*		PLANE FUNCTIONS		*/
 t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
@@ -349,14 +359,17 @@ void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
 t_point			screen_to_world(t_cam *camera, int i, int j);
-
-/*		TO BE REMOVED		*/
+/* PRINT		*/
 void			ft_print_ray(t_minirt ray);
 void			print_ambiant(t_minirt minirt);
 void			print_camera(t_minirt minirt);
 void			print_lights(t_minirt minirt);
 void			print_spheres(t_minirt minirt);
 void			print_planes(t_minirt minirt);
+
+/*  BUMP 	*/
+void			ft_set_map(t_minirt *minirt);
+void			ft_set_bump(t_minirt *minirt);
 
 t_vect			change_direction_plane(int keycode, t_vect normal);
 t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
