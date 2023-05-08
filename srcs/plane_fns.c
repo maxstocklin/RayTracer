@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_fns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 17:18:16 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:28:44 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
 	relative_pos = point_subtract(inter.point, plane->point);
 	x = vector_normalize(vect_cross(plane->normal, get_arbitrary(plane, ray)));
 	y = vector_normalize(vect_cross(plane->normal, x));
-	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE;
-	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE;
+	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE -4;
+	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE - 4;
 	if (x_coord < 0)
 		x_coord -= BOARD_SCALE;
 	if (y_coord < 0)
 		y_coord -= BOARD_SCALE;
 	if (((int)(x_coord / BOARD_SCALE) + (int)(y_coord / BOARD_SCALE)) % 2 == 0)
-		return (make_color(255, 255, 255));
-	else
 		return (make_color(0, 0, 0));
+	else
+		return (make_color(255, 255, 255));
 }
 
 static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
@@ -73,7 +73,7 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 
 	intersection.index = plane->index;
 	intersection.reflect = plane->reflect;
-	intersection.is_sphere = false;
+	intersection.is_sphere = 2;
 	v_cam_pln = vector_normalize(point_subtract(plane->point, \
 		minirt.camera->origin));
 	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)

@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/08 22:35:59 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 01:28:45 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_rgb	add_caustic(t_minirt minirt, t_intersect inter)
 {
 	double	dist;
 	int		count = 0;
-	double	weight;
+	double	weight = 0;
 	t_rgb	ccolor = make_color(0, 0, 0);
 	int		total_photons = 0;
 
@@ -61,33 +61,39 @@ t_rgb	add_caustic(t_minirt minirt, t_intersect inter)
 			dist = get_dist(minirt.photons->point, inter.point);
 			if (dist < (double)RADIUS)
 			{
-				weight = 1.0 - (dist / (double)RADIUS);
-
-
-				ccolor = add_intensity(minirt.photons->color, weight);
-				inter.caustic = sum_lightmax(inter.caustic, ccolor);
+				// weight = 1.0 - (dist / (double)RADIUS);
+				// ccolor = add_intensity(minirt.photons->color, weight);
+				// inter.caustic = sum_lightmax(inter.caustic, ccolor);
 				count++;
 
-		
-				// printf(" dist = %f weight %f\n", dist, weight);
-				// printf("pred %d pgreen %d pblue %d\n", minirt.photons->color.red, minirt.photons->color.green, minirt.photons->color.blue);
-				// printf("ccred %d ccgreen %d ccblue %d\n", ccolor.red, ccolor.green, ccolor.blue);
-				// printf("causred %d causgreen %d causblue %d\n", inter.caustic.red, inter.caustic.green, inter.caustic.blue);
+				if (minirt.checker == 1)
+				{
+					printf("count %d dist = %f weight %f\n", count, dist, weight);
+					printf("pred %d pgreen %d pblue %d\n", minirt.photons->color.red, minirt.photons->color.green, minirt.photons->color.blue);
+					printf("ccred %d ccgreen %d ccblue %d\n", ccolor.red, ccolor.green, ccolor.blue);
+					printf("causred %d causgreen %d causblue %d\n", inter.caustic.red, inter.caustic.green, inter.caustic.blue);
+				}
+				if (count > 284)
+					break ;
 			}
 		}
 		minirt.photons = minirt.photons->next;
 	}
 
-			// printf("total photons = %d\n", total_photons);
 
-	if (count > 0)
+	// if (count > 0)
+	// {
+		// inter.caustic = div_light(inter.caustic, count);
+	// }
+	if (minirt.checker == 1)
 	{
-		inter.caustic = div_light(inter.caustic, count);
-		// if (inter.caustic.red > 80)
-		// 	printf("total_photons = %d count = %d red %d\n", total_photons, count, inter.caustic.red);
-
+		printf("inter point x %f %f %f\n", inter.point.x, inter.point.y, inter.point.z);
+		printf("total photons = %d count = %d red %d\n", total_photons, count, inter.caustic.red);
 	}
-	// printf("index = %d count = %d red %d\n", inter.index, count, inter.caustic.red);
+	inter.caustic.red = (int)((double)(count) * 0.9);
+	inter.caustic.green = (int)((double)(count) * 0.9);
+	inter.caustic.blue = (int)((double)(count) * 0.9);
+
 	return (inter.caustic);
 }
 
@@ -106,7 +112,7 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 		minirt.rt = 0;
 		inter.exit_color = int_to_rgb(get_color(minirt, inter.exit));
 	}
-	else if (minirt.mirrorlvl == 0 && minirt.rt == 1)
+	else if (minirt.mirrorlvl == 0 && minirt.rt == 1 && inter.is_sphere == 2)
 		inter.caustic = add_caustic(minirt, inter);
 
 	
@@ -121,15 +127,17 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	{
 		inter.rgb = sum_light3(inter.ambiant, inter.diffuse, inter.specular);
 		if (inter.is_sphere == 1)
-			inter.rgb = inter.exit_color; // sum_light(inter.rgb, inter.exit_color);
+			inter.rgb = sum_light(inter.specular, inter.exit_color);
 		else if (minirt.rt == 1)
 			inter.rgb = sum_light(inter.rgb, inter.caustic);
 		return (rgb_to_int(inter.rgb));
 	}
 	inter.rgb = sum_light(inter.ambiant, inter.diffuse);
 	if (inter.is_sphere == 1)
-		inter.rgb = inter.exit_color; // sum_light(inter.rgb, inter.exit_color);
+		inter.rgb = sum_light(inter.specular, inter.exit_color);
 	mixed = get_mirrors(inter.reflection, inter.rgb, inter.specular, inter);
+	if (inter.is_sphere == 2)
+		mixed = sum_light(inter.caustic, mixed);
 	return (rgb_to_int(mixed));
 }
 

@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 14:56:52 by max               #+#    #+#             */
-/*   Updated: 2023/05/08 20:39:33 by max              ###   ########.fr       */
+/*   Updated: 2023/05/08 23:12:18 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	get_clights(t_minirt *minirt, t_ray ray)
 	{
 		return ;
 	}
-	if (intersect.photons->color.red == 0)
-	{
-		return ;
-	}
+	// if (intersect.photons->color.red == 0)
+	// {
+	// 	return ;
+	// }
 
 	intersect.photons->next = NULL;
 	current = minirt->photons;

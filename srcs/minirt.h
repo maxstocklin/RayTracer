@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/08 22:34:16 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 01:28:43 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_minirt
 	t_causticlight	*clights;
 	t_photon		*photons;
 	int				rt;
+	int				checker;
 
 	int				num_objects;
 	int				num_spotlights;
@@ -197,8 +198,8 @@ typedef struct s_adjust
 
 }	t_adjust;
 
-# define WIDTH 700		/* horizonal window size		*/
-# define HEIGHT 700 		/* vertical window size		*/
+# define WIDTH 1000		/* horizonal window size		*/
+# define HEIGHT 1000 		/* vertical window size		*/
 
 # define PHONG_POW 100
 # define PHONG_COEF 0.9
@@ -206,7 +207,7 @@ typedef struct s_adjust
 # define BOARD_SCALE 20
 
 # define MIRROR_LVL 0
-# define RADIUS 0.1
+# define RADIUS 0.6
 
 
 
