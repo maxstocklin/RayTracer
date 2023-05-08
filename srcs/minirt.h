@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/03 18:28:46 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:34:16 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,17 @@ typedef struct s_light
 	struct s_light	*next;
 }				t_light;
 
+typedef struct s_causticlight
+{
+	double					intensity;
+	double					angle;
+	t_point					origin;
+	t_vect					direct;
+	t_rgb					rgb;
+	int						index;
+	struct s_causticlight	*next;
+}				t_causticlight;
+
 typedef struct s_sphere
 {
 	double			diameter;
@@ -55,7 +66,22 @@ typedef struct s_sphere
 	int				index;
 	struct s_sphere	*next;
 	double			reflect;
+	int				material;
+	t_photon		*photons;
 }				t_sphere;
+
+typedef struct s_plane
+{
+	t_vect			normal;
+	t_point			point;
+	t_rgb			rgb;
+	int				index;
+	double			reflect;
+	struct s_plane	*next;
+	t_photon		*photons;
+	int				material;
+
+}				t_plane;
 
 typedef struct s_disc
 {
@@ -67,17 +93,6 @@ typedef struct s_disc
 	double			reflect;
 	struct s_disc	*next;
 }				t_disc;
-
-typedef struct s_plane
-{
-	t_vect			normal;
-	t_point			point;
-	t_rgb			rgb;
-	int				index;
-	double			reflect;
-	struct s_plane	*next;
-
-}				t_plane;
 
 typedef struct s_cylinder
 {
@@ -107,6 +122,7 @@ typedef struct s_cone {
 	double			b;
 	double			c;
 	double			reflect;
+	t_photon		*photons;
 
 }	t_cone;
 
@@ -128,29 +144,36 @@ typedef struct s_map{
 	int			height;
 
 }	t_map;
+
 typedef struct s_minirt
 {
-	t_vars		vars;
-	t_map		map;
-	t_map		bump;
-	t_cylinder	*cylinders;
-	t_disc		*discs;
-	t_plane		*planes;
-	t_sphere	*spheres;
-	t_cone		*cones;
-	t_cam		*camera;
-	t_light		*lights;
-	t_ambiant	*ambiant;
-	int			num_objects;
-	int			num_spotlights;
-	int			recalc;
-	int			show_texture;
-	int			show_checkboard;
-	int			mirrorlvl;
-	int			rotate_index;
+	t_vars			vars;
+	t_map			map;
+	t_map			bump;
+	t_cylinder		*cylinders;
+	t_disc			*discs;
+	t_plane			*planes;
+	t_sphere		*spheres;
+	t_cone			*cones;
+	t_cam			*camera;
+	t_light			*lights;
+	t_ambiant		*ambiant;
 
-	int			x;
-	int			y;
+	t_causticlight	*clights;
+	t_photon		*photons;
+	int				rt;
+
+	int				num_objects;
+	int				num_spotlights;
+	int				num_caus_spotlights;
+	int				recalc;
+	int				show_texture;
+	int				show_checkboard;
+	int				mirrorlvl;
+	int				rotate_index;
+
+	int				x;
+	int				y;
 
 }	t_minirt;
 
@@ -174,13 +197,18 @@ typedef struct s_adjust
 
 }	t_adjust;
 
-# define WIDTH 1400		/* horizonal window size		*/
-# define HEIGHT 900 		/* vertical window size		*/
+# define WIDTH 700		/* horizonal window size		*/
+# define HEIGHT 700 		/* vertical window size		*/
 
 # define PHONG_POW 100
 # define PHONG_COEF 0.9
 # define MIRR_COEF 0.1
 # define BOARD_SCALE 20
+
+# define MIRROR_LVL 0
+# define RADIUS 0.1
+
+
 
 # define FALSE 1
 # define TRUE 0
@@ -320,6 +348,9 @@ double			ray_sphere_distance2(t_sphere *sphere, t_ray ray);
 t_rgb			get_map_rgb(int x, int y, t_map map);
 void			adjustnormal(double lat, double lng, t_intersect *inter, \
 	t_minirt minirt);
+t_intersect		ray_sphere_intersect(t_sphere *sphere, \
+	t_ray ray, t_minirt minirt);
+
 
 /*		PLANE FUNCTIONS		*/
 t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
@@ -375,5 +406,13 @@ t_vect			change_direction_plane(int keycode, t_vect normal);
 t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
 void			change_origin_cam(int keycode, t_minirt *minirt);
 void			change_direction_cam(int keycode, t_minirt *minirt);
+
+
+
+void	assign_caus_light(t_minirt *minirt, char **tab);
+void	set_photon_map(t_minirt *minirt);
+double	get_dist(t_point t1, t_point t2);
+
+
 
 #endif

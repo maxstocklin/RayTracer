@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 17:33:22 by max              ###   ########.fr       */
+/*   Updated: 2023/05/07 17:06:52 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ double	ft_assign_range(char *str)
 	res = ft_atod(str, 1, 0, 1);
 	if (res < 0 || res > 1)
 	{
-		printf("Error: light ratio must be in range [0.0,1.0]\n");
+		printf("Error: coefficient must be in range [0.0,1.0]\n");
 		exit(EXIT_FAILURE);
 	}
 	return (res);

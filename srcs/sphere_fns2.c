@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_fns2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 18:26:11 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:42:49 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ray	refract_ray(t_vect incident, t_intersect *intersect, t_sphere *sphere)
 	return (eray);
 }
 
-static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
+t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	t_ray ray, t_minirt minirt)
 {
 	t_intersect	inter;
@@ -61,14 +61,18 @@ static t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	double		lng;
 
 	inter.index = sphere->index;
-	inter.is_sphere = true;
+	inter.is_sphere = 0;
+	if (sphere->material == 1)
+		inter.is_sphere = 1;
 	inter.reflect = sphere->reflect;
 	inter.distance = ray_sphere_distance(sphere, ray);
 	inter.point = get_intersect(ray, inter.distance);
 	inter.object_color = sphere->rgb;
 	inter.normal = point_subtract(inter.point, sphere->origin);
-	if (inter.distance != -1)
+	if (inter.distance != -1 && sphere->material == 1)
+	{
 		inter.exit = refract_ray(ray.direct, &inter, sphere);
+	}	
 	lng = atan2(-inter.normal.z, inter.normal.x);
 	lat = acos(inter.normal.y / vect_length(inter.normal));
 	if (inter.distance != -1 && minirt.show_texture)

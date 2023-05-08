@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 14:25:34 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:22:09 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ typedef struct s_point
 
 }	t_point;
 
+typedef struct s_photon{
+	t_point			point;
+	t_rgb			color;
+	int				index;
+	double			dist;
+	struct s_photon	*next;
+
+}	t_photon;
+
 typedef struct s_vect
 {
 	double	x;
@@ -55,21 +64,23 @@ typedef struct s_screen_size
 
 typedef struct s_intersection
 {
-	int		color;
-	t_rgb	rgb;
-	t_rgb	ambiant;
-	t_rgb	diffuse;
-	t_rgb	specular;
-	t_rgb	object_color;
-	t_rgb	reflection;
-	double	distance;
-	double	reflect;
-	t_point	point;
-	t_vect	normal;
-	t_ray	exit;
-	int		is_sphere;
-	t_rgb	exit_color;
-	int		index;
+	int			color;
+	t_rgb		rgb;
+	t_rgb		ambiant;
+	t_rgb		diffuse;
+	t_rgb		specular;
+	t_rgb		object_color;
+	t_rgb		reflection;
+	t_rgb		caustic;
+	double		distance;
+	double		reflect;
+	t_point		point;
+	t_vect		normal;
+	t_ray		exit;
+	int			is_sphere;
+	t_rgb		exit_color;
+	int			index;
+	t_photon	*photons;
 
 }	t_intersect;
 

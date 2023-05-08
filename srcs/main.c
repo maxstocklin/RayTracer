@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:08:15 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 16:36:11 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:03:36 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ int	main(int ac, char **av)
 	{
 		exit(EXIT_FAILURE);
 	}
-	printf("before map set\n");
+	set_photon_map(&minirt);
+	minirt.rt = 1;
 	ft_set_map(&minirt);
 	ft_set_bump(&minirt);
-	printf("after map set\n");
 	ft_print_ray(minirt);
 	display_mlx_win(&minirt);
 	return (0);

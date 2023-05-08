@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:12:23 by max              ###   ########.fr       */
+/*   Updated: 2023/05/07 22:27:28 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	t_sphere	*sphere;
 	t_sphere	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
+	if (check_array_size(tab, 5) == FALSE && check_array_size(tab, 6) == FALSE)
 		ft_error(6);
 	sphere = malloc(sizeof(t_sphere));
 	if (!sphere)
@@ -26,8 +26,18 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
 	sphere->reflect = ft_assign_range(tab[4]);
+	if (check_array_size(tab, 6) == TRUE)
+	{
+		if (ft_strcmp(tab[5], "transparent") == TRUE)
+			sphere->material = 1;
+		else
+			ft_error(10);
+	}
+	else
+		sphere->material = 0;
 	sphere->next = NULL;
 	sphere->index = ++minirt->num_objects;
+	sphere->photons = NULL;
 	current = minirt->spheres;
 	if (!current)
 		minirt->spheres = sphere;
@@ -55,6 +65,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	plane->reflect = ft_assign_range(tab[4]);
 	plane->next = NULL;
 	plane->index = ++minirt->num_objects;
+	plane->photons = NULL;
 	current = minirt->planes;
 	if (!current)
 		minirt->planes = plane;
@@ -106,7 +117,9 @@ void	assign_cone(t_minirt *minirt, char **tab)
 	cone->axis = ft_get_direction(tab[2]);
 	cone->angle = ft_assign_angle(tab[3]);
 	cone->rgb = ft_get_rgb(tab[4]);
+	cone->reflect = ft_assign_range(tab[5]);
 	cone->next = NULL;
+	cone->photons = NULL;
 	cone->index = ++minirt->num_objects;
 	current = minirt->cones;
 	if (!current)
@@ -127,6 +140,8 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 		assign_camera(minirt, tab);
 	else if (ft_strcmp(tab[0], "L") == TRUE)
 		assign_spotlight(minirt, tab);
+	else if (ft_strcmp(tab[0], "LS") == TRUE)
+		assign_caus_light(minirt, tab);
 	else if (ft_strcmp(tab[0], "sp") == TRUE)
 		assign_sphere(minirt, tab);
 	else if (ft_strcmp(tab[0], "pl") == TRUE)

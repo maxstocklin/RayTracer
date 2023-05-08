@@ -56,6 +56,7 @@ SRCS_NAME	=	main.c \
 				closest_obj2.c \
 				discs_fns.c \
 				bump.c \
+				photon_map.c \
 				rotate.c
 
 SRCS = 		$(addprefix $(DIR_SRC)/,$(SRCS_NAME))

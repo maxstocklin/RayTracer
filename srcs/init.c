@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 13:50:05 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:24:23 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ t_rgb	ft_get_rgb(char *str)
 	t_rgb	rgb;
 
 	if (ft_check_rgb(str) == FALSE)
-	{
 		ft_error(2);
-	}
 	dest = ft_split(str, ',');
 	rgb.red = ft_atoi(dest[0]);
 	rgb.green = ft_atoi(dest[1]);
@@ -37,9 +35,7 @@ t_point	ft_get_xyz(char *str)
 	char	**dest;
 
 	if (ft_check_xyz(str) == FALSE)
-	{
 		ft_error(3);
-	}
 	dest = ft_split(str, ',');
 	xyz.x = ft_atod(dest[0], 1, 0, 1);
 	xyz.y = ft_atod(dest[1], 1, 0, 1);
@@ -56,9 +52,7 @@ t_vect	ft_get_direction(char *str)
 	char	**dest;
 
 	if (ft_check_xyz(str) == FALSE)
-	{
 		ft_error(5);
-	}
 	dest = ft_split(str, ',');
 	xyz.x = ft_atod(dest[0], 1, 0, 1);
 	xyz.y = ft_atod(dest[1], 1, 0, 1);
@@ -78,11 +72,16 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->cylinders = NULL;
 	minirt->cones = NULL;
 	minirt->planes = NULL;
+	minirt->clights = NULL;
+	minirt->photons = NULL;
+	minirt->discs = NULL;
 	minirt->num_objects = 0;
 	minirt->num_spotlights = 0;
+	minirt->num_caus_spotlights = 0;
 	minirt->recalc = 0;
 	minirt->show_texture = 0;
 	minirt->show_checkboard = 0;
 	minirt->mirrorlvl = 0;
 	minirt->rotate_index = 0;
+	minirt->rt = 0;
 }
