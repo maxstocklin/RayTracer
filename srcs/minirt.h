@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/09 01:28:43 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 04:03:42 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,15 +198,15 @@ typedef struct s_adjust
 
 }	t_adjust;
 
-# define WIDTH 1000		/* horizonal window size		*/
-# define HEIGHT 1000 		/* vertical window size		*/
+# define WIDTH 1300		/* horizonal window size		*/
+# define HEIGHT 900 		/* vertical window size		*/
 
 # define PHONG_POW 100
 # define PHONG_COEF 0.9
 # define MIRR_COEF 0.1
-# define BOARD_SCALE 20
+# define BOARD_SCALE 75
 
-# define MIRROR_LVL 0
+# define MIRROR_LVL 4
 # define RADIUS 0.6
 
 

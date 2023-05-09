@@ -6,7 +6,7 @@
 /*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/09 01:28:44 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 03:45:47 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
 	relative_pos = point_subtract(inter.point, plane->point);
 	x = vector_normalize(vect_cross(plane->normal, get_arbitrary(plane, ray)));
 	y = vector_normalize(vect_cross(plane->normal, x));
-	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE -4;
-	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE - 4;
+	x_coord = vect_dot(relative_pos, x) + BOARD_SCALE;
+	y_coord = vect_dot(relative_pos, y) + BOARD_SCALE;
 	if (x_coord < 0)
 		x_coord -= BOARD_SCALE;
 	if (y_coord < 0)
