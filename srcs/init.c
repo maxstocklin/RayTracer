@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:07:50 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/09 00:32:09 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:46:47 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_rgb	ft_get_rgb(char *str)
 	if (ft_check_rgb(str) == FALSE)
 		ft_error(2);
 	dest = ft_split(str, ',');
+	if (check_array_size(dest, 3) == FALSE)
+		ft_error(6);
 	rgb.red = ft_atoi(dest[0]);
 	rgb.green = ft_atoi(dest[1]);
 	rgb.blue = ft_atoi(dest[2]);
@@ -37,6 +39,8 @@ t_point	ft_get_xyz(char *str)
 	if (ft_check_xyz(str) == FALSE)
 		ft_error(3);
 	dest = ft_split(str, ',');
+	if (check_array_size(dest, 3) == FALSE)
+		ft_error(6);
 	xyz.x = ft_atod(dest[0], 1, 0, 1);
 	xyz.y = ft_atod(dest[1], 1, 0, 1);
 	xyz.z = ft_atod(dest[2], 1, 0, 1);
@@ -54,6 +58,8 @@ t_vect	ft_get_direction(char *str)
 	if (ft_check_xyz(str) == FALSE)
 		ft_error(5);
 	dest = ft_split(str, ',');
+	if (check_array_size(dest, 3) == FALSE)
+		ft_error(6);
 	xyz.x = ft_atod(dest[0], 1, 0, 1);
 	xyz.y = ft_atod(dest[1], 1, 0, 1);
 	xyz.z = ft_atod(dest[2], 1, 0, 1);
@@ -79,8 +85,6 @@ void	ft_set_null(t_minirt *minirt)
 	minirt->num_spotlights = 0;
 	minirt->num_caus_spotlights = 0;
 	minirt->recalc = 0;
-	minirt->show_texture = 0;
-	minirt->show_checkboard = 1;
 	minirt->mirrorlvl = 0;
 	minirt->rotate_index = 0;
 	minirt->rt = 0;

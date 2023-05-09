@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_fns2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 13:29:54 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/08 19:42:49 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:31:28 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,22 @@ t_intersect	ray_sphere_intersect(t_sphere *sphere, \
 	inter.is_sphere = 0;
 	if (sphere->material == 1)
 		inter.is_sphere = 1;
+	
 	inter.reflect = sphere->reflect;
 	inter.distance = ray_sphere_distance(sphere, ray);
 	inter.point = get_intersect(ray, inter.distance);
 	inter.object_color = sphere->rgb;
 	inter.normal = point_subtract(inter.point, sphere->origin);
 	if (inter.distance != -1 && sphere->material == 1)
-	{
 		inter.exit = refract_ray(ray.direct, &inter, sphere);
-	}	
 	lng = atan2(-inter.normal.z, inter.normal.x);
 	lat = acos(inter.normal.y / vect_length(inter.normal));
-	if (inter.distance != -1 && minirt.show_texture)
+	if (inter.distance != -1 && sphere->material == 3)
 	{
 		adjustnormal(lat, lng, &inter, minirt);
 		inter.object_color = apply_map(lat, lng, minirt);
 	}
-	if (inter.distance != -1 && minirt.show_checkboard && sphere->reflect < 0.1)
+	if (inter.distance != -1 && sphere->material == 2)
 		inter.object_color = apply_checkboard(lat, lng);
 	return (inter);
 }

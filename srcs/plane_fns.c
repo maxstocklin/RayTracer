@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_fns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/09 03:45:47 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:46:18 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,8 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = plane->rgb;
 	intersection.normal = vector_normalize(plane->normal);
-	if (intersection.distance != -1 && minirt.show_checkboard)
-	{
+	if (intersection.distance != -1 && plane->material == 2)
 		intersection.object_color = checkboard_plane(intersection, plane, ray);
-	}
 	return (intersection);
 }
 

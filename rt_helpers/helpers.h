@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/08 20:22:09 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:56:35 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3);
 t_rgb	make_color(int r, int g, int b);
 t_vect	refract_vector(t_vect incident, t_vect normal, \
 					double n1, double n2);
+double	get_dist(t_point t1, t_point t2);
 
 #endif

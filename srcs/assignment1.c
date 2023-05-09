@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   assignment1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/07 22:27:28 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:52:03 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+t_sphere	*ft_get_material_sp(char *str, t_sphere *sphere)
+{
+	if (ft_strcmp(str, "transparent") == TRUE)
+		sphere->material = 1;
+	else if (ft_strcmp(str, "checkerboard") == TRUE)
+		sphere->material = 2;
+	else if (ft_strcmp(str, "bumpmap") == TRUE)
+		sphere->material = 3;
+	else
+	{
+		printf("material %s\n", str);
+		ft_error(10);
+	}	
+	sphere->reflect = 0.0;
+	return (sphere);
+}
+
+t_plane	*ft_get_material_pl(char *str, t_plane *plane)
+{
+	if (ft_strcmp(str, "checkerboard") == TRUE)
+		plane->material = 2;
+	else
+	{
+		printf("material %s\n", str);
+		ft_error(10);
+	}	
+	return (plane);
+}
 
 void	assign_sphere(t_minirt *minirt, char **tab)
 {
@@ -26,15 +55,9 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
 	sphere->reflect = ft_assign_range(tab[4]);
+	sphere->material = 0;
 	if (check_array_size(tab, 6) == TRUE)
-	{
-		if (ft_strcmp(tab[5], "transparent") == TRUE)
-			sphere->material = 1;
-		else
-			ft_error(10);
-	}
-	else
-		sphere->material = 0;
+		sphere = ft_get_material_sp(tab[5], sphere);
 	sphere->next = NULL;
 	sphere->index = ++minirt->num_objects;
 	sphere->photons = NULL;
@@ -54,7 +77,7 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	t_plane	*plane;
 	t_plane	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
+	if (check_array_size(tab, 5) == FALSE && check_array_size(tab, 6) == FALSE)
 		ft_error(6);
 	plane = malloc(sizeof(t_plane));
 	if (!plane)
@@ -63,6 +86,9 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
 	plane->reflect = ft_assign_range(tab[4]);
+	plane->material = 0;
+	if (check_array_size(tab, 6) == TRUE)
+		plane = ft_get_material_pl(tab[5], plane);
 	plane->next = NULL;
 	plane->index = ++minirt->num_objects;
 	plane->photons = NULL;
@@ -151,5 +177,5 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 	else if (ft_strcmp(tab[0], "cn") == TRUE)
 		assign_cone(minirt, tab);
 	else
-		ft_error(4);
+		ft_error(6);
 }

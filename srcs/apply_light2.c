@@ -3,97 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   apply_light2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/09 01:28:45 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:56:43 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 #include "mlx.h"
 
-
-double	get_dist(t_point t1, t_point t2)
-{
-	double	res;
-
-	res = sqrt((t2.x - t1.x) * (t2.x - t1.x) + (t2.y -t1.y) \
-		* (t2.y -t1.y) + (t2.z - t1.z) * (t2.z - t1.z));
-	return (res);
-}
-
-
-t_rgb	sum_lightmax(t_rgb color1, t_rgb color2)
-{
-	t_rgb	sum;
-
-	sum.red = color1.red + color2.red;
-	sum.green = color1.green + color2.green;
-	sum.blue = color1.blue + color2.blue;
-	return (sum);
-}
-
-t_rgb	div_light(t_rgb color1, double count)
-{
-	t_rgb	sum;
-
-	sum.red = color1.red / count;
-	sum.green = color1.green / count;
-	sum.blue = color1.blue / count;
-	return (sum);
-}
-
-
 t_rgb	add_caustic(t_minirt minirt, t_intersect inter)
 {
 	double	dist;
 	int		count = 0;
-	double	weight = 0;
-	t_rgb	ccolor = make_color(0, 0, 0);
-	int		total_photons = 0;
 
 	while (minirt.photons)
 	{
-		total_photons++;
 		if (minirt.photons->index == inter.index)
 		{
 			dist = get_dist(minirt.photons->point, inter.point);
 			if (dist < (double)RADIUS)
 			{
-				// weight = 1.0 - (dist / (double)RADIUS);
-				// ccolor = add_intensity(minirt.photons->color, weight);
-				// inter.caustic = sum_lightmax(inter.caustic, ccolor);
 				count++;
-
-				if (minirt.checker == 1)
-				{
-					printf("count %d dist = %f weight %f\n", count, dist, weight);
-					printf("pred %d pgreen %d pblue %d\n", minirt.photons->color.red, minirt.photons->color.green, minirt.photons->color.blue);
-					printf("ccred %d ccgreen %d ccblue %d\n", ccolor.red, ccolor.green, ccolor.blue);
-					printf("causred %d causgreen %d causblue %d\n", inter.caustic.red, inter.caustic.green, inter.caustic.blue);
-				}
-				if (count > 284)
+				if (count > 254)
 					break ;
 			}
 		}
 		minirt.photons = minirt.photons->next;
 	}
-
-
-	// if (count > 0)
-	// {
-		// inter.caustic = div_light(inter.caustic, count);
-	// }
-	if (minirt.checker == 1)
-	{
-		printf("inter point x %f %f %f\n", inter.point.x, inter.point.y, inter.point.z);
-		printf("total photons = %d count = %d red %d\n", total_photons, count, inter.caustic.red);
-	}
-	inter.caustic.red = (int)((double)(count) * 0.9);
-	inter.caustic.green = (int)((double)(count) * 0.9);
-	inter.caustic.blue = (int)((double)(count) * 0.9);
-
+	inter.caustic.red = (int)((double)(count));
+	inter.caustic.green = (int)((double)(count));
+	inter.caustic.blue = (int)((double)(count));
 	return (inter.caustic);
 }
 
@@ -106,7 +47,6 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	inter.caustic = add_intensity(inter.object_color, 0);
 	inter.specular = add_intensity(inter.object_color, 0);
 	inter.diffuse = add_intensity(inter.object_color, 0);
-
 	if (inter.is_sphere == 1)
 	{
 		minirt.rt = 0;
@@ -114,8 +54,6 @@ int	apply_light(t_minirt minirt, t_intersect inter)
 	}
 	else if (minirt.mirrorlvl == 0 && minirt.rt == 1 && inter.is_sphere == 2)
 		inter.caustic = add_caustic(minirt, inter);
-
-	
 	if (++minirt.mirrorlvl < MIRROR_LVL && inter.reflect > 0.01)
 		inter.reflection = apply_reflection(minirt, inter);
 	while (minirt.lights)

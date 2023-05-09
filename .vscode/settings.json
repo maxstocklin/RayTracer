@@ -3,6 +3,7 @@
     "*.ejs": "plaintext",
     "helpers.h": "c",
     "iterator": "c",
-    "minirt.h": "c"
+    "minirt.h": "c",
+    "sstream": "c"
   }
 }

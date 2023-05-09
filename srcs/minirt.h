@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:16:01 by mstockli          #+#    #+#             */
-/*   Updated: 2023/05/09 04:03:42 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:46:37 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,6 @@ typedef struct s_minirt
 	int				num_spotlights;
 	int				num_caus_spotlights;
 	int				recalc;
-	int				show_texture;
-	int				show_checkboard;
 	int				mirrorlvl;
 	int				rotate_index;
 
@@ -204,12 +202,10 @@ typedef struct s_adjust
 # define PHONG_POW 100
 # define PHONG_COEF 0.9
 # define MIRR_COEF 0.1
-# define BOARD_SCALE 75
+# define BOARD_SCALE 20
 
 # define MIRROR_LVL 4
 # define RADIUS 0.6
-
-
 
 # define FALSE 1
 # define TRUE 0
@@ -352,7 +348,6 @@ void			adjustnormal(double lat, double lng, t_intersect *inter, \
 t_intersect		ray_sphere_intersect(t_sphere *sphere, \
 	t_ray ray, t_minirt minirt);
 
-
 /*		PLANE FUNCTIONS		*/
 t_intersect		color_plane(t_minirt minirt, t_plane *plane, \
 	t_ray ray, t_intersect old_intersect);
@@ -391,7 +386,8 @@ void			new_draw_window(t_minirt minirt, int i, int j);
 t_intersect		apply_intersect(t_intersect new, t_intersect old, \
 	t_minirt minirt);
 t_point			screen_to_world(t_cam *camera, int i, int j);
-/* PRINT		*/
+
+/* 		PRINT			*/
 void			ft_print_ray(t_minirt ray);
 void			print_ambiant(t_minirt minirt);
 void			print_camera(t_minirt minirt);
@@ -399,21 +395,19 @@ void			print_lights(t_minirt minirt);
 void			print_spheres(t_minirt minirt);
 void			print_planes(t_minirt minirt);
 
-/*  BUMP 	*/
+/* 		BUMP 			*/
 void			ft_set_map(t_minirt *minirt);
 void			ft_set_bump(t_minirt *minirt);
 
+/*  	ORIENTATION 	*/
 t_vect			change_direction_plane(int keycode, t_vect normal);
 t_sphere		*change_origin_sphere(int keycode, t_sphere *sphere);
 void			change_origin_cam(int keycode, t_minirt *minirt);
 void			change_direction_cam(int keycode, t_minirt *minirt);
 
-
-
-void	assign_caus_light(t_minirt *minirt, char **tab);
-void	set_photon_map(t_minirt *minirt);
-double	get_dist(t_point t1, t_point t2);
-
-
+/*  PHOTONS			 	*/
+void			assign_caus_light(t_minirt *minirt, char **tab);
+void			set_photon_map(t_minirt *minirt, int i, int j);
+double			get_dist(t_point t1, t_point t2);
 
 #endif

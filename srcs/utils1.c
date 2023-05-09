@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:24:05 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 17:33:22 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 15:25:12 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,18 @@ double	ft_atod(char *str, double pos, double res, int dec)
 	int		i;
 
 	i = 0;
-	if (str[i] == '+' || str[i] == '-')
+	if (str[i] == '-')
 	{
-		if (str[i] == '-')
-			pos *= -1;
-		i++;
+		pos *= -1;
+		if ((str[++i] > '9' || str[i] < '0') && str[i] != '.')
+			ft_error(6);
 	}
 	while (str[i] <= '9' && str[i] >= '0')
 		res = (res * 10) + str[i++] - 48;
-	if (str[i++] == '.')
+	if (str[i] == '.')
 	{
+		if (str[++i] > '9' || str[i] < '0')
+			ft_error(6);
 		while (str[i] <= '9' && str[i] >= '0')
 		{
 			res = (res * 10) + str[i++] - 48;
@@ -78,6 +80,6 @@ double	ft_atod(char *str, double pos, double res, int dec)
 		}
 	}
 	if (str[i] != 0)
-		ft_error(4);
+		ft_error(6);
 	return ((res * pos) / (double)dec);
 }

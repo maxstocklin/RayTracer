@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assignment2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/07 17:02:33 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:20:10 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	assign_camera(t_minirt *minirt, char **tab)
 
 	if (minirt->camera)
 	{
-		printf("Error: camera light can't be initialized twice\n");
 		exit(EXIT_FAILURE);
 	}
 	if (check_array_size(tab, 4) == FALSE)
@@ -72,13 +71,10 @@ void	assign_spotlight(t_minirt *minirt, char **tab)
 	else
 	{
 		while (current->next)
-		{
 			current = current->next;
-		}
 		current->next = light;
 	}
 }
-
 
 void	assign_caus_light(t_minirt *minirt, char **tab)
 {
@@ -103,9 +99,7 @@ void	assign_caus_light(t_minirt *minirt, char **tab)
 	else
 	{
 		while (current->next)
-		{
 			current = current->next;
-		}
 		current->next = light;
 	}
 }
