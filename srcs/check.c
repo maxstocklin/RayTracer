@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:46 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/24 11:06:31 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:31:10 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,10 @@ int	ft_check_direction_int(t_vect xyz)
 		return (FALSE);
 	else if (xyz.z < -1 || xyz.z > 1)
 		return (FALSE);
+	if (vect_length(xyz) < 0.01)
+	{
+		printf("In HERE\n");
+		return (FALSE);
+	}
 	return (TRUE);
 }

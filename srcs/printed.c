@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printed.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:24:26 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 17:05:48 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:18:29 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	print_spheres(t_minirt minirt)
 		printf("coordinates x = %f y = %f z %f\n", minirt.spheres->origin.x, \
 			minirt.spheres->origin.y, minirt.spheres->origin.z);
 		printf("index = %d\n", minirt.spheres->index);
+		printf("material = %d\n", minirt.spheres->material);
 		printf("diameter: %f\n", minirt.spheres->diameter);
 		printf("R = %d G = %d B = %d\n", minirt.spheres->rgb.red, \
 			minirt.spheres->rgb.green, minirt.spheres->rgb.blue);

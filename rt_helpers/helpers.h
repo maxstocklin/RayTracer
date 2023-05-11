@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:57:21 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 14:25:34 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:56:35 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ typedef struct s_point
 
 }	t_point;
 
+typedef struct s_photon{
+	t_point			point;
+	t_rgb			color;
+	int				index;
+	double			dist;
+	struct s_photon	*next;
+
+}	t_photon;
+
 typedef struct s_vect
 {
 	double	x;
@@ -55,21 +64,23 @@ typedef struct s_screen_size
 
 typedef struct s_intersection
 {
-	int		color;
-	t_rgb	rgb;
-	t_rgb	ambiant;
-	t_rgb	diffuse;
-	t_rgb	specular;
-	t_rgb	object_color;
-	t_rgb	reflection;
-	double	distance;
-	double	reflect;
-	t_point	point;
-	t_vect	normal;
-	t_ray	exit;
-	int		is_sphere;
-	t_rgb	exit_color;
-	int		index;
+	int			color;
+	t_rgb		rgb;
+	t_rgb		ambiant;
+	t_rgb		diffuse;
+	t_rgb		specular;
+	t_rgb		object_color;
+	t_rgb		reflection;
+	t_rgb		caustic;
+	double		distance;
+	double		reflect;
+	t_point		point;
+	t_vect		normal;
+	t_ray		exit;
+	int			is_sphere;
+	t_rgb		exit_color;
+	int			index;
+	t_photon	*photons;
 
 }	t_intersect;
 
@@ -100,5 +111,6 @@ t_rgb	sum_light3(t_rgb color1, t_rgb color2, t_rgb color3);
 t_rgb	make_color(int r, int g, int b);
 t_vect	refract_vector(t_vect incident, t_vect normal, \
 					double n1, double n2);
+double	get_dist(t_point t1, t_point t2);
 
 #endif

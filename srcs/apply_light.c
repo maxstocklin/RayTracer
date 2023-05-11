@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:30:57 by max               #+#    #+#             */
-/*   Updated: 2023/05/03 16:47:55 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:53:32 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,12 @@ void	get_diff_and_specular(t_minirt minirt, t_intersect *intersect)
 {
 	int	check;
 
-	check = 0;
-	intersect->diffuse = get_diffuse(minirt, *intersect, 0, &check);
-	if (check == 1)
-		intersect->specular = get_specular(minirt, *intersect, 0, 0);
+	while (minirt.lights)
+	{
+		check = 0;
+		intersect->diffuse = get_diffuse(minirt, *intersect, 0, &check);
+		if (check == 1)
+			intersect->specular = get_specular(minirt, *intersect, 0, 0);
+		minirt.lights = minirt.lights->next;
+	}
 }

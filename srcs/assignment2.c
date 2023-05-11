@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assignment2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 17:15:11 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 16:20:10 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	assign_camera(t_minirt *minirt, char **tab)
 
 	if (minirt->camera)
 	{
-		printf("Error: camera light can't be initialized twice\n");
 		exit(EXIT_FAILURE);
 	}
 	if (check_array_size(tab, 4) == FALSE)
@@ -72,9 +71,35 @@ void	assign_spotlight(t_minirt *minirt, char **tab)
 	else
 	{
 		while (current->next)
-		{
 			current = current->next;
-		}
+		current->next = light;
+	}
+}
+
+void	assign_caus_light(t_minirt *minirt, char **tab)
+{
+	t_causticlight	*current;
+	t_causticlight	*light;
+
+	if (check_array_size(tab, 6) == FALSE)
+		ft_error(6);
+	light = malloc(sizeof(t_causticlight));
+	if (!light)
+		ft_error(7);
+	light->origin = ft_get_xyz(tab[1]);
+	light->intensity = ft_assign_range(tab[2]);
+	light->rgb = ft_get_rgb(tab[3]);
+	light->direct = ft_get_direction(tab[4]);
+	light->angle = ft_assign_angle(tab[5]);
+	light->next = NULL;
+	light->index = ++minirt->num_caus_spotlights;
+	current = minirt->clights;
+	if (!current)
+		minirt->clights = light;
+	else
+	{
+		while (current->next)
+			current = current->next;
 		current->next = light;
 	}
 }

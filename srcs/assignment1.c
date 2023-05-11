@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assignment1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:05:18 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/02 00:12:23 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 17:37:48 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ void	assign_sphere(t_minirt *minirt, char **tab)
 	t_sphere	*sphere;
 	t_sphere	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
-		ft_error(6);
-	sphere = malloc(sizeof(t_sphere));
-	if (!sphere)
-		ft_error(7);
+	sphere = create_sphere(tab);
 	sphere->origin = ft_get_xyz(tab[1]);
 	sphere->diameter = ft_assign_diameter(tab[2]);
 	sphere->rgb = ft_get_rgb(tab[3]);
 	sphere->reflect = ft_assign_range(tab[4]);
+	sphere->material = 0;
+	if (check_array_size(tab, 6) == TRUE)
+		sphere = ft_get_material_sp(tab[5], sphere);
 	sphere->next = NULL;
 	sphere->index = ++minirt->num_objects;
+	sphere->photons = NULL;
 	current = minirt->spheres;
 	if (!current)
 		minirt->spheres = sphere;
@@ -44,17 +44,17 @@ void	assign_plane(t_minirt *minirt, char **tab)
 	t_plane	*plane;
 	t_plane	*current;
 
-	if (check_array_size(tab, 5) == FALSE)
-		ft_error(6);
-	plane = malloc(sizeof(t_plane));
-	if (!plane)
-		ft_error(7);
+	plane = create_plane(tab);
 	plane->point = ft_get_xyz(tab[1]);
 	plane->normal = ft_get_direction(tab[2]);
 	plane->rgb = ft_get_rgb(tab[3]);
 	plane->reflect = ft_assign_range(tab[4]);
+	plane->material = 0;
+	if (check_array_size(tab, 6) == TRUE)
+		plane = ft_get_material_pl(tab[5], plane);
 	plane->next = NULL;
 	plane->index = ++minirt->num_objects;
+	plane->photons = NULL;
 	current = minirt->planes;
 	if (!current)
 		minirt->planes = plane;
@@ -106,7 +106,9 @@ void	assign_cone(t_minirt *minirt, char **tab)
 	cone->axis = ft_get_direction(tab[2]);
 	cone->angle = ft_assign_angle(tab[3]);
 	cone->rgb = ft_get_rgb(tab[4]);
+	cone->reflect = ft_assign_range(tab[5]);
 	cone->next = NULL;
+	cone->photons = NULL;
 	cone->index = ++minirt->num_objects;
 	current = minirt->cones;
 	if (!current)
@@ -127,6 +129,8 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 		assign_camera(minirt, tab);
 	else if (ft_strcmp(tab[0], "L") == TRUE)
 		assign_spotlight(minirt, tab);
+	else if (ft_strcmp(tab[0], "LS") == TRUE)
+		assign_caus_light(minirt, tab);
 	else if (ft_strcmp(tab[0], "sp") == TRUE)
 		assign_sphere(minirt, tab);
 	else if (ft_strcmp(tab[0], "pl") == TRUE)
@@ -136,5 +140,5 @@ void	ft_assignment(t_minirt *minirt, char **tab)
 	else if (ft_strcmp(tab[0], "cn") == TRUE)
 		assign_cone(minirt, tab);
 	else
-		ft_error(4);
+		ft_error(6);
 }

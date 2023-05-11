@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:13:58 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 18:23:26 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:48:07 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,6 @@
 int	ray_exit(void)
 {
 	exit(0);
-}
-
-void	change_texture(int keycode, t_minirt *minirt)
-{
-	if (keycode == 17)
-	{
-		minirt->show_texture = !minirt->show_texture;
-		minirt->show_checkboard = 0;
-	}
-	if (keycode == 49)
-	{
-		minirt->show_checkboard = !minirt->show_checkboard;
-		minirt->show_texture = 0;
-	}
 }
 
 void	change_origin(int keycode, t_minirt *minirt)
@@ -69,7 +55,6 @@ void	change_direction(int keycode, t_minirt *minirt)
 
 int	key_hook(int keycode, t_minirt *minirt)
 {
-	printf("hook = %d\n", keycode);
 	if (keycode == KEY_ESC)
 		exit(0);
 	if (keycode >= 0 && keycode < 100)
@@ -78,11 +63,5 @@ int	key_hook(int keycode, t_minirt *minirt)
 		change_origin(keycode, minirt);
 	if (keycode >= 0 && keycode <= 13)
 		change_direction(keycode, minirt);
-	if (keycode == 17 || keycode == 49)
-		change_texture(keycode, minirt);
-	printf("origin direction %f %f %f direction %f %f %f\n", \
-		minirt->camera->origin.x, minirt->camera->origin.y, \
-		minirt->camera->origin.z, minirt->camera->direction.x, \
-		minirt->camera->direction.y, minirt->camera->direction.z);
 	return (0);
 }

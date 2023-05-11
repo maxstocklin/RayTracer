@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/04/29 20:17:34 by max              ###   ########.fr       */
+/*   Updated: 2023/05/09 17:44:51 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_intersect	apply_intersect(t_intersect new, t_intersect old, t_minirt minirt)
 		return (old);
 	new.ambiant = add_light(new.object_color, minirt.ambiant->rgb, \
 		minirt.ambiant->intensity);
+	new.caustic = add_intensity(new.object_color, 0);
+	new.specular = add_intensity(new.object_color, 0);
+	new.diffuse = add_intensity(new.object_color, 0);
 	new.color = apply_light(minirt, new);
 	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_fns.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: srapopor <srapopor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 11:21:35 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/03 17:18:16 by srapopor         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:46:18 by mstockli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ t_rgb	checkboard_plane(t_intersect inter, t_plane *plane, t_ray ray)
 	if (y_coord < 0)
 		y_coord -= BOARD_SCALE;
 	if (((int)(x_coord / BOARD_SCALE) + (int)(y_coord / BOARD_SCALE)) % 2 == 0)
-		return (make_color(255, 255, 255));
-	else
 		return (make_color(0, 0, 0));
+	else
+		return (make_color(255, 255, 255));
 }
 
 static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
@@ -73,7 +73,7 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 
 	intersection.index = plane->index;
 	intersection.reflect = plane->reflect;
-	intersection.is_sphere = false;
+	intersection.is_sphere = 2;
 	v_cam_pln = vector_normalize(point_subtract(plane->point, \
 		minirt.camera->origin));
 	if (acos(vect_dot(v_cam_pln, plane->normal)) < M_PI / 2)
@@ -86,10 +86,8 @@ static t_intersect	ray_plane_intersect(t_plane *plane, t_ray ray, \
 	intersection.point = get_intersect(ray, intersection.distance);
 	intersection.object_color = plane->rgb;
 	intersection.normal = vector_normalize(plane->normal);
-	if (intersection.distance != -1 && minirt.show_checkboard)
-	{
+	if (intersection.distance != -1 && plane->material == 2)
 		intersection.object_color = checkboard_plane(intersection, plane, ray);
-	}
 	return (intersection);
 }
 
