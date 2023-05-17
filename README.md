@@ -11,14 +11,14 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
 3. [Usage](#usage)
     * [Mandatory](#mandatory)
     * [Optional](#optional)
-    * [Special Cases](#special-cases)
+    * [Special Cases](#special-elements)
 5. [Examples](#examples)
 6. [Contributing](#contributing)
 7. [License](#license)
 
-## Description
+
 <details>
-<summary>Click to expand</summary>
+<summary>## Description</summary>
 
 ### Features
 <details>
@@ -132,7 +132,7 @@ CONES:
 | cn | -50,0,20 | -0.8,0.3,-0.2 | 35 | 0,122,255 | 0.6 |
 </details>
 
-### Special Cases:
+### Special Elements:
 <details>
 <summary>Click to expand</summary>
 
