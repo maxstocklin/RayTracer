@@ -24,6 +24,7 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
 <details>
 <summary>Click to expand</summary>
 
+   
 With RayTracer, you can achieve lifelike reflections, refractions, and shading effects. The program employs ray tracing, simulating the behavior of light as it interacts with various materials. This enables the rendering of realistic metallic reflections, transparent surfaces with accurate refraction, and sophisticated shading effects using Phong's lighting model, encompassing ambient, diffuse, and specular lighting.
 
 One of RayTracer's standout features is its implementation of photon mapping. This technique captures the intricate interplay of light and object interactions, resulting in visually stunning caustic lighting effects. By accurately simulating the paths of photons, RayTracer adds depth and realism to your scenes.
@@ -38,6 +39,7 @@ With RayTracer's combination of CGI technology, ray tracing, and photon mapping,
 <details>
 <summary>Click to expand</summary>
 
+   
 Ray tracing is a technique used in computer graphics to create realistic images by simulating the behavior of light. Ray tracing operates in reverse compared to real-life light propagation. While in real life, light rays travel from the light source to our eyes, in ray tracing, virtual rays are traced backward from the viewer's or camera's perspective. While it may seem counterintuitive, ray tracing allows us to simulate light propagation in a controlled and efficient manner. By considering properties like reflection, refraction, and shading (including ambient, diffuse, and specular lights), ray tracing calculates the color and illumination of each pixel, resulting in visually accurate and detailed renderings.
 </details>
 
@@ -45,6 +47,7 @@ Ray tracing is a technique used in computer graphics to create realistic images 
 <details>
 <summary>Click to expand</summary>
 
+   
 Photon mapping is a technique used to capture the behavior of light more realistically in computer graphics. Unlike ray tracing, which traces rays backward from the viewer's perspective, photon mapping works more like real-life light propagation. It simulates the emission of photons from light sources, their interactions with objects in the scene, and their subsequent contributions to illumination effects. These photons bounce off surfaces, undergo reflections, refractions, and scattering, and are accumulated in a data structure called the photon map. During rendering, the photon map is used in conjunction with ray tracing to compute indirect illumination, global illumination, caustics, and other complex lighting phenomena. By simulating light more faithfully, photon mapping enhances the realism and visual quality of rendered scenes, capturing the intricate interactions of light just as they occur in the real world.
 
 </details>
@@ -54,6 +57,7 @@ Photon mapping is a technique used to capture the behavior of light more realist
 <details>
 <summary>Click to expand</summary>
 
+   
 Follow these steps to install and compile the RayTracer:
 
 1. Clone the repository:
@@ -71,6 +75,7 @@ Follow these steps to install and compile the RayTracer:
 <details>
 <summary>Click to expand</summary>
 
+   
 To use RayTracer, execute the following command:
     ```bash
    ./raytracer ./files/fourspheres.rt
@@ -83,6 +88,7 @@ Shapes and elements can be defined as follow:
 <details>
 <summary>Click to expand</summary>
 
+   
 AMBIENT LIGHTNING:
 
 | ID | LIGHTING RATIO | RGB COLORS |
