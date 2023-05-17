@@ -37,6 +37,8 @@ Ray tracing is a technique used in computer graphics to create realistic images 
 Photon mapping is a technique used to capture the behavior of light more realistically in computer graphics. Unlike ray tracing, which traces rays backward from the viewer's perspective, photon mapping works more like real-life light propagation. It simulates the emission of photons from light sources, their interactions with objects in the scene, and their subsequent contributions to illumination effects. These photons bounce off surfaces, undergo reflections, refractions, and scattering, and are accumulated in a data structure called the photon map. During rendering, the photon map is used in conjunction with ray tracing to compute indirect illumination, global illumination, caustics, and other complex lighting phenomena. By simulating light more faithfully, photon mapping enhances the realism and visual quality of rendered scenes, capturing the intricate interactions of light just as they occur in the real world.
 
 ## Installation
+<details>
+<summary>Click to expand!</summary>
 
 Follow these steps to install and compile the RayTracer:
 
@@ -59,7 +61,6 @@ RayTracer takes as a first argument a scene description file with the ```.rt``` 
 Shapes and elements can be defined as follow:
 
 ### Mandatory:
-Origin	Orientation	Scale	Radius	width	Height	Color
 
 AMBIENT LIGHTNING:
 
@@ -113,7 +114,6 @@ CHECKERBOARD PLANES:
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
 | pl | -5,22,20 | 0,0,1 | 255,255,255 | 0.2 | checkerboard |
 
-
 CHECKERBOARD SPHERES:
 | ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
@@ -128,4 +128,7 @@ TRANSPARENT SPHERES:
 | ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
 | sp | -10,0,80 | 20.7 | 255,255,255 | 0.9 | transparent |
+
+   
+</details>
 
