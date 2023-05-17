@@ -18,7 +18,7 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
 
 
 <details>
-<summary>## Description</summary>
+##<summary>Description</summary>
 
 ### Features
 <details>
