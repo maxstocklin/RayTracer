@@ -7,9 +7,11 @@
     * [What is Photon Mapping?](#what-is-photon-mapping)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Examples](#examples)
-5. [Contributing](#contributing)
-6. [License](#license)
+    * [Mandatory](#mandatory)
+    * [Optional](#optional)
+5. [Examples](#examples)
+6. [Contributing](#contributing)
+7. [License](#license)
 
 ## Description
 
@@ -48,23 +50,25 @@ Follow these steps to install and compile the RayTracer:
 ## Usage
 
 To use RayTracer, execute the following command:
-
-   ```bash
+    ```bash
    ./raytracer ./files/fourspheres.rt
     ```
 
 RayTracer takes as a first argument a scene description file with the ```.rt``` extension. There are some scenes in the ```files``` folder that showcase RayTracer. Otherwise, you can create your own ```.rt``` file.
 Shapes and elements can be defined as follow:
 
-Mandatory:
+### Mandatory:
 Origin	Orientation	Scale	Radius	width	Height	Color
 
 Ambient lightning:
 | Column 1 ID | Column 2 LIGHTING RATIO | Column 3 RGB COLORS |
 | :-------------- | :-------------: |
 | A    | 0.2 | 255,255,255 | 
+
 Camera:
 | Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 ANGLE |
 | :-------------- | :-------------: |
 | C    | -50,0,20 | 0,0,1 | 67 |
+
+### Optional:
 
