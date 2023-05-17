@@ -39,7 +39,7 @@ Follow these steps to install and compile the RayTracer:
 
 1. Clone the repository:
     ```bash
-    git clone git@github.com:maxbipboop/RayTracer.git raytracer
+    git clone git@github.com:maxstocklin/RayTracer.git raytracer
     ```
 2. Navigate into the cloned repository and compile it:
     ```bash
@@ -49,6 +49,22 @@ Follow these steps to install and compile the RayTracer:
 
 To use RayTracer, execute the following command:
 
-```bash
-./raytracer ./files/fourspheres.rt
+   ```bash
+   ./raytracer ./files/fourspheres.rt
     ```
+
+RayTracer takes as a first argument a scene description file with the ```.rt``` extension. There are some scenes in the ```files``` folder that showcase RayTracer. Otherwise, you can create your own ```.rt``` file.
+Shapes and elements can be defined as follow:
+
+Mandatory:
+Origin	Orientation	Scale	Radius	width	Height	Color
+
+Ambient lightning:
+| Column 1 ID | Column 2 LIGHTING RATIO | Column 3 RGB COLORS |
+| :-------------- | :-------------: |
+| A    | 0.2 | 255,255,255 | 
+Camera:
+| Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 ANGLE |
+| :-------------- | :-------------: |
+| C    | -50,0,20 | 0,0,1 | 67 |
+
