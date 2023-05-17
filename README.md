@@ -61,11 +61,13 @@ Shapes and elements can be defined as follow:
 Origin	Orientation	Scale	Radius	width	Height	Color
 
 Ambient lightning:
+markdown
 | Column 1 ID | Column 2 LIGHTING RATIO | Column 3 RGB COLORS |
 | :-------------- | :-------------: |
 | A    | 0.2 | 255,255,255 | 
 
 Camera:
+markdown
 | Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 ANGLE |
 | :-------------- | :-------------: |
 | C    | -50,0,20 | 0,0,1 | 67 |
