@@ -1,5 +1,7 @@
 # RayTracer - A CGI Rendering Program
 
+RayTracer is a powerful CGI rendering program that utilizes advanced graphics techniques to create stunning visual simulations. Developed in C with the Minilibx library, it harnesses the same technology used in the world of cinema to deliver exceptional rendering capabilities.
+
 ## Table of Contents
 1. [Description](#description)
     * [Features](#features)
@@ -15,8 +17,8 @@
 7. [License](#license)
 
 ## Description
-
-RayTracer is a powerful CGI rendering program that utilizes advanced graphics techniques to create stunning visual simulations. Developed in C with the Minilibx library, it harnesses the same technology used in the world of cinema to deliver exceptional rendering capabilities.
+<details>
+<summary>Click to expand</summary>
 
 ### Features
 <details>
@@ -29,6 +31,7 @@ One of RayTracer's standout features is its implementation of photon mapping. Th
 RayTracer supports a wide range of geometric primitives, including planes, spheres, cylinders, discs, and cones, giving you the flexibility to create diverse virtual environments. Additionally, the program offers support for checkerboard color disruption, enabling the generation of captivating visual patterns and textures. Furthermore, you can apply bump map textures to objects, adding intricate details and enhancing the overall realism of your rendered scenes.
 
 With RayTracer's combination of CGI technology, ray tracing, and photon mapping, you have the power to bring your creative visions to life with unparalleled precision and visual fidelity.
+ 
 </details>
 
 ### What is Ray Tracing?
@@ -43,6 +46,8 @@ Ray tracing is a technique used in computer graphics to create realistic images 
 <summary>Click to expand</summary>
 
 Photon mapping is a technique used to capture the behavior of light more realistically in computer graphics. Unlike ray tracing, which traces rays backward from the viewer's perspective, photon mapping works more like real-life light propagation. It simulates the emission of photons from light sources, their interactions with objects in the scene, and their subsequent contributions to illumination effects. These photons bounce off surfaces, undergo reflections, refractions, and scattering, and are accumulated in a data structure called the photon map. During rendering, the photon map is used in conjunction with ray tracing to compute indirect illumination, global illumination, caustics, and other complex lighting phenomena. By simulating light more faithfully, photon mapping enhances the realism and visual quality of rendered scenes, capturing the intricate interactions of light just as they occur in the real world.
+
+</details>
 </details>
 
 ## Installation
@@ -59,6 +64,7 @@ Follow these steps to install and compile the RayTracer:
     ```bash
     cd raytracer && make
     ```
+   
 </details>
 
 ## Usage
