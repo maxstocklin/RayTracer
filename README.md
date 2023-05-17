@@ -9,6 +9,7 @@
 3. [Usage](#usage)
     * [Mandatory](#mandatory)
     * [Optional](#optional)
+    * [Special Cases](#special-cases)
 5. [Examples](#examples)
 6. [Contributing](#contributing)
 7. [License](#license)
@@ -84,7 +85,6 @@ PLANES:
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: |
 | pl | -5,22,20 | 0,0,1 | 255,255,255 | 0.2 |
 
-
 SPHERES:
 | ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO |
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: |
@@ -95,10 +95,37 @@ CYLINDERS:
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
 | cy | 0,10,-130 | 0.2,0,-1 | 15 | 27.2 | 255,255,255 | 0 |
 
-
 CONES:
 |  ID | ORIGIN | ORIENTATION | ANGLE | RGB COLORS | REFLECTION RATIO |
 | :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
 | cn | -50,0,20 | -0.8,0.3,-0.2 | 35 | 0,122,255 | 0.6 |
 
+
+### Special Cases:
+
+SPOTLIGHTS (PHOTON MAP):
+| ID | ORIGIN | BRIGHTNESS RATIO | RGB COLORS |  ORIENTATION | ANGLE |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| LS | -50,0,20 | 0.6 | 255,255,255 | -1,-0.95,0 | 45 |
+
+CHECKERBOARD PLANES:
+| ID |  ORIGIN | ORIENTATION | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| pl | -5,22,20 | 0,0,1 | 255,255,255 | 0.2 | checkerboard |
+
+
+CHECKERBOARD SPHERES:
+| ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| sp | -10,0,80 | 20.7 | 255,255,255 | 0.9 | checkerboard |
+
+BUMP MAP TEXTURED SPHERES:
+| ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| sp | -10,0,80 | 20.7 | 255,255,255 | 0.9 | bumpmap |
+
+TRANSPARENT SPHERES:
+| ID | ORIGIN | DIAMETER | RGB COLORS | REFLECTION RATIO | MATERIAL (optional) |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| sp | -10,0,80 | 20.7 | 255,255,255 | 0.9 | transparent |
 
