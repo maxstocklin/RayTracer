@@ -1,6 +1,6 @@
 #Compilation setting
 
-NAME	=	minirt
+NAME	=	raytracer
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror #-g -fsanitize=address
 

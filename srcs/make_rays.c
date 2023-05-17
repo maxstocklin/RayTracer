@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstockli <mstockli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: max <max@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:23:41 by srapopor          #+#    #+#             */
-/*   Updated: 2023/05/09 17:44:51 by mstockli         ###   ########.fr       */
+/*   Updated: 2023/05/17 13:56:10 by max              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_point	screen_to_world(t_cam *camera, int i, int j)
 	t_screen	s;
 
 	s.vup = make_vect(0, 1, 0);
-	if (vect_angle(camera->direction, make_vect(1, 0, 0)) == 0)
+	if (vect_angle(camera->direction, make_vect(0, 1, 0)) == 0)
 		s.vup = make_vect(0, 0, 1);
 	s.u = vect_cross(vector_normalize(camera->direction), s.vup);
 	s.v = vect_cross(s.u, vector_normalize(camera->direction));
