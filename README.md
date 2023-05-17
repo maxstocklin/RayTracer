@@ -60,17 +60,45 @@ Shapes and elements can be defined as follow:
 ### Mandatory:
 Origin	Orientation	Scale	Radius	width	Height	Color
 
-Ambient lightning:
-markdown
+AMBIENT LIGHTNING:
+
 | Column 1 ID | Column 2 LIGHTING RATIO | Column 3 RGB COLORS |
 | :-------------- | :-------------: | :-------------: |
-| A    | 0.2 | 255,255,255 | 
+| A | 0.2 | 255,255,255 | 
 
-Camera:
-markdown
+CAMERA:
+
 | Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 ANGLE |
 | :-------------- | :-------------: | :-------------: | :-------------: |
-| C    | -50,0,20 | 0,0,1 | 67 |
+| C | -50,0,20 | 0,0,1 | 67 |
 
 ### Optional:
+
+LIGHTS:
+| Column 1 ID | Column 2 ORIGIN | Column 3 BRIGHTNESS RATIO | Column 4 RGB COLORS |
+| :-------------- | :-------------: | :-------------: | :-------------: |
+| L | -50,0,20 | 0.6 | 255,255,255 |
+
+PLANES:
+| Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 RGB COLORS | Column 5 REFLECTION RATIO |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: |
+| pl | -5,22,20 | 0,0,1 | 255,255,255 | 0.2 |
+
+
+SPHERES:
+| Column 1 ID | Column 2 ORIGIN | Column 3 DIAMETER | Column 4 RGB COLORS | Column 5 REFLECTION RATIO |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: |
+| sp | -10,0,80 | 20.7 | 255,255,255 | 0.9 |
+
+CYLINDERS:
+| Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 DIAMETER |  Column 5 HEIGHT |  Column 6 RGB COLORS | Column 7 REFLECTION RATIO |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| cy | 0,10,-130 | 0.2,0,-1 | 15 | 27.2 | 255,255,255 | 0 |
+
+
+CONES:
+| Column 1 ID | Column 2 ORIGIN | Column 3 ORIENTATION | Column 4 ANGLE | Column 5 RGB COLORS | Column 6 REFLECTION RATIO |
+| :-------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| cn | -50,0,20 | -0.8,0.3,-0.2 | 35 | 0,122,255 | 0.6 |
+
 
