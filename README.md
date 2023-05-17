@@ -16,14 +16,18 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
 6. [Contributing](#contributing)
 7. [License](#license)
 
-
+## Description
 <details>
-##<summary>Description</summary>
+<summary>Click to expand</summary>
 
 ### Features
 <details>
 <summary>Click to expand</summary>
 
+   
+   
+   
+   
    
 With RayTracer, you can achieve lifelike reflections, refractions, and shading effects. The program employs ray tracing, simulating the behavior of light as it interacts with various materials. This enables the rendering of realistic metallic reflections, transparent surfaces with accurate refraction, and sophisticated shading effects using Phong's lighting model, encompassing ambient, diffuse, and specular lighting.
 
