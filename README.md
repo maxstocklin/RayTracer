@@ -2,6 +2,9 @@
 
 RayTracer is a powerful CGI rendering program that utilizes advanced graphics techniques to create stunning visual simulations. Developed in C with the Minilibx library, it harnesses the same technology used in the world of cinema to deliver exceptional rendering capabilities.
 
+![Example Image](./images/chessroom.png)
+
+
 ## Table of Contents
 1. [Description](#description)
     * [Features](#features)
