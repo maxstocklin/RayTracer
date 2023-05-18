@@ -177,7 +177,12 @@ TRANSPARENT SPHERES:
 
 ![Example Caustic](./images/room.png)
 
-### Examples of Mirror, Bump Map texture, Checkerboard Color Disruption, and Transparency Applied to Spheres
+### Examples of Bump Map Texture Applied to a Sphere
+
+![Example Caustic](./images/moon.png)
+
+
+### Examples of Mirror, Bump Map Texture, Checkerboard Color Disruption, and Transparency Applied to Spheres
 
 ![Example Caustic](./images/fourspheres.png)
 
