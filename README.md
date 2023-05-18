@@ -31,7 +31,7 @@ One of RayTracer's standout features is its implementation of photon mapping. Th
 
 RayTracer supports a wide range of geometric primitives, including planes, spheres, cylinders, discs, and cones, giving you the flexibility to create diverse virtual environments. Additionally, the program offers support for checkerboard color disruption, enabling the generation of captivating visual patterns and textures. Furthermore, you can apply bump map textures to objects, adding intricate details and enhancing the overall realism of your rendered scenes.
 
-With RayTracer's combination of CGI technology, ray tracing, and photon mapping, you have the power to bring your creative visions to life with unparalleled precision and visual fidelity.
+With RayTracer's combination of CGI technology, ray tracing, and photon mapping, you have the power to bring your creative visions to life with great precision and visual fidelity.
  
 </details>
 
