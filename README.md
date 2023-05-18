@@ -172,10 +172,8 @@ TRANSPARENT SPHERES:
 </details>
 
 ## Examples
-<details>
-<summary>Click to expand</summary>
 
-### Example of all Objects
+### Example of All Objects (Sphere, Plane, Cylinder, Cone)
 
 ![Example Caustic](./images/room.png)
 
@@ -195,14 +193,3 @@ TRANSPARENT SPHERES:
 
 ![Example Caustic](./images/caustic2.png)
 
-
-</details>
-
-   
-   
-   
-   
-   
-   
-   
-   
