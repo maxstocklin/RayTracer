@@ -16,8 +16,6 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
     * [Optional](#optional)
     * [Special Cases](#special-elements)
 5. [Examples](#examples)
-6. [Contributing](#contributing)
-7. [License](#license)
 
 ## Description
 <details>
@@ -27,11 +25,6 @@ RayTracer is a powerful CGI rendering program that utilizes advanced graphics te
 <details>
 <summary>Click to expand</summary>
 
-   
-   
-   
-   
-   
 With RayTracer, you can achieve lifelike reflections, refractions, and shading effects. The program employs ray tracing, simulating the behavior of light as it interacts with various materials. This enables the rendering of realistic metallic reflections, transparent surfaces with accurate refraction, and sophisticated shading effects using Phong's lighting model, encompassing ambient, diffuse, and specular lighting.
 
 One of RayTracer's standout features is its implementation of photon mapping. This technique captures the intricate interplay of light and object interactions, resulting in visually stunning caustic lighting effects. By accurately simulating the paths of photons, RayTracer adds depth and realism to your scenes.
@@ -177,18 +170,14 @@ TRANSPARENT SPHERES:
 
 ![Example Caustic](./images/room.png)
 
-### Examples of Bump Map Texture Applied to a Sphere
+### Example of Bump Map Texture Applied to a Sphere
 
 ![Example Caustic](./images/moon.png)
 
 
-### Examples of Mirror, Bump Map Texture, Checkerboard Color Disruption, and Transparency Applied to Spheres
+### Example of Mirror, Bump Map Texture, Checkerboard Color Disruption, and Transparency Applied to Spheres
 
 ![Example Caustic](./images/fourspheres.png)
-
-
-![Example Caustic](./images/100spheres.png)
-
 
 ### Basic Example of Caustic Light Using a Photon Map
 
@@ -197,4 +186,10 @@ TRANSPARENT SPHERES:
 ### Advanced Example of Caustic Light Using a Photon Map
 
 ![Example Caustic](./images/caustic2.png)
+
+
+### 100 Spheres
+
+![Example Caustic](./images/100spheres.png)
+
 
