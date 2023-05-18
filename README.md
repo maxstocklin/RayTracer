@@ -173,6 +173,29 @@ TRANSPARENT SPHERES:
 
 ## Examples
 
+### Example of all Objects
+
+![Example Caustic](./images/room.png)
+
+### Examples of Mirror, Bump Map texture, Checkerboard Color Disruption, and Transparency Applied to Spheres
+
+![Example Caustic](./images/fourspheres.png)
+
+
+![Example Caustic](./images/100spheres.png)
+
+
+
+
+
+
+### Basic Example of Caustic Light Using a Photon Map
+
+![Example Caustic](./images/caustic.png)
+
+### Advanced Example of Caustic Light Using a Photon Map
+
+![Example Caustic](./images/caustic2.png)
 
 
    
