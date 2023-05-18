@@ -172,6 +172,8 @@ TRANSPARENT SPHERES:
 </details>
 
 ## Examples
+<details>
+<summary>Click to expand</summary>
 
 ### Example of all Objects
 
@@ -185,10 +187,6 @@ TRANSPARENT SPHERES:
 ![Example Caustic](./images/100spheres.png)
 
 
-
-
-
-
 ### Basic Example of Caustic Light Using a Photon Map
 
 ![Example Caustic](./images/caustic.png)
@@ -198,7 +196,8 @@ TRANSPARENT SPHERES:
 ![Example Caustic](./images/caustic2.png)
 
 
-   
+</details>
+
    
    
    
