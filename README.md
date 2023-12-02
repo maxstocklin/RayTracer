@@ -193,3 +193,9 @@ TRANSPARENT SPHERES:
 ![Example Caustic](./images/100spheres.png)
 
 
+## Contributors
+
+- [@stuartrapop](https://github.com/stuartrapop)
+- [@maxstocklin](https://github.com/maxstocklin)
+
+
